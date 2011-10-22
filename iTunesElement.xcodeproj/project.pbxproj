@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 44;
+	objectVersion = 46;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -69,8 +69,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		33C927110BB0F72E00ABE01B /* iTunes.element */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = iTunes.element; sourceTree = BUILT_PRODUCTS_DIR; };
-		33C927120BB0F72E00ABE01B /* element-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "element-Info.plist"; sourceTree = "<group>"; };
+		33C927110BB0F72E00ABE01B /* iTunes.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = iTunes.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
+		33C927120BB0F72E00ABE01B /* element-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "element-Info.plist"; sourceTree = "<group>"; };
 		33DFCF5B0BCF454F00EDE8CF /* element.xml */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xml; path = element.xml; sourceTree = SOURCE_ROOT; };
 		7F350DD40D15E8D800B2B814 /* Common.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Common.xcconfig; path = Configuration/Common.xcconfig; sourceTree = QS_SOURCE_ROOT; };
 		7F350DD50D15E8D800B2B814 /* Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Debug.xcconfig; path = Configuration/Debug.xcconfig; sourceTree = QS_SOURCE_ROOT; };
@@ -101,7 +101,7 @@
 		E1DAFADC07007BA400FAFE2A /* English */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.plist.strings; name = English; path = QSAction.name.strings; sourceTree = "<group>"; };
 		E1DAFADE07007BA400FAFE2A /* English */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.plist.strings; name = English; path = Localizable.strings; sourceTree = "<group>"; };
 		E1DAFAE007007BA400FAFE2A /* English */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.plist.strings; name = English; path = QSPreset.name.strings; sourceTree = "<group>"; };
-		E1DAFAE107007BA400FAFE2A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xml; path = Info.plist; sourceTree = "<group>"; };
+		E1DAFAE107007BA400FAFE2A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E1DAFAE407007BA400FAFE2A /* iTunes.scpt */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.scpt; path = iTunes.scpt; sourceTree = "<group>"; };
 		E1DAFAE507007BA400FAFE2A /* iTunesAlbumBrowserIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = iTunesAlbumBrowserIcon.png; sourceTree = "<group>"; };
 		E1DAFAE607007BA400FAFE2A /* iTunesArtistBrowserIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = iTunesArtistBrowserIcon.png; sourceTree = "<group>"; };
@@ -162,7 +162,7 @@
 			isa = PBXGroup;
 			children = (
 				8D1AC9740486D14A00FE50C9 /* iTunes Module.qsplugin */,
-				33C927110BB0F72E00ABE01B /* iTunes.element */,
+				33C927110BB0F72E00ABE01B /* iTunes.bundle */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -265,7 +265,7 @@
 			name = "iTunes Element";
 			productInstallPath = "$(HOME)/Developer/Palettes";
 			productName = iTunes;
-			productReference = 33C927110BB0F72E00ABE01B /* iTunes.element */;
+			productReference = 33C927110BB0F72E00ABE01B /* iTunes.bundle */;
 			productType = "com.apple.product-type.bundle";
 		};
 		8D1AC9600486D14A00FE50C9 /* iTunes Module */ = {
@@ -293,9 +293,16 @@
 /* Begin PBXProject section */
 		0259C573FE90428111CA0C5A /* Project object */ = {
 			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0410;
+			};
 			buildConfigurationList = 7F07AE11085E432600E2AFC4 /* Build configuration list for PBXProject "iTunesElement" */;
-			compatibilityVersion = "Xcode 3.0";
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
 			hasScannedForEncodings = 1;
+			knownRegions = (
+				en,
+			);
 			mainGroup = 0259C574FE90428111CA0C5A /* iTunes */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -505,7 +512,7 @@
 					"~/Library/Frameworks",
 					"$(BUILT_PRODUCTS_DIR)",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 10.4;
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				PRODUCT_NAME = "iTunes Module";
 			};
 			name = Release;
@@ -514,7 +521,10 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 7F350DDF0D15E8D800B2B814 /* Release.xcconfig */;
 			buildSettings = {
-				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.4u.sdk";
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
+				SDKROOT = macosx;
+				VALID_ARCHS = "i386 x86_64";
 			};
 			name = Release;
 		};
@@ -522,7 +532,10 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 7F350DD50D15E8D800B2B814 /* Debug.xcconfig */;
 			buildSettings = {
-				SDKROOT = "$(DEVELOPER_SDK_DIR)/MacOSX10.4u.sdk";
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
+				SDKROOT = macosx;
+				VALID_ARCHS = "i386 x86_64";
 			};
 			name = Debug;
 		};
@@ -537,6 +550,7 @@
 					"~/Library/Frameworks",
 					"$(BUILT_PRODUCTS_DIR)",
 				);
+				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				PRODUCT_NAME = "iTunes Module";
 			};
 			name = Debug;
