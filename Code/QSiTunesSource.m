@@ -25,7 +25,7 @@ int iTunesGetCurrentTrack() {
 	long thisID = 0;
 	//OSErr err=
 	AESend(&trackEvent, &reply, kAEWaitReply, kAENormalPriority, 120 , NULL, NULL);
-	AEGetParamPtr(&reply, keyDirectObject, typeLongInteger, NULL, &thisID, sizeof(thisID), NULL);
+	AEGetParamPtr(&reply, keyDirectObject, cLongInteger, NULL, &thisID, sizeof(thisID), NULL);
 	AEDisposeDesc(&reply);
 	AEDisposeDesc(&trackEvent);
 	return thisID; 	
@@ -177,7 +177,7 @@ mSHARED_INSTANCE_CLASS_METHOD
 		if ([tracks isKindOfClass:[NSNull class]]) return nil;
 		tracks = [library trackInfoForIDs:tracks];
 		NSMutableArray *objects = [NSMutableArray array];
-		foreach(track, tracks) {
+		for (NSDictionary *track in tracks) {
 			[objects addObject:[self trackObjectForInfo:track inPlaylist:nil]];
 		}
 		return [QSObject objectByMergingObjects:objects];
@@ -562,7 +562,9 @@ mSHARED_INSTANCE_CLASS_METHOD
 				icon = [[[NSImage alloc] initWithData:data] autorelease];
 				
 			} else {
-				if (VERBOSE) NSLog(@"No Artwork Found"); 	
+#ifdef DEBUG
+				if (VERBOSE) NSLog(@"No Artwork Found");
+#endif
 			}
 			
 			if (data) {
@@ -763,7 +765,7 @@ mSHARED_INSTANCE_CLASS_METHOD
 		
 		NSArray *criterion = [object arrayForType:QSiTunesBrowserPboardType];
 		NSMutableArray *children = [NSMutableArray array];
-		foreach(criteria, criterion) {
+		for (NSDictionary *criteria in criterion) {
 			[children addObjectsFromArray:[self childrenForBrowseCriteria:criteria]];
 		}
 		return children;

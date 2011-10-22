@@ -34,7 +34,7 @@ long QSiTunesCurrentTrackID() {
 	// Send Track ID Event
 	OSStatus err = AESend(&trackEvent, &reply, kAEWaitReply, kAENormalPriority, kNoTimeOut, NULL, NULL);
 	if (err) return 0;
-	AEGetParamPtr(&reply, keyDirectObject, typeLongInteger, NULL, &trackID, sizeof(trackID) , NULL);
+	AEGetParamPtr(&reply, keyDirectObject, cLongInteger, NULL, &trackID, sizeof(trackID) , NULL);
 	AEDisposeDesc(&reply);
 	return trackID;
 }
