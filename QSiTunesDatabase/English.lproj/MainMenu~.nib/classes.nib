@@ -1,0 +1,13 @@
+{
+    IBClasses = (
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {
+            ACTIONS = {saveAction = id; }; 
+            CLASS = QSiTunesDatabaseAppDelegate; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {controller = NSArrayController; window = NSWindow; }; 
+            SUPERCLASS = NSObject; 
+        }
+    ); 
+    IBVersion = 1; 
+}

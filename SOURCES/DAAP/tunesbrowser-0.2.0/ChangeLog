@@ -1,0 +1,132 @@
+January 4, 2005: Simon Freiberg <fryboy AT optusnet DOT com DOT au>
+    * Add man page.
+
+January 4, 2005: David Hammerton <david AT crazney DOT net>
+    * Bug fixes: Don't crash on mt-daapd servers. Properly remove songs
+    from partyshuffle when a host disappears.
+    * Add debugging support: Pass debug flags to libopendaap
+    * Many interface improvements: Mostly to do with party shuffle
+    and other ways of playing songs.
+    * Report more errors: Better handling and reporting of errors.
+    * Drag and Drop of artists and albums.
+
+December 17, 2004: Daniel Drake <dsd AT gentoo DOT org>
+    * Reimplement play and pause button functionallity.
+
+December 16, 2004: David Hammerton <david AT crazney DOT net>
+    * Huge restrcture and rewrite: Rewrote daap.c to be much
+    cleaner, the lists now interact with it on more of a 'pull'
+    basis than a push basis, requesting info from it rather than
+    being sent info. This allows me to add more UI features without
+    hassling too much with daap.c. There are still some dirty hacks,
+    like the source of playing isn't abstract, etc.
+    * Create an entirely new gstreamer pipeline each song: Hopefully
+    this should work around that nasty bug. Not sure though.
+    * Much improved Party Shuffle feature: It actually somewhat works
+    now! You can drag and drop files from the main songlist to the party
+    list (generally the button) and move them around there. You can drag
+    songs from any source.
+    * Add gnome support and the ability to play local files: Entirely
+    optional, if gnome is found. This feature allows one to drag
+    and drop files from gnome (or rhythmbox, etc) into Party Shuffle
+    for local play.
+
+December 13, 2004: Daniel Drake <dsd AT gentoo DOT org>
+    * Fix a tonne of compiler warnings.
+
+December 13, 2004: David Hammerton <david AT crazney DOT net>
+    * Fix several audioplayer issues: Use the new async queue for
+    everything, hopefully work around a bug in the spider blugin.
+    * Watch for iTunes updates: Currently not very useful, as we
+    we don't do anything with the updates. But we now install a
+    liopendaap update handler to ensure our connection doesn't drop.
+    * Fix sorting bugs that appear in newer version of GTK.
+    * Further work on the PartyShuffle feature: Including DND from
+    the standard song list to the party shuffle list, displaying the
+    party shuffle list, and so on. Use a toggle for the party shuffle
+    selection, rather than a source entry as I can't figure out how
+    to drop to a tree list item.
+
+November 22, 2004: David Hammerton <david AT crazney DOT net>
+    * Colour code connections: Add a red icon icon and use it for
+    not connected servers, blue is connected.
+    * Restructure some gstreamer calls: The stopping of songs and
+    playing of 'next song' code has undergone major re-working.
+    should be much more stable.
+
+November 8, 2004: David Hammerton <david AT crazney DOT net>
+    * Can now connect to mt-daapd servers.
+    * Fix sorting regression.
+
+November 2, 2004: David Hammerton <david AT crazney DOT net>
+    * Add sort by disc: Songlist is now sorted by disc number before
+    track number
+
+October 31, 2004: David Hammerton <david AT crazney DOT net>
+    * gstreamer 0.8: Add support for gstreamer 0.8. Still maintain
+    and prefer 0.6, as it is better tested.
+    * gstreamer API usage bugs: Call most gstreamer APIs during idle
+    times. That is, when the gstreamer context is not current. This
+    should work around some random freezes inside of gstreamer.
+    * GUI improvements: Add icons for source type, currently playing
+    song.
+    * Initial work on Party Shuffle: Non-usable work done in an effort
+    to implement a Party Shuffle feature.
+    * Slightly better error handling.
+
+October 31, 2004: Daniel Drake <dsd AT gentoo DOT org>
+    * Fix crash on deleted host.
+
+July 31, 2004: David Hammerton <david AT crazney DOT net>
+    * Remove hosts from host list when they go away.
+    * GUI engine design change: change the way the command queue
+    is checked. Can't remember why I did this one, but it works.
+    I think maybe something to do with it not working on windows
+    using the old way.
+    * Get the correct file based on songformat.
+
+June 6, 2004: David Hammerton <david AT crazney DOT net>
+    * Fix delayed start from slow computers: We now tell gstreamer
+    to start playing the song when the download starts. Fixes a
+    clock skew.
+
+June 6, 2004: Beat Birkhofer <beat AT birkhofer DOT ch>
+    * OS X fix: Try using the esd sound sink.
+
+June 5, 2004: David Moore <dcm AT mit DOT edu>
+    * Fix bug when rebuilding share list: Don't mess with hosts
+    that are already in the host list.
+
+April 29, 2004: David Hammerton <david AT crazney DOT net>
+    * Update for iTunes 4.5: Support libopendaap 0.2.0.
+    * Better support for multiple hosts: Fix some crashes.
+    * Grey out unsupported buttons.
+
+March 17, 2004: David Hammerton <david AT crazney DOT net>
+
+    * Fix crash when trying to change the currently playing song:
+    This still isn't the best solution to the problem. As we still
+    wait until the entire file has been downloaded before continuing,
+    but we just download as fast as possible and move on.
+    * Try to use alsa or artsd sinks: Fallbacks of loading of
+    the gstreamer element 'osssink' fails.
+    * Report and exit on gstreamer errors: Instead of crashing inside
+    gstreamer of one of the gstreamer elements failed to load, we
+    report and exit.
+
+March 10, 2004: David Hammerton <david AT crazney DOT net>
+
+    * Use libopendaap 0.1.2
+    * Use hosts in the source list: Instead of having a different
+    source entry for each host database in the source list, we
+    now use hosts - in order to prevent connecting to each one
+    on startup. Unfortunately I don't know what to do if there
+    is more than one database in a host.
+    * Connect to hosts only when required: Hosts are now only
+    connected to only when they are clicked on in the source
+    list.
+
+Feburary 29, 2004: David Hammerton <david AT crazney DOT net>
+
+    * Initial release.
+

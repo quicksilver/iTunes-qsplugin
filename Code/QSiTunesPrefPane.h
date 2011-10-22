@@ -1,0 +1,7 @@
+
+
+@interface QSiTunesPrefPane : QSPreferencePane {
+
+}
+
+@end

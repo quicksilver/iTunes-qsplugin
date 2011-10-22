@@ -1,0 +1,70 @@
+dmap_generics.lo dmap_generics.o: dmap_generics.c /usr/include/string.h \
+  /usr/include/_types.h /usr/include/sys/_types.h \
+  /usr/include/sys/cdefs.h /usr/include/machine/_types.h \
+  /usr/include/ppc/_types.h /usr/include/stdlib.h /usr/include/sys/wait.h \
+  /usr/include/sys/signal.h /usr/include/sys/appleapiopts.h \
+  /usr/include/machine/signal.h /usr/include/ppc/signal.h \
+  /usr/include/sys/resource.h /usr/include/machine/endian.h \
+  /usr/include/ppc/endian.h /usr/include/sys/_endian.h \
+  /usr/include/alloca.h /usr/include/machine/types.h \
+  /usr/include/ppc/types.h /usr/include/stdio.h portability.h \
+  /usr/include/sys/types.h config.h debug/debug.h portability.h daap.h \
+  daap_contentcodes.h dmap_generics.h daap_readtypes.h
+
+/usr/include/string.h:
+
+/usr/include/_types.h:
+
+/usr/include/sys/_types.h:
+
+/usr/include/sys/cdefs.h:
+
+/usr/include/machine/_types.h:
+
+/usr/include/ppc/_types.h:
+
+/usr/include/stdlib.h:
+
+/usr/include/sys/wait.h:
+
+/usr/include/sys/signal.h:
+
+/usr/include/sys/appleapiopts.h:
+
+/usr/include/machine/signal.h:
+
+/usr/include/ppc/signal.h:
+
+/usr/include/sys/resource.h:
+
+/usr/include/machine/endian.h:
+
+/usr/include/ppc/endian.h:
+
+/usr/include/sys/_endian.h:
+
+/usr/include/alloca.h:
+
+/usr/include/machine/types.h:
+
+/usr/include/ppc/types.h:
+
+/usr/include/stdio.h:
+
+portability.h:
+
+/usr/include/sys/types.h:
+
+config.h:
+
+debug/debug.h:
+
+portability.h:
+
+daap.h:
+
+daap_contentcodes.h:
+
+dmap_generics.h:
+
+daap_readtypes.h:

@@ -1,0 +1,120 @@
+.\"                                      Hey, EMACS: -*- nroff -*-
+.\" First parameter, NAME, should be all caps
+.\" Second parameter, SECTION, should be 1-8, maybe w/ subsection
+.\" other parameters are allowed: see man(7), man(1)
+.TH LIBOPENDAAP 3 "December 29, 2004"
+.\" Please adjust this date whenever revising the manpage.
+.\"
+.\" Some roff macros, for reference:
+.\" .nh        disable hyphenation
+.\" .hy        enable hyphenation
+.\" .ad l      left justify
+.\" .ad b      justify to both left and right margins
+.\" .nf        disable filling
+.\" .fi        enable filling
+.\" .br        insert line break
+.\" .sp <n>    insert n+1 empty lines
+.\" for manpage-specific macros, see man(7)
+.SH NAME
+libopendaap \- library for accessing DAAP shares
+.SH SYNOPSIS
+#include <daap/client.h>
+
+typedef void (*DAAP_fnClientStatus)(DAAP_SClient *, DAAP_Status, int, void*);
+
+typedef int (*DAAP_fnClientEnumerateHosts)(DAAP_SClient *, DAAP_SClientHost *host, void *);
+
+DAAP_SClient *DAAP_Client_Create(DAAP_fnClientStatus pfnCallback, void *pvCallbackContext);
+
+int DAAP_Client_SetDebug(DAAP_SClient *pCThis, const char *const debug);
+
+unsigned int DAAP_Client_AddRef(DAAP_SClient *pCThis);
+
+unsigned int DAAP_Client_Release(DAAP_SClient *pCThis);
+
+unsigned int DAAP_Client_EnumerateHosts(DAAP_SClient *pCThis, DAAP_fnClientEnumerateHosts pfnCallback, void *context);
+
+unsigned int DAAP_ClientHost_AddRef(DAAP_SClientHost *pCHThis);
+
+unsigned int DAAP_ClientHost_Release(DAAP_SClientHost *pCHThis);
+
+unsigned int DAAP_ClientHost_GetSharename(DAAP_SClientHost *pCHThis, char *buf, int bufsize);
+
+unsigned int DAAP_ClientHost_Connect(DAAP_SClientHost *pCHThis);
+
+unsigned int DAAP_ClientHost_Disconnect(DAAP_SClientHost *pCHThis);
+
+unsigned int DAAP_ClientHost_GetDatabases(DAAP_SClientHost *pCHThis, DAAP_ClientHost_Database *buffer, int *n, int bufsize);
+
+int DAAP_ClientHost_GetDatabaseItems(DAAP_SClientHost *pCHThis, int databaseid, DAAP_ClientHost_DatabaseItem *buffer, int *n, int bufsize);
+
+int DAAP_ClientHost_GetAudioFile(DAAP_SClientHost *pCHThis, int databaseid, int songid, const char *songformat, DAAP_ClientHost_Song *song);
+
+int DAAP_ClientHost_FreeAudioFile(DAAP_SClientHost *pCHThis, DAAP_ClientHost_Song *song);
+
+int DAAP_ClientHost_AsyncGetAudioFile(DAAP_SClientHost *pCHThis, int databaseid, int songid, const char *songformat, int fd);
+
+int DAAP_ClientHost_AsyncStop(DAAP_SClientHost *pCHThis);
+
+int DAAP_ClientHost_AsyncWaitUpdate(DAAP_SClientHost *pCHThis);
+
+int DAAP_ClientHost_AsyncStopUpdate(DAAP_SClientHost *pCHThis);
+
+.SH DESCRIPTION
+.B libopendaap
+currently exposes two classes,
+.B Client
+and
+.B ClientHost.
+DAAP_Client can be used to manage a set of available DAAP clients.
+On Creation, DAAP_Client will create several threads using the available system
+threads libraries. It will watch the network using Apple's mDNS protocol
+for new DAAP shares to become available, and report their existance to the installed
+.B DAAP_fnClientStatus
+callback.
+.B DAAP_Client_EnumerateHosts
+can then be used to enumerate the available hosts.
+.B DAAP_ClientHost_AddRef
+must be used if a pointer to a host is to be held.
+
+Furhter manipulation of the hosts is then possible with the
+.B DAAP_ClientHost
+interface. For futhre information about the available
+methods, please consult the documentation in the header file.
+
+.SH ENUMERATION TYPES
+
+typedef enum
+{
+    DAAP_STATUS_error        = -2,
+    DAAP_STATUS_dying        = -1,
+    DAAP_STATUS_idle         =  0,
+    DAAP_STATUS_connecting,
+    DAAP_STATUS_negotiating,
+    DAAP_STATUS_updating,
+    DAAP_STATUS_downloading,
+    DAAP_STATUS_hostschanged
+} DAAP_Status;
+
+The
+.B DAAP_Status
+enumeration type contains a list of possible status callback commands.
+
+.PP
+.\" TeX users may be more comfortable with the \fB<whatever>\fP and
+.\" \fI<whatever>\fP escape sequences to invode bold face and italics, 
+.\" respectively.
+.SH OTHER INFO
+For more information regarding
+.B libopendaap
+please visit the tunesbrowser homepage:
+.B http://craz.net/programs/itunes/libopendaap.html
+
+Further information about the libopendaap API is available from the libopendaap
+header file.
+
+.SH AUTHOR
+libopendaap was written by David Hammerton <craz@crazney.net>
+.PP
+This manual page was written by Simon Freiberg <fryboy@optusnet.com.au>,
+for the Debian project (but may be used by others).
