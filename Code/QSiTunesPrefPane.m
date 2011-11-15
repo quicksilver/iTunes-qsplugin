@@ -1,8 +1,4 @@
-
-
 #import "QSiTunesPrefPane.h"
-
-
 
 @implementation QSiTunesPrefPane
 - (id)init {

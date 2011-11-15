@@ -1,6 +1,3 @@
-
-
-
 #import <Cocoa/Cocoa.h>
 
 //#import <QSCore/QSCore.h>

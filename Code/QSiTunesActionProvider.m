@@ -117,7 +117,7 @@
 	//NSArray *trackIDs = [[dObject arrayForType:QSiTunesTrackIDPboardType] valueForKey:@"Track ID"];
 	NSArray *paths = [dObject validPaths];
 	
-	if (!paths) return;
+	if (!paths) return nil;
 	
 	//return;
 	NSDictionary *errorDict = nil;
@@ -199,7 +199,5 @@
 			[[NSBundle bundleForClass:[QSiTunesActionProvider class]]  pathForResource:@"iTunes" ofType:@"scpt"]] error:nil];
 	return iTunesScript;
 }
-
-
 
 @end

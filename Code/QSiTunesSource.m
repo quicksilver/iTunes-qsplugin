@@ -35,12 +35,6 @@ int iTunesGetCurrentTrack() {
 mSHARED_INSTANCE_CLASS_METHOD
 
 + (void)initialize {
-	NSFileManager *manager = [NSFileManager defaultManager];
-	
-	//useSofa = [manager fileExistsAtPath:SOFPATH];
-	//useClutter = [manager fileExistsAtPath:CLUTPATH];
-	//useSynergy = [manager fileExistsAtPath:SYNPATH];
-	
 	NSImage *image;
 	NSEnumerator *imgEnum = [[NSArray arrayWithObjects:@"iTunesLibraryPlaylistIcon", @"iTunesSmartPlaylistIcon",
 		@"iTunesPlaylistIcon", @"iTunesPartyShufflePlaylistIcon", @"iTunesPurchasedMusicPlaylistIcon", @"iTunesQuicksilverPlaylistIcon", @"iTunesAlbumBrowserIcon",
@@ -322,7 +316,7 @@ mSHARED_INSTANCE_CLASS_METHOD
 	return [QSResourceManager imageNamed:@"iTunesIcon"];
 }
 
-- (NSString *)identifierForObject:(id <QSObject > )object {
+- (NSString *)identifierForObject:(id <QSObject>)object {
 	if ([[object primaryType] isEqualToString:QSiTunesPlaylistIDPboardType]) {
 		//NSLog(@"getplaylistid");
 		return nil;
@@ -523,7 +517,7 @@ mSHARED_INSTANCE_CLASS_METHOD
 
 	NSImage *icon = nil;
 	if ([trackDict objectForKey:@"Location"]) {
-		NSString *kind = [trackDict objectForKey:@"Kind"];
+		//NSString *kind = [trackDict objectForKey:@"Kind"];
 		NSString *URLString = [trackDict objectForKey:@"Location"];
 		
 		if (!URLString) return nil;
@@ -631,7 +625,7 @@ mSHARED_INSTANCE_CLASS_METHOD
 	return nil;
 }
 
-- (BOOL)objectHasChildren:(id <QSObject > )object {
+- (BOOL)objectHasChildren:(id <QSObject>)object {
 	if ([[object primaryType] isEqualToString:QSiTunesPlaylistIDPboardType]) {
 		NSDictionary *playlistDict = [library playlistInfoForID:[object objectForType:QSiTunesPlaylistIDPboardType]];
 		return [(NSArray *)[playlistDict objectForKey:@"Playlist Items"] count];
@@ -642,7 +636,7 @@ mSHARED_INSTANCE_CLASS_METHOD
 	}
 	return NO;
 }
-- (BOOL)objectHasValidChildren:(id<QSObject>)object {
+- (BOOL)objectHasValidChildren:(id <QSObject>)object {
 	return YES;
 }
 
@@ -756,7 +750,7 @@ mSHARED_INSTANCE_CLASS_METHOD
 		while (currentTrack = [trackEnumerator nextObject]) {
 			id object = [self trackObjectForInfo:currentTrack inPlaylist:[playlistDict objectForKey:@"Name"]];
 			if (object) [objects addObject:object];
-			else NSLog(@"Ignoring Track %d", currentTrack);
+			else NSLog(@"Ignoring Track %@", currentTrack);
 		}
 		return objects;
 	} else if ([[object primaryType] isEqualToString:QSiTunesBrowserPboardType]) {
@@ -888,12 +882,6 @@ mSHARED_INSTANCE_CLASS_METHOD
 	return objects;
 }
 
-
-
-
-
-
-
 - (BOOL)showArtwork {
 	return showArtwork;
 }
@@ -906,14 +894,3 @@ mSHARED_INSTANCE_CLASS_METHOD
 	return QSiTunesScript();
 }
 @end
-
-
-
-
-
-
-
-
-
-
-

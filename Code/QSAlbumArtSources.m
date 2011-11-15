@@ -10,4 +10,3 @@
 #import "QSAlbumArtSources.h"
 
 #import <QSCore/NSString_BLTRExtensions.h>
-
