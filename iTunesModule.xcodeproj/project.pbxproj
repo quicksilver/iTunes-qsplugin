@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		7F8523350D5F7FDD002315CD /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = E1DAFAE107007BA400FAFE2A /* Info.plist */; };
 		8D1AC9700486D14A00FE50C9 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD92D38A0106425D02CA0E72 /* Cocoa.framework */; };
 		E128E0420703470600B34075 /* Scripts in Resources */ = {isa = PBXBuildFile; fileRef = E128E0390703470600B34075 /* Scripts */; };
 		E128E0EB070348F100B34075 /* QSPreset.name.strings in Resources */ = {isa = PBXBuildFile; fileRef = E1DAFADF07007BA400FAFE2A /* QSPreset.name.strings */; };
@@ -224,9 +223,9 @@
 		0259C573FE90428111CA0C5A /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0410;
+				LastUpgradeCheck = 0420;
 			};
-			buildConfigurationList = 7F07AE11085E432600E2AFC4 /* Build configuration list for PBXProject "iTunesElement" */;
+			buildConfigurationList = 7F07AE11085E432600E2AFC4 /* Build configuration list for PBXProject "iTunesModule" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 1;
@@ -267,7 +266,6 @@
 				E1B9F7E907A2B18600B4017B /* QSiTunesDatabase.h in Resources */,
 				E1B9F7EF07A2B21A00B4017B /* QSiTunesActionProvider.h in Resources */,
 				E1B9FA1107A2C76300B4017B /* QSiTunesBridge.h in Resources */,
-				7F8523350D5F7FDD002315CD /* Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -419,7 +417,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		7F07AE11085E432600E2AFC4 /* Build configuration list for PBXProject "iTunesElement" */ = {
+		7F07AE11085E432600E2AFC4 /* Build configuration list for PBXProject "iTunesModule" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				7F07AE13085E432600E2AFC4 /* Release */,
