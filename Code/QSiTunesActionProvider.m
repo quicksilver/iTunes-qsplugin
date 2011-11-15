@@ -8,7 +8,6 @@
 
 #import "QSiTunesActionProvider.h"
 
-#import "QSiTunesDefines.h"
 //#import <QSCore/QSMacros.h>
 
 
@@ -24,6 +23,7 @@
 - (id)init {
 	if (self = [super init]) {
 		iTunesScript = nil;
+		iTunes = nil;
 	}
 	return self;
 }
@@ -173,24 +173,26 @@
 	if (errorDict) {NSLog(@"Error: %@", errorDict);}
 	return nil;
 }
+
 - (QSObject *)playPlaylist:(QSObject *)dObject {
-	NSDictionary *errorDict = nil;
-	
-	NSNumber *playlistID = [NSNumber numberWithInt:[[dObject objectForType:QSiTunesPlaylistIDPboardType] intValue]];
-	//   if (VERBOSE) NSLog(@"playPlaylist %@", playlistID);
-	
-	[[self iTunesScript] executeSubroutine:@"play_playlist" arguments:[NSArray arrayWithObject:playlistID] error:&errorDict];
-	if (errorDict) {
-		NSLog(@"Error: %@", errorDict);  
-	} else {
-		return nil;
+	NSString *playListID = [dObject identifier];
+	iTunesSource *library = [[[self iTunes] sources] objectAtIndex:0];
+	for (iTunesUserPlaylist *thisList in [library userPlaylists]) {
+		if ([[thisList persistentID] isEqualToString:playListID]) {
+			[thisList playOnce:YES];
+			break;
+		}
 	}
-	NSString *playlistName = [[dObject objectForType:QSiTunesPlaylistIDPboardType] objectForKey:@"Name"];
-	if (playlistName) [[self iTunesScript] executeSubroutine:@"play_playlist_name" arguments:[NSArray arrayWithObject:playlistName] error:&errorDict];
-	if (errorDict) {
-		NSLog(@"Error: %@", errorDict);  
-	} 
 	return nil;
+}
+
+- (iTunesApplication *)iTunes
+{
+//	if (!iTunes) {
+//		iTunes = [SBApplication applicationWithBundleIdentifier:@"com.apple.iTunes"];
+//	}
+//	return iTunes;
+	return [SBApplication applicationWithBundleIdentifier:@"com.apple.iTunes"];
 }
 
 - (NSAppleScript *)iTunesScript {
