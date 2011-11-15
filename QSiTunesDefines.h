@@ -20,3 +20,4 @@
 #define QSiTunesTrackChangeNotification @"QSiTunesTrackChangeNotification"
 
 #import "QSiTunesBridge.h"
+#import "iTunes.h"
