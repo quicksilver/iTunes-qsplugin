@@ -7,36 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		33C926EB0BB0F72E00ABE01B /* QSAction.commandFormats.strings in Resources */ = {isa = PBXBuildFile; fileRef = E1DAFAD907007BA400FAFE2A /* QSAction.commandFormats.strings */; };
-		33C926EC0BB0F72E00ABE01B /* QSAction.name.strings in Resources */ = {isa = PBXBuildFile; fileRef = E1DAFADB07007BA400FAFE2A /* QSAction.name.strings */; };
-		33C926ED0BB0F72E00ABE01B /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = E1DAFADD07007BA400FAFE2A /* Localizable.strings */; };
-		33C926EE0BB0F72E00ABE01B /* iTunes.scpt in Resources */ = {isa = PBXBuildFile; fileRef = E1DAFAE407007BA400FAFE2A /* iTunes.scpt */; };
-		33C926EF0BB0F72E00ABE01B /* iTunesAlbumBrowserIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = E1DAFAE507007BA400FAFE2A /* iTunesAlbumBrowserIcon.png */; };
-		33C926F00BB0F72E00ABE01B /* iTunesArtistBrowserIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = E1DAFAE607007BA400FAFE2A /* iTunesArtistBrowserIcon.png */; };
-		33C926F10BB0F72E00ABE01B /* iTunesComposerBrowserIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = E1DAFAE707007BA400FAFE2A /* iTunesComposerBrowserIcon.png */; };
-		33C926F20BB0F72E00ABE01B /* iTunesGenreBrowserIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = E1DAFAE807007BA400FAFE2A /* iTunesGenreBrowserIcon.png */; };
-		33C926F30BB0F72E00ABE01B /* iTunesLibraryPlaylistIcon.icns in Resources */ = {isa = PBXBuildFile; fileRef = E1DAFAE907007BA400FAFE2A /* iTunesLibraryPlaylistIcon.icns */; };
-		33C926F40BB0F72E00ABE01B /* iTunesPartyShufflePlaylistIcon.icns in Resources */ = {isa = PBXBuildFile; fileRef = E1DAFAEB07007BA400FAFE2A /* iTunesPartyShufflePlaylistIcon.icns */; };
-		33C926F50BB0F72E00ABE01B /* iTunesPlaylistIcon.icns in Resources */ = {isa = PBXBuildFile; fileRef = E1DAFAEC07007BA400FAFE2A /* iTunesPlaylistIcon.icns */; };
-		33C926F60BB0F72E00ABE01B /* iTunesPurchasedMusicPlaylistIcon.icns in Resources */ = {isa = PBXBuildFile; fileRef = E1DAFAED07007BA400FAFE2A /* iTunesPurchasedMusicPlaylistIcon.icns */; };
-		33C926F70BB0F72E00ABE01B /* iTunesQuicksilverPlaylistIcon.icns in Resources */ = {isa = PBXBuildFile; fileRef = E1DAFAEE07007BA400FAFE2A /* iTunesQuicksilverPlaylistIcon.icns */; };
-		33C926F80BB0F72E00ABE01B /* iTunesSmartPlaylistIcon.icns in Resources */ = {isa = PBXBuildFile; fileRef = E1DAFAEF07007BA400FAFE2A /* iTunesSmartPlaylistIcon.icns */; };
-		33C926F90BB0F72E00ABE01B /* QSiTunesPrefPane.nib in Resources */ = {isa = PBXBuildFile; fileRef = E1DAFAF007007BA400FAFE2A /* QSiTunesPrefPane.nib */; };
-		33C926FA0BB0F72E00ABE01B /* Scripts in Resources */ = {isa = PBXBuildFile; fileRef = E128E0390703470600B34075 /* Scripts */; };
-		33C926FB0BB0F72E00ABE01B /* QSPreset.name.strings in Resources */ = {isa = PBXBuildFile; fileRef = E1DAFADF07007BA400FAFE2A /* QSPreset.name.strings */; };
-		33C926FC0BB0F72E00ABE01B /* QSiTunesDatabase.h in Resources */ = {isa = PBXBuildFile; fileRef = E1B9F7E707A2B18600B4017B /* QSiTunesDatabase.h */; };
-		33C926FD0BB0F72E00ABE01B /* QSiTunesActionProvider.h in Resources */ = {isa = PBXBuildFile; fileRef = E1B9F7ED07A2B21A00B4017B /* QSiTunesActionProvider.h */; };
-		33C926FF0BB0F72E00ABE01B /* QSiTunesBridge.h in Resources */ = {isa = PBXBuildFile; fileRef = E1B9FA0F07A2C76300B4017B /* QSiTunesBridge.h */; };
-		33C927010BB0F72E00ABE01B /* QSiTunesPrefPane.m in Sources */ = {isa = PBXBuildFile; fileRef = E1DAFAD507007BA400FAFE2A /* QSiTunesPrefPane.m */; };
-		33C927020BB0F72E00ABE01B /* QSiTunesSource.m in Sources */ = {isa = PBXBuildFile; fileRef = E1DAFAD707007BA400FAFE2A /* QSiTunesSource.m */; };
-		33C927030BB0F72E00ABE01B /* QSiTunesDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = E1B9F7E807A2B18600B4017B /* QSiTunesDatabase.m */; };
-		33C927040BB0F72E00ABE01B /* QSiTunesActionProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = E1B9F7EE07A2B21A00B4017B /* QSiTunesActionProvider.m */; };
-		33C927050BB0F72E00ABE01B /* QSiTunesBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = E1B9FA1007A2C76300B4017B /* QSiTunesBridge.m */; };
-		33C927070BB0F72E00ABE01B /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD92D38A0106425D02CA0E72 /* Cocoa.framework */; };
-		33C9270A0BB0F72E00ABE01B /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1DAFB2A07007CEA00FAFE2A /* Carbon.framework */; };
-		33C9270B0BB0F72E00ABE01B /* PreferencePanes.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1DAFBC207007D0300FAFE2A /* PreferencePanes.framework */; };
-		33DFCF5C0BCF454F00EDE8CF /* element.xml in Resources */ = {isa = PBXBuildFile; fileRef = 33DFCF5B0BCF454F00EDE8CF /* element.xml */; };
-		7F4DABEC0D258F2B00E91B8E /* iTunes.xcdatamodel in Sources */ = {isa = PBXBuildFile; fileRef = 7F4DABEB0D258F2B00E91B8E /* iTunes.xcdatamodel */; };
 		7F8523350D5F7FDD002315CD /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = E1DAFAE107007BA400FAFE2A /* Info.plist */; };
 		8D1AC9700486D14A00FE50C9 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DD92D38A0106425D02CA0E72 /* Cocoa.framework */; };
 		E128E0420703470600B34075 /* Scripts in Resources */ = {isa = PBXBuildFile; fileRef = E128E0390703470600B34075 /* Scripts */; };
@@ -69,16 +39,11 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		33C927110BB0F72E00ABE01B /* iTunes.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = iTunes.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
-		33C927120BB0F72E00ABE01B /* element-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "element-Info.plist"; sourceTree = "<group>"; };
 		33DFCF5B0BCF454F00EDE8CF /* element.xml */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xml; path = element.xml; sourceTree = SOURCE_ROOT; };
 		7F350DD40D15E8D800B2B814 /* Common.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Common.xcconfig; path = Configuration/Common.xcconfig; sourceTree = QS_SOURCE_ROOT; };
 		7F350DD50D15E8D800B2B814 /* Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Debug.xcconfig; path = Configuration/Debug.xcconfig; sourceTree = QS_SOURCE_ROOT; };
 		7F350DD60D15E8D800B2B814 /* Developer.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Developer.xcconfig; path = Configuration/Developer.xcconfig; sourceTree = QS_SOURCE_ROOT; };
-		7F350DD70D15E8D800B2B814 /* QSElement.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = QSElement.xcconfig; path = Configuration/QSElement.xcconfig; sourceTree = QS_SOURCE_ROOT; };
-		7F350DD90D15E8D800B2B814 /* QSElement_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = QSElement_Prefix.pch; path = Configuration/QSElement_Prefix.pch; sourceTree = QS_SOURCE_ROOT; };
 		7F350DDB0D15E8D800B2B814 /* QSPlugIn.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = QSPlugIn.xcconfig; path = Configuration/QSPlugIn.xcconfig; sourceTree = QS_SOURCE_ROOT; };
-		7F350DDD0D15E8D800B2B814 /* QSPlugIn_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = QSPlugIn_Prefix.pch; path = Configuration/QSPlugIn_Prefix.pch; sourceTree = QS_SOURCE_ROOT; };
 		7F350DDF0D15E8D800B2B814 /* Release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Release.xcconfig; path = Configuration/Release.xcconfig; sourceTree = QS_SOURCE_ROOT; };
 		7F4DABEB0D258F2B00E91B8E /* iTunes.xcdatamodel */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = wrapper.xcdatamodel; path = iTunes.xcdatamodel; sourceTree = SOURCE_ROOT; };
 		7FA20E780C6E4F0F00630971 /* QSiTunesDefines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSiTunesDefines.h; sourceTree = "<group>"; };
@@ -119,16 +84,6 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		33C927060BB0F72E00ABE01B /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				33C927070BB0F72E00ABE01B /* Cocoa.framework in Frameworks */,
-				33C9270A0BB0F72E00ABE01B /* Carbon.framework in Frameworks */,
-				33C9270B0BB0F72E00ABE01B /* PreferencePanes.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		8D1AC96E0486D14A00FE50C9 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -153,7 +108,6 @@
 				E1DAFAE207007BA400FAFE2A /* Resources */,
 				1ED78706FE9D4A0611CA0C5A /* Products */,
 				2E58F364FFB232C311CA0CBA /* Frameworks */,
-				33C927120BB0F72E00ABE01B /* element-Info.plist */,
 			);
 			name = iTunes;
 			sourceTree = "<group>";
@@ -162,7 +116,6 @@
 			isa = PBXGroup;
 			children = (
 				8D1AC9740486D14A00FE50C9 /* iTunes Module.qsplugin */,
-				33C927110BB0F72E00ABE01B /* iTunes.bundle */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -183,10 +136,7 @@
 				7F350DD40D15E8D800B2B814 /* Common.xcconfig */,
 				7F350DD50D15E8D800B2B814 /* Debug.xcconfig */,
 				7F350DD60D15E8D800B2B814 /* Developer.xcconfig */,
-				7F350DD70D15E8D800B2B814 /* QSElement.xcconfig */,
-				7F350DD90D15E8D800B2B814 /* QSElement_Prefix.pch */,
 				7F350DDB0D15E8D800B2B814 /* QSPlugIn.xcconfig */,
-				7F350DDD0D15E8D800B2B814 /* QSPlugIn_Prefix.pch */,
 				7F350DDF0D15E8D800B2B814 /* Release.xcconfig */,
 			);
 			path = Configuration;
@@ -248,26 +198,6 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		33C926E80BB0F72E00ABE01B /* iTunes Element */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 33C9270F0BB0F72E00ABE01B /* Build configuration list for PBXNativeTarget "iTunes Element" */;
-			buildPhases = (
-				33C926E90BB0F72E00ABE01B /* ShellScript */,
-				33C926EA0BB0F72E00ABE01B /* Resources */,
-				33C927000BB0F72E00ABE01B /* Sources */,
-				33C927060BB0F72E00ABE01B /* Frameworks */,
-				33C9270E0BB0F72E00ABE01B /* ShellScript */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = "iTunes Element";
-			productInstallPath = "$(HOME)/Developer/Palettes";
-			productName = iTunes;
-			productReference = 33C927110BB0F72E00ABE01B /* iTunes.bundle */;
-			productType = "com.apple.product-type.bundle";
-		};
 		8D1AC9600486D14A00FE50C9 /* iTunes Module */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 7F07AE0D085E432600E2AFC4 /* Build configuration list for PBXNativeTarget "iTunes Module" */;
@@ -308,40 +238,11 @@
 			projectRoot = "";
 			targets = (
 				8D1AC9600486D14A00FE50C9 /* iTunes Module */,
-				33C926E80BB0F72E00ABE01B /* iTunes Element */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		33C926EA0BB0F72E00ABE01B /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				33C926EB0BB0F72E00ABE01B /* QSAction.commandFormats.strings in Resources */,
-				33C926EC0BB0F72E00ABE01B /* QSAction.name.strings in Resources */,
-				33C926ED0BB0F72E00ABE01B /* Localizable.strings in Resources */,
-				33C926EE0BB0F72E00ABE01B /* iTunes.scpt in Resources */,
-				33C926EF0BB0F72E00ABE01B /* iTunesAlbumBrowserIcon.png in Resources */,
-				33C926F00BB0F72E00ABE01B /* iTunesArtistBrowserIcon.png in Resources */,
-				33C926F10BB0F72E00ABE01B /* iTunesComposerBrowserIcon.png in Resources */,
-				33C926F20BB0F72E00ABE01B /* iTunesGenreBrowserIcon.png in Resources */,
-				33C926F30BB0F72E00ABE01B /* iTunesLibraryPlaylistIcon.icns in Resources */,
-				33C926F40BB0F72E00ABE01B /* iTunesPartyShufflePlaylistIcon.icns in Resources */,
-				33C926F50BB0F72E00ABE01B /* iTunesPlaylistIcon.icns in Resources */,
-				33C926F60BB0F72E00ABE01B /* iTunesPurchasedMusicPlaylistIcon.icns in Resources */,
-				33C926F70BB0F72E00ABE01B /* iTunesQuicksilverPlaylistIcon.icns in Resources */,
-				33C926F80BB0F72E00ABE01B /* iTunesSmartPlaylistIcon.icns in Resources */,
-				33C926F90BB0F72E00ABE01B /* QSiTunesPrefPane.nib in Resources */,
-				33C926FA0BB0F72E00ABE01B /* Scripts in Resources */,
-				33C926FB0BB0F72E00ABE01B /* QSPreset.name.strings in Resources */,
-				33C926FC0BB0F72E00ABE01B /* QSiTunesDatabase.h in Resources */,
-				33C926FD0BB0F72E00ABE01B /* QSiTunesActionProvider.h in Resources */,
-				33C926FF0BB0F72E00ABE01B /* QSiTunesBridge.h in Resources */,
-				33DFCF5C0BCF454F00EDE8CF /* element.xml in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		8D1AC9660486D14A00FE50C9 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -373,32 +274,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		33C926E90BB0F72E00ABE01B /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "rm -f $SRCROOT/Resources/iTunes.scpt\n/usr/bin/osacompile -x -d -o $SRCROOT/Resources/iTunes.scpt $SRCROOT/Resources/iTunes.original.scpt ";
-		};
-		33C9270E0BB0F72E00ABE01B /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "$SRCROOT/bltrversion $INFOPLIST_FILE";
-		};
 		7F0397FC080E5171001A9FA3 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -428,19 +303,6 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		33C927000BB0F72E00ABE01B /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				33C927010BB0F72E00ABE01B /* QSiTunesPrefPane.m in Sources */,
-				33C927020BB0F72E00ABE01B /* QSiTunesSource.m in Sources */,
-				33C927030BB0F72E00ABE01B /* QSiTunesDatabase.m in Sources */,
-				33C927040BB0F72E00ABE01B /* QSiTunesActionProvider.m in Sources */,
-				33C927050BB0F72E00ABE01B /* QSiTunesBridge.m in Sources */,
-				7F4DABEC0D258F2B00E91B8E /* iTunes.xcdatamodel in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		8D1AC96A0486D14A00FE50C9 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -491,16 +353,6 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
-		33C927100BB0F72E00ABE01B /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 7F350DD70D15E8D800B2B814 /* QSElement.xcconfig */;
-			buildSettings = {
-				COPYING_PRESERVES_HFS_DATA = YES;
-				INFOPLIST_FILE = "element-Info.plist";
-				PRODUCT_NAME = iTunes;
-			};
-			name = Release;
-		};
 		7F07AE0F085E432600E2AFC4 /* Release */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 7F350DDB0D15E8D800B2B814 /* QSPlugIn.xcconfig */;
@@ -555,28 +407,9 @@
 			};
 			name = Debug;
 		};
-		7FE2FB610C55A34E009CCF17 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 7F350DD70D15E8D800B2B814 /* QSElement.xcconfig */;
-			buildSettings = {
-				COPYING_PRESERVES_HFS_DATA = YES;
-				INFOPLIST_FILE = "element-Info.plist";
-				PRODUCT_NAME = iTunes;
-			};
-			name = Debug;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		33C9270F0BB0F72E00ABE01B /* Build configuration list for PBXNativeTarget "iTunes Element" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				33C927100BB0F72E00ABE01B /* Release */,
-				7FE2FB610C55A34E009CCF17 /* Debug */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
 		7F07AE0D085E432600E2AFC4 /* Build configuration list for PBXNativeTarget "iTunes Module" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
