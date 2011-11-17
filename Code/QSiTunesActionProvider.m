@@ -124,6 +124,10 @@
 	
 	//	[NSAppleEventDescriptor aliasDescriptorWithFile:[paths objectAtIndex:
 	if (party) {
+//		if ([playlist specialKind] == iTunesESpKPartyShuffle) {
+//			// this is iTunes DJ
+//		}
+
 		if (next) {
 			//ps_play_next_track can handle a list
 			[[self iTunesScript] executeSubroutine:@"ps_play_next_track" 
@@ -166,7 +170,7 @@
 			if ([dObject count] == 1) {
 				// play a single track
 				NSString *trackID = [dObject identifier];
-				iTunesLibraryPlaylist *libraryPlaylist = [[[[[self iTunes] sources] objectAtIndex:0] libraryPlaylists] objectAtIndex:0];
+				iTunesLibraryPlaylist *libraryPlaylist = [[[self iTunesLibrary] libraryPlaylists] objectAtIndex:0];
 				NSArray *trackResult = [[libraryPlaylist fileTracks] filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"persistentID == %@", trackID]];
 				if ([trackResult count] > 0) {
 					[[trackResult lastObject] playOnce:YES];
@@ -183,7 +187,7 @@
 - (QSObject *)playPlaylist:(QSObject *)dObject
 {
 	NSString *playlistID = [dObject identifier];
-	iTunesSource *library = [[[self iTunes] sources] objectAtIndex:0];
+	iTunesSource *library = [self iTunesLibrary];
 	NSArray *playlistResult = [[library playlists] filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"persistentID == %@", playlistID]];
 	if ([playlistResult count] > 0) {
 		[[playlistResult lastObject] playOnce:YES];
@@ -198,6 +202,16 @@
 //	}
 //	return iTunes;
 	return [SBApplication applicationWithBundleIdentifier:@"com.apple.iTunes"];
+}
+
+- (iTunesSource *)iTunesLibrary
+{
+	for (iTunesSource *source in [[self iTunes] sources]) {
+		if ([source kind] == iTunesESrcLibrary) {
+			return source;
+		}
+	}
+	return nil;
 }
 
 - (NSAppleScript *)iTunesScript {
