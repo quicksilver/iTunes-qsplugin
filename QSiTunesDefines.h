@@ -10,7 +10,7 @@
 #define BLANK_TAG @" Unknown"
 #define COMPILATION_STRING @" Compilations"
 #define ITUNESLIBRARY [@"~/Music/iTunes/iTunes Music Library.xml" stringByStandardizingPath]
-
+#define QSiTunesDynamicPlaylist @"Quicksilver"
 
 #define QSiTunesTrackIDPboardType @"com.apple.itunes.track"
 #define QSiTunesPlaylistIDPboardType @"com.apple.itunes.playlist"
