@@ -163,12 +163,16 @@
 											 error:&errorDict];
 
 		} else {
-			iTunesLibraryPlaylist *libraryPlaylist = [[[[[self iTunes] sources] objectAtIndex:0] libraryPlaylists] objectAtIndex:0];
-			NSDictionary *trackInfo = [[dObject arrayForType:QSiTunesTrackIDPboardType] lastObject];
-			NSString *trackID = [trackInfo objectForKey:@"Persistent ID"];
-			NSArray *trackResult = [[libraryPlaylist fileTracks] filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"persistentID == %@", trackID]];
-			if ([trackResult count] > 0) {
-				[[trackResult lastObject] playOnce:YES];
+			if ([dObject count] == 1) {
+				// play a single track
+				NSString *trackID = [dObject identifier];
+				iTunesLibraryPlaylist *libraryPlaylist = [[[[[self iTunes] sources] objectAtIndex:0] libraryPlaylists] objectAtIndex:0];
+				NSArray *trackResult = [[libraryPlaylist fileTracks] filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"persistentID == %@", trackID]];
+				if ([trackResult count] > 0) {
+					[[trackResult lastObject] playOnce:YES];
+				}
+			} else {
+				// create a playlist and play multiple tracks
 			}
 		}
 	}
