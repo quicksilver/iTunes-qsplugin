@@ -663,7 +663,8 @@ mSHARED_INSTANCE_CLASS_METHOD
 
 - (QSObject *)trackObjectForInfo:(NSDictionary *)trackInfo inPlaylist:(NSString *)playlist {
 	if (!trackInfo) return nil;
-	QSObject *newObject = [QSObject objectWithName:[trackInfo objectForKey:@"Name"]];
+	QSObject *newObject = [QSObject makeObjectWithIdentifier:[trackInfo objectForKey:@"Persistent ID"]];
+	[newObject setName:[trackInfo objectForKey:@"Name"]];
 	[newObject setObject:trackInfo forType:QSiTunesTrackIDPboardType];
 	if (playlist) [newObject setObject:playlist forMeta:@"QSiTunesSourcePlaylist"];
 	
