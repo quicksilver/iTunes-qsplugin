@@ -163,25 +163,26 @@
 											 error:&errorDict];
 
 		} else {
-			
-			[[self iTunesScript] executeSubroutine:@"play_track" 
-										 arguments:[NSArray arrayWithObject:[NSAppleEventDescriptor aliasDescriptorWithFile:[paths lastObject]]]
-											 error:&errorDict];
-
+			iTunesLibraryPlaylist *libraryPlaylist = [[[[[self iTunes] sources] objectAtIndex:0] libraryPlaylists] objectAtIndex:0];
+			NSDictionary *trackInfo = [[dObject arrayForType:QSiTunesTrackIDPboardType] lastObject];
+			NSString *trackID = [trackInfo objectForKey:@"Persistent ID"];
+			NSArray *trackResult = [[libraryPlaylist fileTracks] filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"persistentID == %@", trackID]];
+			if ([trackResult count] > 0) {
+				[[trackResult lastObject] playOnce:YES];
+			}
 		}
 	}
 	if (errorDict) {NSLog(@"Error: %@", errorDict);}
 	return nil;
 }
 
-- (QSObject *)playPlaylist:(QSObject *)dObject {
-	NSString *playListID = [dObject identifier];
+- (QSObject *)playPlaylist:(QSObject *)dObject
+{
+	NSString *playlistID = [dObject identifier];
 	iTunesSource *library = [[[self iTunes] sources] objectAtIndex:0];
-	for (iTunesUserPlaylist *thisList in [library userPlaylists]) {
-		if ([[thisList persistentID] isEqualToString:playListID]) {
-			[thisList playOnce:YES];
-			break;
-		}
+	NSArray *playlistResult = [[library playlists] filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"persistentID == %@", playlistID]];
+	if ([playlistResult count] > 0) {
+		[[playlistResult lastObject] playOnce:YES];
 	}
 	return nil;
 }
