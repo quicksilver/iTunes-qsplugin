@@ -36,12 +36,11 @@ mSHARED_INSTANCE_CLASS_METHOD
 
 + (void)initialize {
 	NSImage *image;
-	NSEnumerator *imgEnum = [[NSArray arrayWithObjects:@"iTunesLibraryPlaylistIcon", @"iTunesSmartPlaylistIcon",
+	NSArray *images = [[NSArray arrayWithObjects:@"iTunesLibraryPlaylistIcon", @"iTunesSmartPlaylistIcon",
 		@"iTunesPlaylistIcon", @"iTunesPartyShufflePlaylistIcon", @"iTunesPurchasedMusicPlaylistIcon", @"iTunesQuicksilverPlaylistIcon", @"iTunesAlbumBrowserIcon",
 		@"iTunesArtistBrowserIcon", @"iTunesComposerBrowserIcon", @"iTunesGenreBrowserIcon", nil] objectEnumerator];
-	NSString *name;
 	NSBundle *bundle = [NSBundle bundleForClass:[QSiTunesObjectSource class]];
-	while(name = [imgEnum nextObject]) {
+	for (NSString *name in images) {
 		image = [[NSImage alloc] initWithContentsOfFile:[bundle pathForImageResource:name]];
 		[image setName:name];
 		[image createIconRepresentations];
@@ -294,12 +293,7 @@ mSHARED_INSTANCE_CLASS_METHOD
 	NSMutableArray *objects = [NSMutableArray arrayWithCapacity:1];
 	//NSDictionary *tracks = [[self iTunesMusicLibrary] objectForKey:@"Tracks"];
 	
-	NSEnumerator *trackEnumerator = [recentTracks objectEnumerator];
-	
-	//NSDictionary *trackInfo;
-	// QSObject *newObject;
-	NSDictionary *trackInfo;
-	while (trackInfo = [trackEnumerator nextObject]) {
+	for (NSDictionary *trackInfo in recentTracks) {
 //		currentTrack = [library trackInfoForID:trackID];
 		if (trackInfo)
 			[objects addObject:[self trackObjectForInfo:trackInfo inPlaylist:nil]];
@@ -392,18 +386,12 @@ mSHARED_INSTANCE_CLASS_METHOD
 	
 	[objects addObjectsFromArray:[self browseMasters]];
 	
-	
-	
-	
-	
 	//Playlists
 	NSArray *playlists = [library playlists];
 	//NSLog(@"Loading %d Playlists", [playlists count]);
 	//	if (![playlists count])   NSLog(@"Library Dump: %@", [self iTunesMusicLibrary]);
 	
-	NSDictionary *thisPlaylist;
-	NSEnumerator *playlistEnumerator = [playlists objectEnumerator];
-	while(thisPlaylist = [playlistEnumerator nextObject]) {
+	for (NSDictionary *thisPlaylist in playlists) {
 		NSString *name = [thisPlaylist objectForKey:@"Name"];
 		if ([thisPlaylist objectForKey:@"Master"] && [name isEqualToString:@"Library"])
 			name = @"Music Library";
@@ -417,14 +405,8 @@ mSHARED_INSTANCE_CLASS_METHOD
 		[newObject setPrimaryType:QSiTunesPlaylistIDPboardType];
 		[objects addObject:newObject];
 	}
-	
-	
-	
-	
-	
 	return objects;
 }
-
 
 // Object Handler Methods
 - (void)setQuickIconForObject:(QSObject *)object {
@@ -745,10 +727,7 @@ mSHARED_INSTANCE_CLASS_METHOD
 		NSArray *trackIDs = [[playlistDict objectForKey:@"Playlist Items"] valueForKeyPath:@"Track ID.stringValue"];
 		
 		NSArray *tracks = [library trackInfoForIDs:trackIDs];
-		NSEnumerator *trackEnumerator = [tracks objectEnumerator];
-		
-		NSDictionary *currentTrack;
-		while (currentTrack = [trackEnumerator nextObject]) {
+		for (NSDictionary *currentTrack in tracks) {
 			id object = [self trackObjectForInfo:currentTrack inPlaylist:[playlistDict objectForKey:@"Name"]];
 			if (object) [objects addObject:object];
 			else NSLog(@"Ignoring Track %@", currentTrack);
@@ -789,7 +768,6 @@ mSHARED_INSTANCE_CLASS_METHOD
 	if (displayType) {
 		if ([displayType isEqualToString:@"Track"]) {
 			NSMutableArray *objects = [NSMutableArray arrayWithCapacity:1];  
-			NSDictionary *trackInfo;  
 			NSMutableArray *descriptors = [NSMutableArray array];
 			//NSLog(@"count %d", [trackArray count]);
 			if ([[criteriaDict allKeys] containsObject: @"Artist"] || [[criteriaDict allKeys] containsObject: @"Album"]) {
@@ -800,9 +778,9 @@ mSHARED_INSTANCE_CLASS_METHOD
 				[descriptors addObject:[[[NSSortDescriptor alloc] initWithKey:@"Name" ascending:YES] autorelease]];
 			}
 			NSArray *sortedTracks = [trackArray sortedArrayUsingDescriptors:descriptors];
-			NSEnumerator *trackEnumerator = [sortedTracks objectEnumerator];
-			while(trackInfo = [trackEnumerator nextObject])
+			for (NSDictionary *trackInfo in sortedTracks) {
 				[objects addObject:[self trackObjectForInfo:trackInfo inPlaylist:nil]];
+			}
 			
 			return objects;
 			
