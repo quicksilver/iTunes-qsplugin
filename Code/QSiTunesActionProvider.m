@@ -206,10 +206,9 @@
 
 - (iTunesSource *)iTunesLibrary
 {
-	for (iTunesSource *source in [[self iTunes] sources]) {
-		if ([source kind] == iTunesESrcLibrary) {
-			return source;
-		}
+	NSArray *librarySource = [[[self iTunes] sources] filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"kind == %@", [NSAppleEventDescriptor descriptorWithTypeCode:iTunesESrcLibrary]]];
+	if ([[librarySource lastObject] exists]) {
+		return [librarySource lastObject];
 	}
 	return nil;
 }
