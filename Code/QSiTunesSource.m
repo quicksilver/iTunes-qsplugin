@@ -418,7 +418,7 @@ mSHARED_INSTANCE_CLASS_METHOD
 			[object setIcon:[QSResourceManager imageNamed:@"GenericFolderIcon"]];
 		else if ([playlistDict objectForKey:@"Smart Criteria"])
 			[object setIcon:[NSImage imageNamed:@"iTunesSmartPlaylistIcon"]];
-		else if ([[playlistDict objectForKey:@"Name"] isEqualToString:@"Party Shuffle"])
+		else if ([[playlistDict objectForKey:@"Name"] isEqualToString:@"iTunes DJ"])
 			[object setIcon:[NSImage imageNamed:@"iTunesPartyShufflePlaylistIcon"]];
 		else if ([[playlistDict objectForKey:@"Name"] isEqualToString:@"Quicksilver"])
 			[object setIcon:[NSImage imageNamed:@"iTunesQuicksilverPlaylistIcon"]];

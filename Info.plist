@@ -105,7 +105,7 @@
 		<key>description</key>
 		<string>Provides access to playlists and allows browsing by Artist, Album, Genre, and Composer.</string>
 		<key>extendedDescription</key>
-		<string>Provides access to playlists and allows browsing by Artist, Album, Genre, and Composer.&lt;P&gt;&lt;h3&gt;Enhancements&lt;/h3&gt;&lt;br&gt;&lt;ul&gt;&lt;li&gt;Playlists and Browsing groups in catalog and as children of iTunes&lt;li&gt;Party Shuffle and Play actions&lt;li&gt;Display notifications on track changes&lt;li&gt;Adds control scripts for playing, pausing, skipping tracks&lt;/ul&gt;</string>
+		<string>Provides access to playlists and allows browsing by Artist, Album, Genre, and Composer.&lt;P&gt;&lt;h3&gt;Enhancements&lt;/h3&gt;&lt;br&gt;&lt;ul&gt;&lt;li&gt;Playlists and Browsing groups in catalog and as children of iTunes&lt;li&gt;iTunes DJ and Play actions&lt;li&gt;Display notifications on track changes&lt;li&gt;Adds control scripts for playing, pausing, skipping tracks&lt;/ul&gt;</string>
 		<key>icon</key>
 		<string>com.apple.iTunes</string>
 		<key>qsversion</key>
@@ -174,7 +174,7 @@
 						<array>
 							<string>applescript</string>
 							<string>scpt</string>
-							<string>'osas'</string>
+							<string>&apos;osas&apos;</string>
 						</array>
 						<key>parser</key>
 						<string>QSDirectoryParser</string>
