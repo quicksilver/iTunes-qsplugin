@@ -60,11 +60,9 @@
 - (NSArray *)tracksMatchingCriteria:(NSDictionary *)criteria {
 	//NSLog(@"criteria %@", criteria);
 	if (![criteria count]) return [[[self iTunesMusicLibrary] objectForKey:@"Tracks"] allValues];
-	NSEnumerator *criteriaEnumerator = [criteria keyEnumerator];
 	NSMutableSet *items = nil;
 	NSMutableSet *thisSet;
-	NSString *key;
-	while(key = [criteriaEnumerator nextObject]) {
+	for (NSString *key in criteria) {
 		NSDictionary *typeDicts = [[self tagDictionaries] objectForKey:key];
 		NSArray *valueArray = [typeDicts objectForKey:[[criteria objectForKey:key] lowercaseString]];
 		//NSLog(@"match %@ = %@ %d", key, [criteria objectForKey:key] , [valueArray count]);
@@ -88,9 +86,7 @@
 		[newTagDictionaries setObject:[NSMutableDictionary dictionaryWithCapacity:1] forKey:[sortTags objectAtIndex:i]];
 	
 	NSDictionary *tracks = [[self iTunesMusicLibrary] objectForKey:@"Tracks"];
-	NSString *key;
 	NSDictionary *trackInfo;
-	NSEnumerator *trackEnumerator = [tracks keyEnumerator];
 	
 	NSMutableDictionary *tagDict;
 	NSMutableArray *valueArray;
@@ -100,7 +96,7 @@
 	BOOL groupCompilations = [[NSUserDefaults standardUserDefaults] boolForKey:@"QSiTunesGroupCompilations"];
 	BOOL showPodcasts = NO; //[[NSUserDefaults standardUserDefaults] boolForKey:@"QSiTunesShowPodcasts"];
   
-	while(key = [trackEnumerator nextObject]) {
+	for (NSString *key in tracks) {
 		trackInfo = [tracks objectForKey:key];
     
     if(!showPodcasts && [[trackInfo objectForKey:@"Podcast"] boolValue])
@@ -184,13 +180,11 @@
 }
 - (NSArray *)objectsForKey:(NSString *)key inArray:(NSArray *)array {
 	NSMutableSet *values = [NSMutableSet setWithCapacity:1];
-	NSEnumerator *sourceEnumerator = [array objectEnumerator];
-	id thisObject;
 	BOOL addBlanks = [[NSUserDefaults standardUserDefaults] boolForKey:@"QSiTunesShowUnknown"];
 	BOOL groupCompilations = [key isEqualToString:@"Artist"] && [[NSUserDefaults standardUserDefaults] boolForKey:@"QSiTunesGroupCompilations"];
 	id value;
 	
-	while(thisObject = [sourceEnumerator nextObject]) {
+	for (id thisObject in array) {
 		if (groupCompilations && [[thisObject objectForKey:@"Compilation"] boolValue])
 			value = COMPILATION_STRING;
 		else
