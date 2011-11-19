@@ -78,39 +78,76 @@
  }
  */
 
-- (QSObject *)playBrowser:(QSObject *)dObject party:(BOOL)party append:(BOOL)append next:(BOOL)next {
-	
+//- (QSObject *)playBrowser:(QSObject *)dObject party:(BOOL)party append:(BOOL)append next:(BOOL)next {
+//	
+//	NSDictionary *browseDict = [dObject objectForType:QSiTunesBrowserPboardType];
+//	NSMutableDictionary *criteriaDict = [[[browseDict objectForKey:@"Criteria"] mutableCopy] autorelease];
+//	
+//	if ([[criteriaDict objectForKey:@"Artist"] isEqualToString:COMPILATION_STRING])
+//		[criteriaDict removeObjectForKey:@"Artist"];
+//	
+//	NSMutableArray *criteria = [NSMutableArray arrayWithArray:[criteriaDict objectsForKeys:[NSArray arrayWithObjects:@"Genre", @"Artist", @"Composer", @"Album", nil]
+//																		  notFoundMarker:[NSAppleEventDescriptor descriptorWithTypeCode:'msng']]];
+//	NSDictionary *errorDict = nil;
+//	
+//	if ([[NSUserDefaults standardUserDefaults] boolForKey:@"QSiTunesFastBrowserPlay"] && [browseDict objectForKey:@"Type"])
+//		[criteria addObject:[browseDict objectForKey:@"Type"]];
+//	else
+//		[criteria addObject:[NSAppleEventDescriptor descriptorWithTypeCode:'msng']];
+//	
+//	
+//	if (party) {
+//		if (next) {
+//			[[self iTunesScript] executeSubroutine:@"ps_play_next_criteria" arguments:criteria  error:&errorDict];
+//		} else if (append) {
+//			[[self iTunesScript] executeSubroutine:@"ps_add_criteria" arguments:criteria  error:&errorDict];
+//		} else {
+//			[[self iTunesScript] executeSubroutine:@"ps_play_criteria" arguments:criteria  error:&errorDict];
+//		}
+//	} else {
+//		[[self iTunesScript] executeSubroutine:(append?@"append_with_criteria":@"play_with_criteria") arguments:criteria  error:&errorDict];
+//	}
+//	
+//	
+//	if (errorDict) {NSLog(@"Error: %@", errorDict);}
+//	return nil;
+//}
+
+- (void)playBrowser:(QSObject *)dObject party:(BOOL)party append:(BOOL)append next:(BOOL)next
+{
 	NSDictionary *browseDict = [dObject objectForType:QSiTunesBrowserPboardType];
-	NSMutableDictionary *criteriaDict = [[[browseDict objectForKey:@"Criteria"] mutableCopy] autorelease];
+	NSDictionary *criteriaDict = [browseDict objectForKey:@"Criteria"];
 	
-	if ([[criteriaDict objectForKey:@"Artist"] isEqualToString:COMPILATION_STRING])
-		[criteriaDict removeObjectForKey:@"Artist"];
-	
-	NSMutableArray *criteria = [NSMutableArray arrayWithArray:[criteriaDict objectsForKeys:[NSArray arrayWithObjects:@"Genre", @"Artist", @"Composer", @"Album", nil]
-																		  notFoundMarker:[NSAppleEventDescriptor descriptorWithTypeCode:'msng']]];
-	NSDictionary *errorDict = nil;
-	
-	if ([[NSUserDefaults standardUserDefaults] boolForKey:@"QSiTunesFastBrowserPlay"] && [browseDict objectForKey:@"Type"])
-		[criteria addObject:[browseDict objectForKey:@"Type"]];
-	else
-		[criteria addObject:[NSAppleEventDescriptor descriptorWithTypeCode:'msng']];
-	
-	
-	if (party) {
-		if (next) {
-			[[self iTunesScript] executeSubroutine:@"ps_play_next_criteria" arguments:criteria  error:&errorDict];
-		} else if (append) {
-			[[self iTunesScript] executeSubroutine:@"ps_add_criteria" arguments:criteria  error:&errorDict];
-		} else {
-			[[self iTunesScript] executeSubroutine:@"ps_play_criteria" arguments:criteria  error:&errorDict];
+	// build a search query
+	/*
+	// Adding kind and videoKind to the predicate seems like the right way to filter, but
+	   while it will work, it's *very* slow for some reason. Better to just enumerate the result later.
+	NSMutableArray *criteria = [NSMutableArray arrayWithObjects:@"kind", @"PDF document", @"videoKind", [NSAppleEventDescriptor descriptorWithTypeCode:iTunesEVdKNone], nil];
+	NSString *formatString = @"%K != %@ AND %K == %@";
+	*/
+	NSMutableArray *criteria = [NSMutableArray arrayWithCapacity:2];
+	NSString *formatString = @"";
+	BOOL first = YES;
+	for (NSString *criteriaKey in [criteriaDict allKeys]) {
+		if ([criteriaKey isEqualToString:@"Artist"] && [[criteriaDict objectForKey:@"Artist"] isEqualToString:COMPILATION_STRING]) {
+			// don't use "Compilations" as a criteria
+			continue;
 		}
-	} else {
-		[[self iTunesScript] executeSubroutine:(append?@"append_with_criteria":@"play_with_criteria") arguments:criteria  error:&errorDict];
+		if ([criteriaDict objectForKey:criteriaKey]) {
+			[criteria addObject:[criteriaKey lowercaseString]];
+			[criteria addObject:[criteriaDict objectForKey:criteriaKey]];
+			if (first) {
+				formatString = [formatString stringByAppendingString:@"%K == %@"];
+				first = NO;
+			} else {
+				formatString = [formatString stringByAppendingString:@" AND %K == %@"];
+			}
+		}
 	}
-	
-	
-	if (errorDict) {NSLog(@"Error: %@", errorDict);}
-	return nil;
+	NSPredicate *trackFilter = [NSPredicate predicateWithFormat:formatString argumentArray:criteria];
+	iTunesLibraryPlaylist *libraryPlaylist = [[[self iTunesLibrary] libraryPlaylists] objectAtIndex:0];
+	NSArray *tracksToPlay = [[libraryPlaylist fileTracks] filteredArrayUsingPredicate:trackFilter];
+	[self playWithDynamicPlaylist:tracksToPlay];
 }
 
 - (QSObject *)playTrack:(QSObject *)dObject party:(BOOL)party append:(BOOL)append next:(BOOL)next {
@@ -122,12 +159,14 @@
 	//return;
 	NSDictionary *errorDict = nil;
 	
-	//	[NSAppleEventDescriptor aliasDescriptorWithFile:[paths objectAtIndex:
 	if (party) {
-//		if ([playlist specialKind] == iTunesESpKPartyShuffle) {
-//			// this is iTunes DJ
-//		}
-
+		// find the iTunes DJ playlist
+		NSArray *playlistResult = [[[self iTunesLibrary] playlists] filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"specialKind == %@", [NSAppleEventDescriptor descriptorWithTypeCode:iTunesESpKPartyShuffle]]];
+		if ([[playlistResult lastObject] exists]) {
+			iTunesPlaylist *iTunesDJ = [playlistResult lastObject];
+		} else {
+			return nil;
+		}
 		if (next) {
 			//ps_play_next_track can handle a list
 			[[self iTunesScript] executeSubroutine:@"ps_play_next_track" 
@@ -176,12 +215,30 @@
 					[[trackResult lastObject] playOnce:YES];
 				}
 			} else {
-				// create a playlist and play multiple tracks
+				// play multiple tracks
 			}
 		}
 	}
 	if (errorDict) {NSLog(@"Error: %@", errorDict);}
 	return nil;
+}
+
+- (void)playWithDynamicPlaylist:(NSArray *)trackList
+{
+	iTunesSource *library = [self iTunesLibrary];
+	iTunesPlaylist *qs = [[library userPlaylists] objectWithName:QSiTunesDynamicPlaylist];
+	if (![qs exists]) {
+		// create the dynamic playlist
+		qs = [[[[self iTunes] classForScriptingClass:@"playlist"] alloc] init];
+		[[library userPlaylists] insertObject:qs atIndex:0];
+		[qs setName:QSiTunesDynamicPlaylist];
+	} else {
+		// clear the old list
+		[[qs tracks] removeAllObjects];
+	}
+	// TODO filter out PDFs and (optionally) videos
+	[[self iTunes] add:[trackList arrayByPerformingSelector:@selector(location)] to:qs];
+	[qs playOnce:YES];
 }
 
 - (QSObject *)playPlaylist:(QSObject *)dObject
