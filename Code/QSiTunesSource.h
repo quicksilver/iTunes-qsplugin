@@ -17,7 +17,7 @@
 - (NSArray *)childrenForBrowseCriteria:(NSDictionary *)browseDict;
 - (NSAppleScript *)iTunesScript;
 
-- (id)currentTrackID;
+- (NSString *)currentTrackID;
 - (void)showNotificationForTrack:(id)trackID info:(NSDictionary *)trackInfo;
 - (QSObject *)browserObjectForTrack:(NSDictionary *)trackDict andCriteria:(NSString *)rootType;
 - (NSArray *)browseMasters;

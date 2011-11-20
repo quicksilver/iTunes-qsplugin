@@ -94,7 +94,7 @@ mSHARED_INSTANCE_CLASS_METHOD
 	if ([[[notif userInfo] objectForKey:@"Player State"] isEqualToString:@"Playing"]) {
 		
 	
-		NSString *newTrack = [NSString stringWithFormat:@"%d", QSiTunesCurrentTrackID()];
+		NSString *newTrack = [self currentTrackID];
 		if ([newTrack intValue] <= 0) return;
 		[recentTracks insertObject:[notif userInfo] atIndex:0];
 		while ([recentTracks count] > 10) [recentTracks removeLastObject];
@@ -185,12 +185,9 @@ mSHARED_INSTANCE_CLASS_METHOD
 	return nil;
 }
 
-- (id)currentTrackID {
-//	if ([recentTracks count]) {	
-//		return [
-//	} else {
-		return [NSNumber numberWithLong:QSiTunesCurrentTrackID()]; 	
-//	} 	
+- (NSString *)currentTrackID {
+	iTunesApplication *iTunes = [SBApplication applicationWithBundleIdentifier:@"com.apple.iTunes"];
+	return [NSString stringWithFormat:@"%d", [[iTunes currentTrack] databaseID]];
 }
 
 - (void)showCurrentTrackNotification {	
@@ -647,6 +644,7 @@ mSHARED_INSTANCE_CLASS_METHOD
 	if (!trackInfo) return nil;
 	QSObject *newObject = [QSObject makeObjectWithIdentifier:[trackInfo objectForKey:@"Persistent ID"]];
 	[newObject setName:[trackInfo objectForKey:@"Name"]];
+	// TODO [newObject setDetails] - album, year, length?
 	[newObject setObject:trackInfo forType:QSiTunesTrackIDPboardType];
 	if (playlist) [newObject setObject:playlist forMeta:@"QSiTunesSourcePlaylist"];
 	
