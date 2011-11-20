@@ -41,9 +41,6 @@
 		//NSLog(@"can't find track %@ in %@", theID, [tracks allKeys]);
 		theTrack = [extraTracks objectForKey:theID];
 	}
-	if (!theTrack) {
-		theTrack = QSiTunesFetchInfoForID((NSNumber *)theID);
-	}
 	return theTrack;
 }
 
