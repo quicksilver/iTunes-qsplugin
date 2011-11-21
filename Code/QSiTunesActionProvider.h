@@ -11,10 +11,7 @@
 
 @interface QSiTunesActionProvider : QSActionProvider{
     NSAppleScript *iTunesScript;
-	iTunesApplication *iTunes;
 }
-- (iTunesApplication *)iTunes;
-- (iTunesSource *)iTunesLibrary;
 - (NSAppleScript *)iTunesScript;
 - (QSObject *) playPlaylist:(QSObject *)dObject;
 - (void) playBrowser:(QSObject *)dObject party:(BOOL)party append:(BOOL)append next:(BOOL)next;

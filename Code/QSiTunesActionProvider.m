@@ -23,7 +23,6 @@
 - (id)init {
 	if (self = [super init]) {
 		iTunesScript = nil;
-		iTunes = nil;
 	}
 	return self;
 }
@@ -249,24 +248,6 @@
 	NSArray *playlistResult = [[library playlists] filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"persistentID == %@", playlistID]];
 	if ([playlistResult count] > 0) {
 		[[playlistResult lastObject] playOnce:YES];
-	}
-	return nil;
-}
-
-- (iTunesApplication *)iTunes
-{
-//	if (!iTunes) {
-//		iTunes = [SBApplication applicationWithBundleIdentifier:@"com.apple.iTunes"];
-//	}
-//	return iTunes;
-	return [SBApplication applicationWithBundleIdentifier:@"com.apple.iTunes"];
-}
-
-- (iTunesSource *)iTunesLibrary
-{
-	NSArray *librarySource = [[[self iTunes] sources] filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"kind == %@", [NSAppleEventDescriptor descriptorWithTypeCode:iTunesESrcLibrary]]];
-	if ([[librarySource lastObject] exists]) {
-		return [librarySource lastObject];
 	}
 	return nil;
 }
