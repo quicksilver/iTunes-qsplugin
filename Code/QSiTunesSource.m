@@ -227,6 +227,7 @@ mSHARED_INSTANCE_CLASS_METHOD
 	}
 	
 	QSObject *track = [self trackObjectForInfo:trackInfo inPlaylist:nil];
+	iTunesTrack *currentTrack = [QSiTunes() currentTrack];
 	
 	[[NSNotificationCenter defaultCenter] postNotificationName:@"QSEventNotification" object:@"QSiTunesTrackChangedEvent" userInfo:[NSDictionary dictionaryWithObject:track forKey:@"object"]];
 	
@@ -235,7 +236,6 @@ mSHARED_INSTANCE_CLASS_METHOD
 	
 	//NSLog(@"TRACKINFO %@", trackInfo);
 	if (trackInfo) {
-		//QSObject *trackObject = [self trackObjectForInfo:trackInfo inPlaylist:nil];
 		NSString *name = [trackInfo objectForKey:@"Name"];
 		NSString *artist = [trackInfo objectForKey:@"Artist"];
 		NSString *album = [trackInfo objectForKey:@"Album"];
@@ -243,7 +243,7 @@ mSHARED_INSTANCE_CLASS_METHOD
 		
 		//NSLog(@"%@ %@ %@", name, artist, album);
 		if ([trackInfo objectForKey:@"Total Time"] == nil && !album && !artist && [location hasPrefix:@"http"]) {
-			NSString *streamTitle = [[QSiTunesScript() executeSubroutine:@"extract_stream_title" arguments:nil  error:nil] stringValue];
+			NSString *streamTitle = [currentTrack name];
 			
 			if (streamTitle) {
 				artist = name;
@@ -268,7 +268,7 @@ mSHARED_INSTANCE_CLASS_METHOD
 		icon = [self imageForTrack:trackInfo useNet:YES];
 		//NSLog(@"info : %@", trackInfo);
 		if (!icon && ![trackInfo objectForKey:@"Location"]) {
-			NSData *data = [[QSiTunesScript() executeSubroutine:@"current_artwork" arguments:nil  error:nil] data];
+			NSData *data = [[currentTrack artworks] objectAtIndex:0];
 			icon = [[[NSImage alloc] initWithData:data] autorelease];
 		}
 			
