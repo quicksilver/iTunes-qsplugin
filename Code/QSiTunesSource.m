@@ -130,16 +130,16 @@ mSHARED_INSTANCE_CLASS_METHOD
 	if (!QSAppIsRunning(@"com.apple.iTunes") )
 		return nil;
 	if ([proxy isEqualToString:@"QSCurrentTrackProxy"]) {
-		id object = [self trackObjectForInfo:[library trackInfoForID:[self currentTrackID]]
+		id object = [self trackObjectForInfo:[self trackInfoForID:[self currentTrackID]]
 								inPlaylist:nil];
 		//NSLog(@"object %@", object);
 		return object;
 	} else if ([proxy isEqualToString:@"QSCurrentAlbumProxy"]) {
 		
-		id newObject = [self browserObjectForTrack:[library trackInfoForID:[self currentTrackID]] andCriteria:@"Album"];
+		id newObject = [self browserObjectForTrack:[self trackInfoForID:[self currentTrackID]] andCriteria:@"Album"];
 		return newObject;
 	} else if ([proxy isEqualToString:@"QSCurrentArtistProxy"]) {
-		id newObject = [self browserObjectForTrack:[library trackInfoForID:[self currentTrackID]] andCriteria:@"Artist"];
+		id newObject = [self browserObjectForTrack:[self trackInfoForID:[self currentTrackID]] andCriteria:@"Artist"];
 		return newObject;
 	} else if ([proxy isEqualToString:@"QSCurrentPlaylistProxy"]) {
 		//current_selection_id
@@ -187,19 +187,20 @@ mSHARED_INSTANCE_CLASS_METHOD
 	if (libraryTrackInfo = [library trackInfoForID:trackID]) {
 		trackInfo = libraryTrackInfo;
 	}
-	// fall back to querying iTunes (if it's running)
-	iTunesApplication *iTunes = QSiTunes();
-	if ([iTunes isRunning]) {
-		iTunesLibraryPlaylist *libraryPlaylist = [[QSiTunesLibrary() libraryPlaylists] objectAtIndex:0];
-		NSArray *trackResult = [[libraryPlaylist fileTracks] filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"databaseID == %@", trackID]];
-		if ([trackResult count] > 0) {
-			iTunesTrack *track = [trackResult lastObject];
-			[trackInfo setObject:[track artist] forKey:@"Artist"];
-			[trackInfo setObject:[track album] forKey:@"Album"];
-			[trackInfo setObject:[track name] forKey:@"Name"];
-			[trackInfo setObject:[NSNumber numberWithLong:[track rating]] forKey:@"Rating"];
-			[trackInfo setObject:[track kind] forKey:@"Kind"];
-			[trackInfo setObject:[NSNumber numberWithInt:1] forKey:@"Artwork Count"];
+	if (!trackInfo) {
+		// fall back to querying iTunes (if it's running)
+		if ([QSiTunes() isRunning]) {
+			iTunesLibraryPlaylist *libraryPlaylist = [[QSiTunesLibrary() libraryPlaylists] objectAtIndex:0];
+			NSArray *trackResult = [[libraryPlaylist fileTracks] filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"databaseID == %@", trackID]];
+			if ([trackResult count] > 0) {
+				iTunesTrack *track = [trackResult lastObject];
+				[trackInfo setObject:[track artist] forKey:@"Artist"];
+				[trackInfo setObject:[track album] forKey:@"Album"];
+				[trackInfo setObject:[track name] forKey:@"Name"];
+				[trackInfo setObject:[NSNumber numberWithLong:[track rating]] forKey:@"Rating"];
+				[trackInfo setObject:[track kind] forKey:@"Kind"];
+				[trackInfo setObject:[NSNumber numberWithInt:1] forKey:@"Artwork Count"];
+			}
 		}
 	}
 	return trackInfo;
@@ -311,7 +312,7 @@ mSHARED_INSTANCE_CLASS_METHOD
 	//NSDictionary *tracks = [[self iTunesMusicLibrary] objectForKey:@"Tracks"];
 	
 	for (NSDictionary *trackInfo in recentTracks) {
-//		currentTrack = [library trackInfoForID:trackID];
+//		currentTrack = [self trackInfoForID:trackID];
 		if (trackInfo)
 			[objects addObject:[self trackObjectForInfo:trackInfo inPlaylist:nil]];
 	}
