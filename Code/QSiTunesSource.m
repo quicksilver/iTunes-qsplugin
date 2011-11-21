@@ -188,9 +188,9 @@ mSHARED_INSTANCE_CLASS_METHOD
 		trackInfo = libraryTrackInfo;
 	}
 	// fall back to querying iTunes (if it's running)
-	iTunesApplication *iTunes = [SBApplication applicationWithBundleIdentifier:@"com.apple.iTunes"];
+	iTunesApplication *iTunes = QSiTunes();
 	if ([iTunes isRunning]) {
-		iTunesSource *library = [[[iTunes sources] filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"kind == %@", [NSAppleEventDescriptor descriptorWithTypeCode:iTunesESrcLibrary]]] lastObject];
+		iTunesSource *library = QSiTunesLibrary();
 		// TODO see if this ID actually pulls up the right track
 		iTunesTrack *track = [[[library libraryPlaylists] objectAtIndex:0] objectWithID:trackID];
 		[trackInfo setObject:[track artist] forKey:@"Artist"];

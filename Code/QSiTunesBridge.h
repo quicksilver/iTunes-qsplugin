@@ -7,6 +7,7 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import "iTunes.h"
 
 extern NSAppleScript *gQSiTunesScript;
 
@@ -15,3 +16,5 @@ NSAppleScript *QSiTunesScript();
 
 long QSiTunesCurrentTrackID();
 NSDictionary *QSiTunesFetchInfoForID(NSNumber *theID);
+iTunesApplication *QSiTunes();
+iTunesSource *QSiTunesLibrary();

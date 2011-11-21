@@ -78,3 +78,17 @@ NSLog(@"Fetch Info For %@", theID);
 	//if (fDEV) NSLog(@"info %@", trackInfo);
 	return trackInfo;
 }
+
+iTunesApplication *QSiTunes()
+{
+	return [SBApplication applicationWithBundleIdentifier:@"com.apple.iTunes"];
+}
+
+iTunesSource *QSiTunesLibrary()
+{
+	NSArray *librarySource = [[QSiTunes() sources] filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"kind == %@", [NSAppleEventDescriptor descriptorWithTypeCode:iTunesESrcLibrary]]];
+	if ([[librarySource lastObject] exists]) {
+		return [librarySource lastObject];
+	}
+	return nil;
+}
