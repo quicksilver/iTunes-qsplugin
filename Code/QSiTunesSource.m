@@ -190,16 +190,17 @@ mSHARED_INSTANCE_CLASS_METHOD
 	// fall back to querying iTunes (if it's running)
 	iTunesApplication *iTunes = QSiTunes();
 	if ([iTunes isRunning]) {
-		iTunesSource *library = QSiTunesLibrary();
-		// TODO see if this ID actually pulls up the right track
-		iTunesTrack *track = [[[library libraryPlaylists] objectAtIndex:0] objectWithID:trackID];
-		[trackInfo setObject:[track artist] forKey:@"Artist"];
-		[trackInfo setObject:[track album] forKey:@"Album"];
-		[trackInfo setObject:[track name] forKey:@"Name"];
-		[trackInfo setObject:[NSNumber numberWithLong:[track rating]] forKey:@"Rating"];
-		[trackInfo setObject:[track kind] forKey:@"Kind"];
-		[trackInfo setObject:[NSNumber numberWithInt:1] forKey:@"Artwork Count"];
-		NSLog(@"info %@", trackInfo);
+		iTunesLibraryPlaylist *libraryPlaylist = [[QSiTunesLibrary() libraryPlaylists] objectAtIndex:0];
+		NSArray *trackResult = [[libraryPlaylist fileTracks] filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"databaseID == %@", trackID]];
+		if ([trackResult count] > 0) {
+			iTunesTrack *track = [trackResult lastObject];
+			[trackInfo setObject:[track artist] forKey:@"Artist"];
+			[trackInfo setObject:[track album] forKey:@"Album"];
+			[trackInfo setObject:[track name] forKey:@"Name"];
+			[trackInfo setObject:[NSNumber numberWithLong:[track rating]] forKey:@"Rating"];
+			[trackInfo setObject:[track kind] forKey:@"Kind"];
+			[trackInfo setObject:[NSNumber numberWithInt:1] forKey:@"Artwork Count"];
+		}
 	}
 	return trackInfo;
 }
@@ -639,6 +640,7 @@ mSHARED_INSTANCE_CLASS_METHOD
 }
 
 - (NSString *)detailsOfObject:(QSObject *)object {
+	// TODO figure out why these never show up.
 	if ([[object primaryType] isEqualToString:QSiTunesPlaylistIDPboardType]) {
 		
 		NSDictionary *info = [library playlistInfoForID:[object objectForType:QSiTunesPlaylistIDPboardType]];
@@ -653,6 +655,8 @@ mSHARED_INSTANCE_CLASS_METHOD
 		NSDictionary *info = [object objectForType:QSiTunesTrackIDPboardType];
 		NSString *artist = [info objectForKey:@"Artist"];
 		NSString *album = [info objectForKey:@"Album"];
+		// TODO add the year
+		NSString *year = [info objectForKey:@"Year"];
 		
 		return [NSString stringWithFormat:@"%@%@%@", artist?artist:@"", artist && album?@": ":@"", album?album:@""];
 	}
@@ -663,7 +667,6 @@ mSHARED_INSTANCE_CLASS_METHOD
 	if (!trackInfo) return nil;
 	QSObject *newObject = [QSObject makeObjectWithIdentifier:[trackInfo objectForKey:@"Persistent ID"]];
 	[newObject setName:[trackInfo objectForKey:@"Name"]];
-	// TODO [newObject setDetails] - album, year, length?
 	[newObject setObject:trackInfo forType:QSiTunesTrackIDPboardType];
 	if (playlist) [newObject setObject:playlist forMeta:@"QSiTunesSourcePlaylist"];
 	
