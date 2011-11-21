@@ -236,8 +236,21 @@
 		// clear the old list
 		[[qs tracks] removeAllObjects];
 	}
-	// TODO filter out PDFs and (optionally) videos
-	[iTunes add:[trackList arrayByPerformingSelector:@selector(location)] to:qs];
+	// filter out PDFs and videos
+	NSMutableArray *songsOnly = [NSMutableArray arrayWithCapacity:[trackList count]];
+	for (iTunesFileTrack *track in trackList) {
+		if ([[track kind] isEqualToString:QSiTunesBookletKind]) {
+			continue;
+		}
+		// TODO add a preference to include videos
+		// TODO if playlist is *only* videos, include them regardless of preferences
+		if ([track videoKind] != iTunesEVdKNone) {
+			continue;
+		}
+		[songsOnly addObject:track];
+	}
+	[iTunes add:[songsOnly arrayByPerformingSelector:@selector(location)] to:qs];
+	//[iTunes add:[trackList arrayByPerformingSelector:@selector(location)] to:qs];
 	[qs playOnce:YES];
 }
 

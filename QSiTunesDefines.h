@@ -11,6 +11,7 @@
 #define COMPILATION_STRING @" Compilations"
 #define ITUNESLIBRARY [@"~/Music/iTunes/iTunes Music Library.xml" stringByStandardizingPath]
 #define QSiTunesDynamicPlaylist @"Quicksilver"
+#define QSiTunesBookletKind @"PDF document"
 
 #define QSiTunesTrackIDPboardType @"com.apple.itunes.track"
 #define QSiTunesPlaylistIDPboardType @"com.apple.itunes.playlist"
