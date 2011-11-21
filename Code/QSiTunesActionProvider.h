@@ -16,5 +16,5 @@
 - (QSObject *) playPlaylist:(QSObject *)dObject;
 - (void) playBrowser:(QSObject *)dObject party:(BOOL)party append:(BOOL)append next:(BOOL)next;
 - (QSObject *) playTrack:(QSObject *)dObject party:(BOOL)party append:(BOOL)append next:(BOOL)next;
-- (void)playWithDynamicPlaylist:(NSArray *)trackList;
+- (void)playUsingDynamicPlaylist:(NSArray *)trackList;
 @end

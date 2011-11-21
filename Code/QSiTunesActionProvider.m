@@ -146,7 +146,7 @@
 	NSPredicate *trackFilter = [NSPredicate predicateWithFormat:formatString argumentArray:criteria];
 	iTunesLibraryPlaylist *libraryPlaylist = [[QSiTunesLibrary() libraryPlaylists] objectAtIndex:0];
 	NSArray *tracksToPlay = [[libraryPlaylist fileTracks] filteredArrayUsingPredicate:trackFilter];
-	[self playWithDynamicPlaylist:tracksToPlay];
+	[self playUsingDynamicPlaylist:tracksToPlay];
 }
 
 - (QSObject *)playTrack:(QSObject *)dObject party:(BOOL)party append:(BOOL)append next:(BOOL)next {
@@ -222,7 +222,7 @@
 	return nil;
 }
 
-- (void)playWithDynamicPlaylist:(NSArray *)trackList
+- (void)playUsingDynamicPlaylist:(NSArray *)trackList
 {
 	iTunesApplication *iTunes = QSiTunes();
 	iTunesSource *library = QSiTunesLibrary();
