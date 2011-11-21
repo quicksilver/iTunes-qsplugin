@@ -177,7 +177,32 @@ mSHARED_INSTANCE_CLASS_METHOD
 		
 	}
 	return nil;
+}
+
+- (NSDictionary *)trackInfoForID:(id)trackID
+{
+	NSMutableDictionary *trackInfo = nil;
+	// check the in-memory database first
+	id libraryTrackInfo;
+	if (libraryTrackInfo = [library trackInfoForID:trackID]) {
+		trackInfo = libraryTrackInfo;
 	}
+	// fall back to querying iTunes (if it's running)
+	iTunesApplication *iTunes = [SBApplication applicationWithBundleIdentifier:@"com.apple.iTunes"];
+	if ([iTunes isRunning]) {
+		iTunesSource *library = [[[iTunes sources] filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"kind == %@", [NSAppleEventDescriptor descriptorWithTypeCode:iTunesESrcLibrary]]] lastObject];
+		// TODO see if this ID actually pulls up the right track
+		iTunesTrack *track = [[[library libraryPlaylists] objectAtIndex:0] objectWithID:trackID];
+		[trackInfo setObject:[track artist] forKey:@"Artist"];
+		[trackInfo setObject:[track album] forKey:@"Album"];
+		[trackInfo setObject:[track name] forKey:@"Name"];
+		[trackInfo setObject:[NSNumber numberWithLong:[track rating]] forKey:@"Rating"];
+		[trackInfo setObject:[track kind] forKey:@"Kind"];
+		[trackInfo setObject:[NSNumber numberWithInt:1] forKey:@"Artwork Count"];
+		NSLog(@"info %@", trackInfo);
+	}
+	return trackInfo;
+}
 
 - (id)currentTrackInfo {
 	if ([recentTracks count])
@@ -195,15 +220,9 @@ mSHARED_INSTANCE_CLASS_METHOD
 }
 
 - (void)showNotificationForTrack:(id)trackID info:(NSDictionary *)trackInfo {
-	//trackInfo = nil;
-
-  id libraryTrackInfo;
-  if (!trackInfo && (libraryTrackInfo = [library trackInfoForID:trackID]) ) {
-		trackInfo = libraryTrackInfo;
-  }
-  
-	if (!trackInfo)
-    trackInfo = QSiTunesFetchInfoForID([NSNumber numberWithInt:-1]);
+	if (!trackInfo) {
+		trackInfo = [self trackInfoForID:trackID];
+	}
 	
 	QSObject *track = [self trackObjectForInfo:trackInfo inPlaylist:nil];
 	
