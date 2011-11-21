@@ -22,7 +22,6 @@
 -(NSArray *)trackInfoForIDs:(NSArray *)theIDs;
 - (NSDictionary *)iTunesMusicLibrary;
 - (void)setITunesMusicLibrary:(NSDictionary *)newITunesMusicLibrary;
--(NSDictionary *)trackInfoForID:(NSString *)theID;
 
 - (NSArray *)tracksMatchingCriteria:(NSDictionary *)criteria;
 - (NSDictionary *)tagDictionaries;
