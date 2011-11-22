@@ -205,16 +205,23 @@
 											 error:&errorDict];
 
 		} else {
+			NSString *searchFilter = @"persistentID == %@";
+			NSArray *trackIDs = [[dObject splitObjects] arrayByPerformingSelector:@selector(identifier)];
+			NSMutableArray *filters = [NSMutableArray arrayWithCapacity:[dObject count]];
+			for (int i = 0; i < [dObject count]; i++) {
+				[filters addObject:searchFilter];
+			}
+			searchFilter = [filters componentsJoinedByString:@" OR "];
+			iTunesLibraryPlaylist *libraryPlaylist = [[QSiTunesLibrary() libraryPlaylists] objectAtIndex:0];
+			NSArray *trackResult = [[libraryPlaylist fileTracks] filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:searchFilter argumentArray:trackIDs]];
 			if ([dObject count] == 1) {
-				// play a single track
-				NSString *trackID = [dObject identifier];
-				iTunesLibraryPlaylist *libraryPlaylist = [[QSiTunesLibrary() libraryPlaylists] objectAtIndex:0];
-				NSArray *trackResult = [[libraryPlaylist fileTracks] filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"persistentID == %@", trackID]];
+				// for a single track, just play
 				if ([trackResult count] > 0) {
 					[[trackResult lastObject] playOnce:YES];
 				}
 			} else {
-				// play multiple tracks
+				// for multiple tracks, create a playlist and play
+				[self playUsingDynamicPlaylist:trackResult];
 			}
 		}
 	}
