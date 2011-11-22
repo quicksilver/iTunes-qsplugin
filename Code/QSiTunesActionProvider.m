@@ -114,37 +114,48 @@
 
 - (void)playBrowser:(QSObject *)dObject party:(BOOL)party append:(BOOL)append next:(BOOL)next
 {
-	NSDictionary *browseDict = [dObject objectForType:QSiTunesBrowserPboardType];
-	NSDictionary *criteriaDict = [browseDict objectForKey:@"Criteria"];
-	
-	// build a search query
-	/*
-	// Adding kind and videoKind to the predicate seems like the right way to filter, but
-	   while it will work, it's *very* slow for some reason. Better to just enumerate the result later.
-	NSMutableArray *criteria = [NSMutableArray arrayWithObjects:@"kind", @"PDF document", @"videoKind", [NSAppleEventDescriptor descriptorWithTypeCode:iTunesEVdKNone], nil];
-	NSString *formatString = @"%K != %@ AND %K == %@";
-	*/
+	NSMutableArray *formatStrings = [NSMutableArray arrayWithCapacity:1];
+	NSDictionary *browseDict;
+	NSDictionary *criteriaDict;
+	NSString *formatString;
 	NSMutableArray *criteria = [NSMutableArray arrayWithCapacity:2];
-	NSString *formatString = @"";
-	BOOL first = YES;
-	for (NSString *criteriaKey in [criteriaDict allKeys]) {
-		if ([criteriaKey isEqualToString:@"Artist"] && [[criteriaDict objectForKey:@"Artist"] isEqualToString:COMPILATION_STRING]) {
-			// don't use "Compilations" as a criteria
-			continue;
-		}
-		if ([criteriaDict objectForKey:criteriaKey]) {
-			[criteria addObject:[criteriaKey lowercaseString]];
-			[criteria addObject:[criteriaDict objectForKey:criteriaKey]];
-			if (first) {
-				formatString = [formatString stringByAppendingString:@"%K == %@"];
-				first = NO;
-			} else {
-				formatString = [formatString stringByAppendingString:@" AND %K == %@"];
+	BOOL first;
+	for (QSObject *browseResult in [dObject splitObjects]) {
+		browseDict = [browseResult objectForType:QSiTunesBrowserPboardType];
+		criteriaDict = [browseDict objectForKey:@"Criteria"];
+		
+		// build a search query
+		/*
+		 // Adding kind and videoKind to the predicate seems like the right way to filter, but
+		 while it will work, it's *very* slow for some reason. Better to just enumerate the result later.
+		 NSMutableArray *criteria = [NSMutableArray arrayWithObjects:@"kind", @"PDF document", @"videoKind", [NSAppleEventDescriptor descriptorWithTypeCode:iTunesEVdKNone], nil];
+		 NSString *formatString = @"%K != %@ AND %K == %@";
+		 */
+		formatString = @"(";
+		first = YES;
+		for (NSString *criteriaKey in [criteriaDict allKeys]) {
+			if ([criteriaKey isEqualToString:@"Artist"] && [[criteriaDict objectForKey:@"Artist"] isEqualToString:COMPILATION_STRING]) {
+				// don't use "Compilations" as a criteria
+				continue;
+			}
+			if ([criteriaDict objectForKey:criteriaKey]) {
+				[criteria addObject:[criteriaKey lowercaseString]];
+				[criteria addObject:[criteriaDict objectForKey:criteriaKey]];
+				if (first) {
+					formatString = [formatString stringByAppendingString:@"%K == %@"];
+					first = NO;
+				} else {
+					formatString = [formatString stringByAppendingString:@" AND %K == %@"];
+				}
 			}
 		}
+		formatString = [formatString stringByAppendingString:@")"];
+		[formatStrings addObject:formatString];
 	}
+	formatString = [formatStrings componentsJoinedByString:@" OR "];
 	NSPredicate *trackFilter = [NSPredicate predicateWithFormat:formatString argumentArray:criteria];
 	iTunesLibraryPlaylist *libraryPlaylist = [[QSiTunesLibrary() libraryPlaylists] objectAtIndex:0];
+	// TODO see if we can get the results to be in the same order as the objects passed in
 	NSArray *tracksToPlay = [[libraryPlaylist fileTracks] filteredArrayUsingPredicate:trackFilter];
 	[self playUsingDynamicPlaylist:tracksToPlay];
 }
