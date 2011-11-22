@@ -142,9 +142,7 @@ mSHARED_INSTANCE_CLASS_METHOD
 		id newObject = [self browserObjectForTrack:[self trackInfoForID:[self currentTrackID]] andCriteria:@"Artist"];
 		return newObject;
 	} else if ([proxy isEqualToString:@"QSCurrentPlaylistProxy"]) {
-		//current_selection_id
-		//current_playlist_id
-		NSString *name = [[[self iTunesScript] executeSubroutine:@"current_playlist_id" arguments:nil  error:nil] stringValue];
+		NSString *name = [[QSiTunes() currentPlaylist] name];
 		NSDictionary *thisPlaylist = [library playlistInfoForName:name];
 		
 		QSObject *newObject = [QSObject objectWithName:name];
@@ -153,9 +151,8 @@ mSHARED_INSTANCE_CLASS_METHOD
 		[newObject setPrimaryType:QSiTunesPlaylistIDPboardType];
 		return newObject;
 	} else if ([proxy isEqualToString:@"QSSelectedPlaylistProxy"]) {
-		//current_selection_id
-		//current_playlist_id
-		NSString *name = [[[self iTunesScript] executeSubroutine:@"selected_playlist_id" arguments:nil  error:nil] stringValue];
+		iTunesBrowserWindow *window = [[QSiTunes() browserWindows] objectAtIndex:0];
+		NSString *name = [[window view] name];
 		NSDictionary *thisPlaylist = [library playlistInfoForName:name];
 		
 		QSObject *newObject = [QSObject objectWithName:name];
@@ -166,6 +163,11 @@ mSHARED_INSTANCE_CLASS_METHOD
 		
 		
 	} else {// if ([ident isEqualToString:@"QSCurrentSelectionProxy"]) {
+		// TODO get current iTunes selection with Scripting Bridge
+//		iTunesBrowserWindow *window = [[QSiTunes() browserWindows] objectAtIndex:0];
+//		SBObject *listing = [window selection];
+//		NSArray *tracks = [[listing elementArrayWithCode:iTunesEKndTrackListing] arrayByPerformingSelector:@selector(databaseID)];
+//		NSLog(@"iTunes selection count: %@", [tracks count]);
 		NSArray *tracks = [[[self iTunesScript] executeSubroutine:@"current_selection_id" arguments:nil  error:nil] objectValue];
 		if ([tracks isKindOfClass:[NSNull class]]) return nil;
 		tracks = [library trackInfoForIDs:tracks];
@@ -243,7 +245,7 @@ mSHARED_INSTANCE_CLASS_METHOD
 		
 		//NSLog(@"%@ %@ %@", name, artist, album);
 		if ([trackInfo objectForKey:@"Total Time"] == nil && !album && !artist && [location hasPrefix:@"http"]) {
-			NSString *streamTitle = [currentTrack name];
+			NSString *streamTitle = [QSiTunes() currentStreamTitle];
 			
 			if (streamTitle) {
 				artist = name;
@@ -268,7 +270,7 @@ mSHARED_INSTANCE_CLASS_METHOD
 		icon = [self imageForTrack:trackInfo useNet:YES];
 		//NSLog(@"info : %@", trackInfo);
 		if (!icon && ![trackInfo objectForKey:@"Location"]) {
-			NSData *data = [[currentTrack artworks] objectAtIndex:0];
+			NSData *data = [[[currentTrack artworks] objectAtIndex:0] rawData];
 			icon = [[[NSImage alloc] initWithData:data] autorelease];
 		}
 			
