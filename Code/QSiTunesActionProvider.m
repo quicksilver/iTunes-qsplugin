@@ -157,7 +157,18 @@
 	iTunesLibraryPlaylist *libraryPlaylist = [[QSiTunesLibrary() libraryPlaylists] objectAtIndex:0];
 	// TODO see if we can get the results to be in the same order as the objects passed in
 	NSArray *tracksToPlay = [[libraryPlaylist fileTracks] filteredArrayUsingPredicate:trackFilter];
-	[self playUsingDynamicPlaylist:tracksToPlay];
+	if (party) {
+		// iTunes DJ stuff
+		if (next) {
+			// play next
+		} else if (append) {
+			// append to iTunes DJ
+		} else {
+			// play
+		}
+	} else {
+		[self playUsingDynamicPlaylist:tracksToPlay];
+	}
 }
 
 - (QSObject *)playTrack:(QSObject *)dObject party:(BOOL)party append:(BOOL)append next:(BOOL)next {
@@ -169,25 +180,42 @@
 	//return;
 	NSDictionary *errorDict = nil;
 	
+	// get iTunesTrack objects to represent each track
+	NSString *searchFilter = @"persistentID == %@";
+	NSArray *trackIDs = [[dObject splitObjects] arrayByPerformingSelector:@selector(identifier)];
+	NSMutableArray *filters = [NSMutableArray arrayWithCapacity:[dObject count]];
+	for (int i = 0; i < [dObject count]; i++) {
+		[filters addObject:searchFilter];
+	}
+	searchFilter = [filters componentsJoinedByString:@" OR "];
+	iTunesLibraryPlaylist *libraryPlaylist = [[QSiTunesLibrary() libraryPlaylists] objectAtIndex:0];
+	NSArray *trackResult = [[libraryPlaylist fileTracks] filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:searchFilter argumentArray:trackIDs]];
+	NSArray *newTracks = [trackResult arrayByPerformingSelector:@selector(location)];
+	
 	if (party) {
-		// find the iTunes DJ playlist
-		NSArray *playlistResult = [[QSiTunesLibrary() playlists] filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"specialKind == %@", [NSAppleEventDescriptor descriptorWithTypeCode:iTunesESpKPartyShuffle]]];
-		if ([[playlistResult lastObject] exists]) {
-			iTunesPlaylist *iTunesDJ = [playlistResult lastObject];
-		} else {
-			return nil;
-		}
+		iTunesApplication *iTunes = QSiTunes();
+		iTunesPlaylist *iTunesDJ = QSiTunesDJ();
 		if (next) {
 			//ps_play_next_track can handle a list
 			[[self iTunesScript] executeSubroutine:@"ps_play_next_track" 
 										 arguments:[NSArray arrayWithObject:[NSAppleEventDescriptor aliasListDescriptorWithArray:paths]] 
 											 error:&errorDict];
-
+			// TODO get this to work via Scripting Bridge?
+//			if (![[[iTunes currentTrack] container] isEqualTo:iTunesDJ]) {
+//				// iTunes DJ wasn't already playing - start it
+//				[iTunesDJ playOnce:YES];
+//			}
+//			NSInteger currentIndex = [[iTunes currentTrack] index];
+//			// remove the old tracks from the end of the list
+//			NSPredicate *oldFilter = [NSPredicate predicateWithFormat:@"index > %d AND index <= %d", currentIndex, [[iTunesDJ tracks] count]];
+//			NSArray *oldTracks = [[iTunesDJ tracks] filteredArrayUsingPredicate:oldFilter];
+//			[[iTunesDJ tracks] removeObjectsInArray:oldTracks];
+//			// add the new tracks
+//			[iTunes add:newTracks to:iTunesDJ];
+//			// put the old tracks back
+//			[iTunes add:[oldTracks arrayByPerformingSelector:@selector(location)] to:iTunesDJ]; // location only works on iTunesFileTracks, which these aren't :-(
 		} else if (append) {
-				[[self iTunesScript] executeSubroutine:@"ps_add_track" 
-											 arguments:[NSArray arrayWithObject:[NSAppleEventDescriptor aliasListDescriptorWithArray:paths]] 
-												 error:&errorDict];
-
+			[iTunes add:newTracks to:iTunesDJ];
 		} else {
 			// Play first track, queue rest
 			[[self iTunesScript] executeSubroutine:@"ps_play_track" 
@@ -202,10 +230,8 @@
 			//			}
 		}
 	} else if (append) {
-			[[self iTunesScript] executeSubroutine:@"append_track"
-										 arguments:[NSArray arrayWithObject:[NSAppleEventDescriptor aliasDescriptorWithFile:[paths lastObject]]] 
-											 error:&errorDict];
-
+		iTunesPlaylist *qs = [[QSiTunesLibrary() userPlaylists] objectWithName:QSiTunesDynamicPlaylist];
+		[QSiTunes() add:newTracks to:qs];
 	} else {
 		NSString *playlist = [dObject objectForMeta:@"QSiTunesSourcePlaylist"];
 		if (playlist) {
@@ -216,20 +242,9 @@
 											 error:&errorDict];
 
 		} else {
-			NSString *searchFilter = @"persistentID == %@";
-			NSArray *trackIDs = [[dObject splitObjects] arrayByPerformingSelector:@selector(identifier)];
-			NSMutableArray *filters = [NSMutableArray arrayWithCapacity:[dObject count]];
-			for (int i = 0; i < [dObject count]; i++) {
-				[filters addObject:searchFilter];
-			}
-			searchFilter = [filters componentsJoinedByString:@" OR "];
-			iTunesLibraryPlaylist *libraryPlaylist = [[QSiTunesLibrary() libraryPlaylists] objectAtIndex:0];
-			NSArray *trackResult = [[libraryPlaylist fileTracks] filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:searchFilter argumentArray:trackIDs]];
-			if ([dObject count] == 1) {
+			if ([trackResult count] == 1) {
 				// for a single track, just play
-				if ([trackResult count] > 0) {
-					[[trackResult lastObject] playOnce:YES];
-				}
+				[[trackResult lastObject] playOnce:YES];
 			} else {
 				// for multiple tracks, create a playlist and play
 				[self playUsingDynamicPlaylist:trackResult];
