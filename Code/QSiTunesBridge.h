@@ -14,3 +14,4 @@ extern NSAppleScript *gQSiTunesScript;
 NSAppleScript *QSiTunesScript();
 iTunesApplication *QSiTunes();
 iTunesSource *QSiTunesLibrary();
+iTunesPlaylist *QSiTunesDJ();

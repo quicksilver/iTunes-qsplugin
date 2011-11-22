@@ -32,3 +32,12 @@ iTunesSource *QSiTunesLibrary()
 	}
 	return nil;
 }
+
+iTunesPlaylist *QSiTunesDJ()
+{
+	NSArray *iTunesDJplaylists = [[QSiTunesLibrary() playlists] filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"specialKind == %@", [NSAppleEventDescriptor descriptorWithTypeCode:iTunesESpKPartyShuffle]]];
+	if ([[iTunesDJplaylists lastObject] exists]) {
+		return [iTunesDJplaylists lastObject];
+	}
+	return nil;
+}
