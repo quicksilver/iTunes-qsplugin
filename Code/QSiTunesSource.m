@@ -215,8 +215,7 @@ mSHARED_INSTANCE_CLASS_METHOD
 }
 
 - (NSString *)currentTrackID {
-	iTunesApplication *iTunes = [SBApplication applicationWithBundleIdentifier:@"com.apple.iTunes"];
-	return [NSString stringWithFormat:@"%d", [[iTunes currentTrack] databaseID]];
+	return [NSString stringWithFormat:@"%d", [[QSiTunes() currentTrack] databaseID]];
 }
 
 - (void)showCurrentTrackNotification {	
@@ -681,7 +680,12 @@ mSHARED_INSTANCE_CLASS_METHOD
 }
 
 - (BOOL)loadChildrenForBundle:(QSObject *)object {
-	NSArray *children = [self objectsForEntry:nil];
+	// this repeats the list created in objectsForEntry, but executes MUCH faster than re-running that method
+	NSMutableArray *children = [NSMutableArray arrayWithCapacity:1];
+	[children addObject:[QSObject objectWithIdentifier:QSiTunesRecentTracksBrowser]];
+	[children addObject:[QSAction objectWithIdentifier:@"QSiTunesShowCurrentTrack"]];
+	[children addObjectsFromArray:[self browseMasters]];
+	[children addObjectsFromArray:[QSLib arrayForType:QSiTunesPlaylistIDPboardType]];
 	
 	if (children) {
 		[object setChildren:children];
@@ -692,10 +696,15 @@ mSHARED_INSTANCE_CLASS_METHOD
 
 - (BOOL)loadChildrenForObject:(QSObject *)object {
 	if ([[object primaryType] isEqualToString:NSFilenamesPboardType]) {
-		[object setChildren:[self objectsForEntry:nil]];
+		// this repeats the list created in objectsForEntry, but executes MUCH faster than re-running that method
+		NSMutableArray *children = [NSMutableArray arrayWithCapacity:1];
+		[children addObject:[QSObject objectWithIdentifier:QSiTunesRecentTracksBrowser]];
+		[children addObject:[QSAction objectWithIdentifier:@"QSiTunesShowCurrentTrack"]];
+		[children addObjectsFromArray:[self browseMasters]];
+		[children addObjectsFromArray:[QSLib arrayForType:QSiTunesPlaylistIDPboardType]];
+		[object setChildren:children];
 		return YES; 	
 	}
-	
 	
 	NSArray *children = [self childrenForObject:object];
 	
