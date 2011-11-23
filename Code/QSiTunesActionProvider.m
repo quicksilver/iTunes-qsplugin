@@ -209,11 +209,13 @@
 //			// remove the old tracks from the end of the list
 //			NSPredicate *oldFilter = [NSPredicate predicateWithFormat:@"index > %d AND index <= %d", currentIndex, [[iTunesDJ tracks] count]];
 //			NSArray *oldTracks = [[iTunesDJ tracks] filteredArrayUsingPredicate:oldFilter];
-//			[[iTunesDJ tracks] removeObjectsInArray:oldTracks];
+//			//iTunesItem *t = [[iTunesDJ tracks] lastObject]; [t delete];
+//			//[[iTunesDJ tracks] removeObjectsInArray:oldTracks];
+//			[oldTracks arrayByPerformingSelector:@selector(delete)];
 //			// add the new tracks
 //			[iTunes add:newTracks to:iTunesDJ];
 //			// put the old tracks back
-//			[iTunes add:[oldTracks arrayByPerformingSelector:@selector(location)] to:iTunesDJ]; // location only works on iTunesFileTracks, which these aren't :-(
+//			[oldTracks arrayByPerformingSelector:@selector(duplicateTo:) withObject:iTunesDJ];
 		} else if (append) {
 			[iTunes add:newTracks to:iTunesDJ];
 		} else {
@@ -221,13 +223,6 @@
 			[[self iTunesScript] executeSubroutine:@"ps_play_track" 
 										 arguments:[NSArray arrayWithObject:[NSAppleEventDescriptor aliasListDescriptorWithArray:paths]]
 											 error:&errorDict];
-
-			//	if (count > 1) {
-			//				//ps_play_next_track can handle a list		
-			//				[[self iTunesScript] executeSubroutine:@"ps_play_next_track" 
-			//											 arguments:[NSArray arrayWithObject:[NSAppleEventDescriptor aliasListDescriptorWithArray:[paths subarrayWithRange:NSMakeRange(1, count-1)]]]
-			//												 error:&errorDict];
-			//			}
 		}
 	} else if (append) {
 		iTunesPlaylist *qs = [[QSiTunesLibrary() userPlaylists] objectWithName:QSiTunesDynamicPlaylist];
@@ -303,6 +298,104 @@
 		iTunesScript = [[NSAppleScript alloc] initWithContentsOfURL:[NSURL fileURLWithPath:
 			[[NSBundle bundleForClass:[QSiTunesActionProvider class]]  pathForResource:@"iTunes" ofType:@"scpt"]] error:nil];
 	return iTunesScript;
+}
+
+@end
+
+@implementation QSiTunesControlProvider
+
+- (void)play
+{
+	[QSiTunes() playOnce:YES];
+}
+
+- (void)pause
+{
+	[QSiTunes() pause];
+}
+
+- (void)togglePlayPause
+{
+	[QSiTunes() playpause];
+}
+
+- (void)stop
+{
+	[QSiTunes() stop];
+}
+
+- (void)next
+{
+	[QSiTunes() nextTrack];
+}
+
+- (void)previous
+{
+	[QSiTunes() previousTrack];
+}
+
+- (void)volumeIncrease
+{
+	iTunesApplication *iTunes = QSiTunes();
+	[iTunes setSoundVolume:[iTunes soundVolume] + 10];
+}
+
+- (void)volumeDecrease
+{
+	iTunesApplication *iTunes = QSiTunes();
+	[iTunes setSoundVolume:[iTunes soundVolume] - 10];
+}
+
+- (void)volumeMute
+{
+	iTunesApplication *iTunes = QSiTunes();
+	[iTunes setMute:![iTunes mute]];
+}
+
+- (void)ratingIncrease
+{
+	iTunesTrack *track = [QSiTunes() currentTrack];
+	if ([track rating] < 100) {
+		[track setRating:[track rating] + 20];
+	}
+}
+
+- (void)ratingDecrease
+{
+	iTunesTrack *track = [QSiTunes() currentTrack];
+	if ([track rating] > 0) {
+		[track setRating:[track rating] - 20];
+	}
+}
+
+- (void)rating0
+{
+	[[QSiTunes() currentTrack] setRating:0];
+}
+
+- (void)rating1
+{
+	[[QSiTunes() currentTrack] setRating:20];
+}
+
+- (void)rating2
+{
+	[[QSiTunes() currentTrack] setRating:40];
+}
+
+- (void)rating3
+{
+	[[QSiTunes() currentTrack] setRating:60];
+}
+
+- (void)rating4
+{
+	[[QSiTunes() currentTrack] setRating:80];
+}
+
+- (void)rating5
+{
+	[[QSiTunes() currentTrack] setRating:100];
 }
 
 @end
