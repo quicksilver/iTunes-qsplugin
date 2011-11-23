@@ -17,7 +17,7 @@
 	<key>CFBundlePackageType</key>
 	<string>BNDL</string>
 	<key>CFBundleVersion</key>
-	<string>338</string>
+	<string>33A</string>
 	<key>NSHumanReadableCopyright</key>
 	<string>Copyright © 2004, Blacktree, Inc.</string>
 	<key>NSPrincipalClass</key>
@@ -174,7 +174,7 @@
 						<array>
 							<string>applescript</string>
 							<string>scpt</string>
-							<string>&apos;osas&apos;</string>
+							<string>'osas'</string>
 						</array>
 						<key>parser</key>
 						<string>QSDirectoryParser</string>
@@ -251,14 +251,26 @@
 				<key>command</key>
 				<dict>
 					<key>actionID</key>
-					<string>AppleScriptRunAction</string>
-					<key>directResource</key>
+					<string>QSObjCSendMessageAction</string>
+					<key>directArchive</key>
 					<dict>
-						<key>bundle</key>
-						<string>com.blacktree.Quicksilver.QSiTunesPlugIn</string>
-						<key>path</key>
-						<string>Contents/Resources/Scripts/Decrease Rating.scpt</string>
+						<key>data</key>
+						<dict>
+							<key>qs.action</key>
+							<dict>
+								<key>actionClass</key>
+								<string>QSiTunesControlProvider</string>
+								<key>actionSelector</key>
+								<string>ratingDecrease</string>
+								<key>icon</key>
+								<string>iTunesIcon</string>
+								<key>name</key>
+								<string>Decrease Rating</string>
+							</dict>
+						</dict>
 					</dict>
+					<key>directID</key>
+					<string>QSiTunesRatingDecrease</string>
 				</dict>
 			</dict>
 			<key>QSiTunesDecreaseVolume</key>
@@ -266,14 +278,26 @@
 				<key>command</key>
 				<dict>
 					<key>actionID</key>
-					<string>AppleScriptRunAction</string>
-					<key>directResource</key>
+					<string>QSObjCSendMessageAction</string>
+					<key>directArchive</key>
 					<dict>
-						<key>bundle</key>
-						<string>com.blacktree.Quicksilver.QSiTunesPlugIn</string>
-						<key>path</key>
-						<string>Contents/Resources/Scripts/Decrease iTunes Volume.scpt</string>
+						<key>data</key>
+						<dict>
+							<key>qs.action</key>
+							<dict>
+								<key>actionClass</key>
+								<string>QSiTunesControlProvider</string>
+								<key>actionSelector</key>
+								<string>volumeDecrease</string>
+								<key>icon</key>
+								<string>iTunesIcon</string>
+								<key>name</key>
+								<string>Decrease Volume</string>
+							</dict>
+						</dict>
 					</dict>
+					<key>directID</key>
+					<string>QSiTunesVolumeDecrease</string>
 				</dict>
 			</dict>
 			<key>QSiTunesIncreaseRating</key>
@@ -281,14 +305,26 @@
 				<key>command</key>
 				<dict>
 					<key>actionID</key>
-					<string>AppleScriptRunAction</string>
-					<key>directResource</key>
+					<string>QSObjCSendMessageAction</string>
+					<key>directArchive</key>
 					<dict>
-						<key>bundle</key>
-						<string>com.blacktree.Quicksilver.QSiTunesPlugIn</string>
-						<key>path</key>
-						<string>Contents/Resources/Scripts/Increase Rating.scpt</string>
+						<key>data</key>
+						<dict>
+							<key>qs.action</key>
+							<dict>
+								<key>actionClass</key>
+								<string>QSiTunesControlProvider</string>
+								<key>actionSelector</key>
+								<string>ratingIncrease</string>
+								<key>icon</key>
+								<string>iTunesIcon</string>
+								<key>name</key>
+								<string>Increase Rating</string>
+							</dict>
+						</dict>
 					</dict>
+					<key>directID</key>
+					<string>QSiTunesRatingIncrease</string>
 				</dict>
 			</dict>
 			<key>QSiTunesIncreaseVolume</key>
@@ -296,14 +332,26 @@
 				<key>command</key>
 				<dict>
 					<key>actionID</key>
-					<string>AppleScriptRunAction</string>
-					<key>directResource</key>
+					<string>QSObjCSendMessageAction</string>
+					<key>directArchive</key>
 					<dict>
-						<key>bundle</key>
-						<string>com.blacktree.Quicksilver.QSiTunesPlugIn</string>
-						<key>path</key>
-						<string>Contents/Resources/Scripts/Increase iTunes Volume.scpt</string>
+						<key>data</key>
+						<dict>
+							<key>qs.action</key>
+							<dict>
+								<key>actionClass</key>
+								<string>QSiTunesControlProvider</string>
+								<key>actionSelector</key>
+								<string>volumeIncrease</string>
+								<key>icon</key>
+								<string>iTunesIcon</string>
+								<key>name</key>
+								<string>Increase Volume</string>
+							</dict>
+						</dict>
 					</dict>
+					<key>directID</key>
+					<string>QSiTunesVolumeIncrease</string>
 				</dict>
 			</dict>
 			<key>QSiTunesMute</key>
@@ -311,14 +359,26 @@
 				<key>command</key>
 				<dict>
 					<key>actionID</key>
-					<string>AppleScriptRunAction</string>
-					<key>directResource</key>
+					<string>QSObjCSendMessageAction</string>
+					<key>directArchive</key>
 					<dict>
-						<key>bundle</key>
-						<string>com.blacktree.Quicksilver.QSiTunesPlugIn</string>
-						<key>path</key>
-						<string>Contents/Resources/Scripts/Mute.scpt</string>
+						<key>data</key>
+						<dict>
+							<key>qs.action</key>
+							<dict>
+								<key>actionClass</key>
+								<string>QSiTunesControlProvider</string>
+								<key>actionSelector</key>
+								<string>volumeMute</string>
+								<key>icon</key>
+								<string>iTunesIcon</string>
+								<key>name</key>
+								<string>Mute</string>
+							</dict>
+						</dict>
 					</dict>
+					<key>directID</key>
+					<string>QSiTunesVolumeMute</string>
 				</dict>
 			</dict>
 			<key>QSiTunesNextSongCommand</key>
@@ -326,102 +386,135 @@
 				<key>command</key>
 				<dict>
 					<key>actionID</key>
-					<string>AppleScriptRunAction</string>
-					<key>directResource</key>
+					<string>QSObjCSendMessageAction</string>
+					<key>directArchive</key>
 					<dict>
-						<key>bundle</key>
-						<string>com.blacktree.Quicksilver.QSiTunesPlugIn</string>
-						<key>path</key>
-						<string>Contents/Resources/Scripts/Next Song.scpt</string>
+						<key>data</key>
+						<dict>
+							<key>qs.action</key>
+							<dict>
+								<key>actionClass</key>
+								<string>QSiTunesControlProvider</string>
+								<key>actionSelector</key>
+								<string>next</string>
+								<key>icon</key>
+								<string>iTunesIcon</string>
+								<key>name</key>
+								<string>Next</string>
+							</dict>
+						</dict>
 					</dict>
+					<key>directID</key>
+					<string>QSiTunesNext</string>
 				</dict>
-				<key>name</key>
-				<string>Next Song</string>
 			</dict>
 			<key>QSiTunesPauseCommand</key>
 			<dict>
 				<key>command</key>
 				<dict>
 					<key>actionID</key>
-					<string>AppleScriptRunAction</string>
-					<key>directResource</key>
+					<string>QSObjCSendMessageAction</string>
+					<key>directArchive</key>
 					<dict>
-						<key>bundle</key>
-						<string>com.blacktree.Quicksilver.QSiTunesPlugIn</string>
-						<key>path</key>
-						<string>Contents/Resources/Scripts/Pause.scpt</string>
+						<key>data</key>
+						<dict>
+							<key>qs.action</key>
+							<dict>
+								<key>actionClass</key>
+								<string>QSiTunesControlProvider</string>
+								<key>actionSelector</key>
+								<string>pause</string>
+								<key>icon</key>
+								<string>iTunesIcon</string>
+								<key>name</key>
+								<string>Pause</string>
+							</dict>
+						</dict>
 					</dict>
+					<key>directID</key>
+					<string>QSiTunesPause</string>
 				</dict>
-				<key>name</key>
-				<string>Pause</string>
 			</dict>
 			<key>QSiTunesPlayCommand</key>
 			<dict>
 				<key>command</key>
 				<dict>
 					<key>actionID</key>
-					<string>AppleScriptRunAction</string>
-					<key>directResource</key>
+					<string>QSObjCSendMessageAction</string>
+					<key>directArchive</key>
 					<dict>
-						<key>bundle</key>
-						<string>com.blacktree.Quicksilver.QSiTunesPlugIn</string>
-						<key>path</key>
-						<string>Contents/Resources/Scripts/Play.scpt</string>
+						<key>data</key>
+						<dict>
+							<key>qs.action</key>
+							<dict>
+								<key>actionClass</key>
+								<string>QSiTunesControlProvider</string>
+								<key>actionSelector</key>
+								<string>play</string>
+								<key>icon</key>
+								<string>iTunesIcon</string>
+								<key>name</key>
+								<string>Play</string>
+							</dict>
+						</dict>
 					</dict>
+					<key>directID</key>
+					<string>QSiTunesPlay</string>
 				</dict>
-				<key>name</key>
-				<string>Play</string>
 			</dict>
 			<key>QSiTunesPlayPauseCommand</key>
 			<dict>
 				<key>command</key>
 				<dict>
 					<key>actionID</key>
-					<string>AppleScriptRunAction</string>
-					<key>directResource</key>
+					<string>QSObjCSendMessageAction</string>
+					<key>directArchive</key>
 					<dict>
-						<key>bundle</key>
-						<string>com.blacktree.Quicksilver.QSiTunesPlugIn</string>
-						<key>path</key>
-						<string>Contents/Resources/Scripts/Play-Pause.scpt</string>
+						<key>data</key>
+						<dict>
+							<key>qs.action</key>
+							<dict>
+								<key>actionClass</key>
+								<string>QSiTunesControlProvider</string>
+								<key>actionSelector</key>
+								<string>togglePlayPause</string>
+								<key>icon</key>
+								<string>iTunesIcon</string>
+								<key>name</key>
+								<string>Play/Pause</string>
+							</dict>
+						</dict>
 					</dict>
+					<key>directID</key>
+					<string>QSiTunesPlayPause</string>
 				</dict>
-				<key>name</key>
-				<string>Play - Pause</string>
 			</dict>
 			<key>QSiTunesPreviousSongCommand</key>
 			<dict>
 				<key>command</key>
 				<dict>
 					<key>actionID</key>
-					<string>AppleScriptRunAction</string>
-					<key>directResource</key>
+					<string>QSObjCSendMessageAction</string>
+					<key>directArchive</key>
 					<dict>
-						<key>bundle</key>
-						<string>com.blacktree.Quicksilver.QSiTunesPlugIn</string>
-						<key>path</key>
-						<string>Contents/Resources/Scripts/Previous Song.scpt</string>
+						<key>data</key>
+						<dict>
+							<key>qs.action</key>
+							<dict>
+								<key>actionClass</key>
+								<string>QSiTunesControlProvider</string>
+								<key>actionSelector</key>
+								<string>previous</string>
+								<key>icon</key>
+								<string>iTunesIcon</string>
+								<key>name</key>
+								<string>Previous</string>
+							</dict>
+						</dict>
 					</dict>
+					<key>directID</key>
+					<string>QSiTunesPrevious</string>
 				</dict>
-				<key>name</key>
-				<string>Previous Song</string>
-			</dict>
-			<key>QSiTunesRewindCommand</key>
-			<dict>
-				<key>command</key>
-				<dict>
-					<key>actionID</key>
-					<string>AppleScriptRunAction</string>
-					<key>directResource</key>
-					<dict>
-						<key>bundle</key>
-						<string>com.blacktree.Quicksilver.QSiTunesPlugIn</string>
-						<key>path</key>
-						<string>Contents/Resources/Scripts/Rewind.scpt</string>
-					</dict>
-				</dict>
-				<key>name</key>
-				<string>Rewind</string>
 			</dict>
 			<key>QSiTunesSearchAlbums</key>
 			<dict>
@@ -546,14 +639,26 @@
 				<key>command</key>
 				<dict>
 					<key>actionID</key>
-					<string>AppleScriptRunAction</string>
-					<key>directResource</key>
+					<string>QSObjCSendMessageAction</string>
+					<key>directArchive</key>
 					<dict>
-						<key>bundle</key>
-						<string>com.blacktree.Quicksilver.QSiTunesPlugIn</string>
-						<key>path</key>
-						<string>Contents/Resources/Scripts/Set Rating to 0.scpt</string>
+						<key>data</key>
+						<dict>
+							<key>qs.action</key>
+							<dict>
+								<key>actionClass</key>
+								<string>QSiTunesControlProvider</string>
+								<key>actionSelector</key>
+								<string>rating0</string>
+								<key>icon</key>
+								<string>iTunesIcon</string>
+								<key>name</key>
+								<string>Set Rating to 0 stars</string>
+							</dict>
+						</dict>
 					</dict>
+					<key>directID</key>
+					<string>QSiTunesRating0</string>
 				</dict>
 			</dict>
 			<key>QSiTunesSetRating1</key>
@@ -561,14 +666,26 @@
 				<key>command</key>
 				<dict>
 					<key>actionID</key>
-					<string>AppleScriptRunAction</string>
-					<key>directResource</key>
+					<string>QSObjCSendMessageAction</string>
+					<key>directArchive</key>
 					<dict>
-						<key>bundle</key>
-						<string>com.blacktree.Quicksilver.QSiTunesPlugIn</string>
-						<key>path</key>
-						<string>Contents/Resources/Scripts/Set Rating to 1.scpt</string>
+						<key>data</key>
+						<dict>
+							<key>qs.action</key>
+							<dict>
+								<key>actionClass</key>
+								<string>QSiTunesControlProvider</string>
+								<key>actionSelector</key>
+								<string>rating1</string>
+								<key>icon</key>
+								<string>iTunesIcon</string>
+								<key>name</key>
+								<string>Set Rating to 1 star</string>
+							</dict>
+						</dict>
 					</dict>
+					<key>directID</key>
+					<string>QSiTunesRating1</string>
 				</dict>
 			</dict>
 			<key>QSiTunesSetRating2</key>
@@ -576,14 +693,26 @@
 				<key>command</key>
 				<dict>
 					<key>actionID</key>
-					<string>AppleScriptRunAction</string>
-					<key>directResource</key>
+					<string>QSObjCSendMessageAction</string>
+					<key>directArchive</key>
 					<dict>
-						<key>bundle</key>
-						<string>com.blacktree.Quicksilver.QSiTunesPlugIn</string>
-						<key>path</key>
-						<string>Contents/Resources/Scripts/Set Rating to 2.scpt</string>
+						<key>data</key>
+						<dict>
+							<key>qs.action</key>
+							<dict>
+								<key>actionClass</key>
+								<string>QSiTunesControlProvider</string>
+								<key>actionSelector</key>
+								<string>rating2</string>
+								<key>icon</key>
+								<string>iTunesIcon</string>
+								<key>name</key>
+								<string>Set Rating to 2 stars</string>
+							</dict>
+						</dict>
 					</dict>
+					<key>directID</key>
+					<string>QSiTunesRating2</string>
 				</dict>
 			</dict>
 			<key>QSiTunesSetRating3</key>
@@ -591,14 +720,26 @@
 				<key>command</key>
 				<dict>
 					<key>actionID</key>
-					<string>AppleScriptRunAction</string>
-					<key>directResource</key>
+					<string>QSObjCSendMessageAction</string>
+					<key>directArchive</key>
 					<dict>
-						<key>bundle</key>
-						<string>com.blacktree.Quicksilver.QSiTunesPlugIn</string>
-						<key>path</key>
-						<string>Contents/Resources/Scripts/Set Rating to 3.scpt</string>
+						<key>data</key>
+						<dict>
+							<key>qs.action</key>
+							<dict>
+								<key>actionClass</key>
+								<string>QSiTunesControlProvider</string>
+								<key>actionSelector</key>
+								<string>rating3</string>
+								<key>icon</key>
+								<string>iTunesIcon</string>
+								<key>name</key>
+								<string>Set Rating to 3 stars</string>
+							</dict>
+						</dict>
 					</dict>
+					<key>directID</key>
+					<string>QSiTunesRating3</string>
 				</dict>
 			</dict>
 			<key>QSiTunesSetRating4</key>
@@ -606,14 +747,26 @@
 				<key>command</key>
 				<dict>
 					<key>actionID</key>
-					<string>AppleScriptRunAction</string>
-					<key>directResource</key>
+					<string>QSObjCSendMessageAction</string>
+					<key>directArchive</key>
 					<dict>
-						<key>bundle</key>
-						<string>com.blacktree.Quicksilver.QSiTunesPlugIn</string>
-						<key>path</key>
-						<string>Contents/Resources/Scripts/Set Rating to 4.scpt</string>
+						<key>data</key>
+						<dict>
+							<key>qs.action</key>
+							<dict>
+								<key>actionClass</key>
+								<string>QSiTunesControlProvider</string>
+								<key>actionSelector</key>
+								<string>rating4</string>
+								<key>icon</key>
+								<string>iTunesIcon</string>
+								<key>name</key>
+								<string>Set Rating to 4 stars</string>
+							</dict>
+						</dict>
 					</dict>
+					<key>directID</key>
+					<string>QSiTunesRating4</string>
 				</dict>
 			</dict>
 			<key>QSiTunesSetRating5</key>
@@ -621,14 +774,26 @@
 				<key>command</key>
 				<dict>
 					<key>actionID</key>
-					<string>AppleScriptRunAction</string>
-					<key>directResource</key>
+					<string>QSObjCSendMessageAction</string>
+					<key>directArchive</key>
 					<dict>
-						<key>bundle</key>
-						<string>com.blacktree.Quicksilver.QSiTunesPlugIn</string>
-						<key>path</key>
-						<string>Contents/Resources/Scripts/Set Rating to 5.scpt</string>
+						<key>data</key>
+						<dict>
+							<key>qs.action</key>
+							<dict>
+								<key>actionClass</key>
+								<string>QSiTunesControlProvider</string>
+								<key>actionSelector</key>
+								<string>rating5</string>
+								<key>icon</key>
+								<string>iTunesIcon</string>
+								<key>name</key>
+								<string>Set Rating to 5 stars</string>
+							</dict>
+						</dict>
 					</dict>
+					<key>directID</key>
+					<string>QSiTunesRating5</string>
 				</dict>
 			</dict>
 			<key>QSiTunesShowTrackNotification</key>
@@ -663,17 +828,27 @@
 				<key>command</key>
 				<dict>
 					<key>actionID</key>
-					<string>AppleScriptRunAction</string>
-					<key>directResource</key>
+					<string>QSObjCSendMessageAction</string>
+					<key>directArchive</key>
 					<dict>
-						<key>bundle</key>
-						<string>com.blacktree.Quicksilver.QSiTunesPlugIn</string>
-						<key>path</key>
-						<string>Contents/Resources/Scripts/Stop.scpt</string>
+						<key>data</key>
+						<dict>
+							<key>qs.action</key>
+							<dict>
+								<key>actionClass</key>
+								<string>QSiTunesControlProvider</string>
+								<key>actionSelector</key>
+								<string>stop</string>
+								<key>icon</key>
+								<string>iTunesIcon</string>
+								<key>name</key>
+								<string>Stop</string>
+							</dict>
+						</dict>
 					</dict>
+					<key>directID</key>
+					<string>QSiTunesStop</string>
 				</dict>
-				<key>name</key>
-				<string>Stop</string>
 			</dict>
 		</dict>
 		<key>QSObjectHandlers</key>
