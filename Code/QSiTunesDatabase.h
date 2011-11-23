@@ -28,6 +28,7 @@
 
 - (void)setTagDictionaries:(NSDictionary *)newTagDictionaries;
 - (NSString *)libraryLocation;
+- (NSString *)libraryID;
 - (BOOL)loadMusicLibrary;
 - (NSArray *)playlists;
 -(NSDictionary *)playlistInfoForID:(NSNumber *)theID;
