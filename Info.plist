@@ -17,7 +17,7 @@
 	<key>CFBundlePackageType</key>
 	<string>BNDL</string>
 	<key>CFBundleVersion</key>
-	<string>33A</string>
+	<string>33B</string>
 	<key>NSHumanReadableCopyright</key>
 	<string>Copyright © 2004, Blacktree, Inc.</string>
 	<key>NSPrincipalClass</key>
@@ -174,7 +174,7 @@
 						<array>
 							<string>applescript</string>
 							<string>scpt</string>
-							<string>'osas'</string>
+							<string>&apos;osas&apos;</string>
 						</array>
 						<key>parser</key>
 						<string>QSDirectoryParser</string>
@@ -1087,21 +1087,6 @@
 			</dict>
 			<key>name</key>
 			<string>Play</string>
-			<key>set</key>
-			<string>iTunes</string>
-		</dict>
-		<dict>
-			<key>ID</key>
-			<string>QSiTunesRewindTrigger</string>
-			<key>command</key>
-			<string>QSiTunesRewindCommand</string>
-			<key>defaults</key>
-			<dict>
-				<key>type</key>
-				<string>QSHotKeyTrigger</string>
-			</dict>
-			<key>name</key>
-			<string>Rewind Song</string>
 			<key>set</key>
 			<string>iTunes</string>
 		</dict>
