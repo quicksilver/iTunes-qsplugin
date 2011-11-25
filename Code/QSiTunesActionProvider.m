@@ -277,8 +277,7 @@
 		}
 		[songsOnly addObject:track];
 	}
-	[iTunes add:[songsOnly arrayByPerformingSelector:@selector(location)] to:qs];
-	//[iTunes add:[trackList arrayByPerformingSelector:@selector(location)] to:qs];
+	[iTunes add:[songsOnly valueForKey:@"location"] to:qs];
 	[qs playOnce:YES];
 }
 
