@@ -128,6 +128,7 @@
 		/*
 		 // Adding kind and videoKind to the predicate seems like the right way to filter, but
 		 while it will work, it's *very* slow for some reason. Better to just enumerate the result later.
+		 Also, adding albumArtist to the predicate is unusably slow. iTunes hits 100% CPU for several minutes.
 		 NSMutableArray *criteria = [NSMutableArray arrayWithObjects:@"kind", @"PDF document", @"videoKind", [NSAppleEventDescriptor descriptorWithTypeCode:iTunesEVdKNone], nil];
 		 NSString *formatString = @"%K != %@ AND %K == %@";
 		 */
@@ -142,11 +143,11 @@
 				[criteria addObject:[criteriaKey lowercaseString]];
 				[criteria addObject:[criteriaDict objectForKey:criteriaKey]];
 				if (first) {
-					formatString = [formatString stringByAppendingString:@"%K == %@"];
 					first = NO;
 				} else {
-					formatString = [formatString stringByAppendingString:@" AND %K == %@"];
+					formatString = [formatString stringByAppendingString:@" AND "];
 				}
+				formatString = [formatString stringByAppendingString:@"%K == %@"];
 			}
 		}
 		formatString = [formatString stringByAppendingString:@")"];
@@ -154,6 +155,7 @@
 	}
 	formatString = [formatStrings componentsJoinedByString:@" OR "];
 	NSPredicate *trackFilter = [NSPredicate predicateWithFormat:formatString argumentArray:criteria];
+	//NSLog(@"playlist filter: %@", [trackFilter predicateFormat]);
 	iTunesLibraryPlaylist *libraryPlaylist = [[QSiTunesLibrary() libraryPlaylists] objectAtIndex:0];
 	// TODO see if we can get the results to be in the same order as the objects passed in
 	NSArray *tracksToPlay = [[libraryPlaylist fileTracks] filteredArrayUsingPredicate:trackFilter];
