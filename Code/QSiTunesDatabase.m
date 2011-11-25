@@ -55,26 +55,38 @@
 
 
 - (NSArray *)tracksMatchingCriteria:(NSDictionary *)criteria {
-	//NSLog(@"criteria %@", criteria);
 	if (![criteria count]) return [[[self iTunesMusicLibrary] objectForKey:@"Tracks"] allValues];
 	NSMutableSet *items = nil;
 	NSMutableSet *thisSet;
+	//NSLog(@"criteria %@", criteria);
 	for (NSString *key in criteria) {
-		NSDictionary *typeDicts = [[self tagDictionaries] objectForKey:key];
-		NSArray *valueArray = [typeDicts objectForKey:[[criteria objectForKey:key] lowercaseString]];
-		//NSLog(@"match %@ = %@ %d", key, [criteria objectForKey:key] , [valueArray count]);
+		NSDictionary *typeDicts;
+		NSArray *valueArray;
+		// if Artist is a criteria, check (Artist == X OR Album Artist == X)
+		if ([key isEqualToString:@"Artist"]) {
+			typeDicts = [[self tagDictionaries] objectForKey:key];
+			NSMutableArray *artistArray = [typeDicts objectForKey:[[criteria objectForKey:key] lowercaseString]];
+			typeDicts = [[self tagDictionaries] objectForKey:@"Album Artist"];
+			[artistArray addObjectsFromArray:[typeDicts objectForKey:[[criteria objectForKey:key] lowercaseString]]];
+			valueArray = artistArray;
+		} else {
+			typeDicts = [[self tagDictionaries] objectForKey:key];
+			valueArray = [typeDicts objectForKey:[[criteria objectForKey:key] lowercaseString]];
+		}
 		thisSet = [NSMutableSet setWithArray:valueArray];
-		if (!items) 
+		if (!items) {
 			items = thisSet;
-		else
+		} else {
 			[items intersectSet:thisSet];
+		}
+		//NSLog(@"match %@ = %@ %lu", key, [criteria objectForKey:key] , [items count]);
 	}
 	return [items allObjects];
 } 
 
 - (void)createTagArrays {
 	int i;
-	NSArray *sortTags = [NSArray arrayWithObjects:@"Genre", @"Artist", @"Composer", @"Album", nil];
+	NSArray *sortTags = [NSArray arrayWithObjects:@"Genre", @"Artist", @"Album Artist", @"Composer", @"Album", nil];
 	int count = [sortTags count];
 	
 	NSMutableDictionary *newTagDictionaries = [NSMutableDictionary dictionaryWithCapacity:[sortTags count]];

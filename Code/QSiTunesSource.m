@@ -651,7 +651,6 @@ mSHARED_INSTANCE_CLASS_METHOD
 }
 
 - (NSString *)detailsOfObject:(QSObject *)object {
-	// TODO figure out why these never show up.
 	if ([[object primaryType] isEqualToString:QSiTunesPlaylistIDPboardType]) {
 		
 		NSDictionary *info = [library playlistInfoForID:[object objectForType:QSiTunesPlaylistIDPboardType]];
@@ -667,8 +666,7 @@ mSHARED_INSTANCE_CLASS_METHOD
 		NSString *artist = [info objectForKey:@"Artist"];
 		NSString *album = [info objectForKey:@"Album"];
 		// TODO add the year
-		NSString *year = [info objectForKey:@"Year"];
-		
+		//NSString *year = [info objectForKey:@"Year"];
 		return [NSString stringWithFormat:@"%@%@%@", artist?artist:@"", artist && album?@": ":@"", album?album:@""];
 	}
 	return nil;  
@@ -730,7 +728,12 @@ mSHARED_INSTANCE_CLASS_METHOD
 }
 
 - (QSObject *)browserObjectForTrack:(NSDictionary *)trackDict andCriteria:(NSString *)rootType {
-	NSString *value = [trackDict objectForKey:rootType];
+	NSString *value;
+	if ([rootType isEqualToString:@"Artist"] && [trackDict objectForKey:@"Album Artist"]) {
+		value = [trackDict objectForKey:@"Album Artist"];
+	} else {
+		value = [trackDict objectForKey:rootType];
+	}
 	if (!value) return nil;
 	id newObject;
 	NSMutableDictionary *childCriteria = [NSMutableDictionary dictionaryWithObjectsAndKeys:
@@ -741,9 +744,6 @@ mSHARED_INSTANCE_CLASS_METHOD
 	[newObject setPrimaryType:QSiTunesBrowserPboardType];
 	return newObject; 	
 }
-
-
-
 
 - (NSArray *)childrenForObject:(QSObject *)object {
 	if ([[object primaryType] isEqualToString:QSiTunesTrackIDPboardType]) {
