@@ -93,7 +93,6 @@ mSHARED_INSTANCE_CLASS_METHOD
 - (void)iTunesStateChanged:(NSNotification *)notif {
 	if ([[[notif userInfo] objectForKey:@"Player State"] isEqualToString:@"Playing"]) {
 		
-	
 		NSString *newTrack = [self currentTrackID];
 		if ([newTrack intValue] <= 0) return;
 		[recentTracks insertObject:[notif userInfo] atIndex:0];
@@ -125,6 +124,7 @@ mSHARED_INSTANCE_CLASS_METHOD
 }
 
 - (id)resolveProxyObject:(id)proxy {
+	// TODO replace calls to `[self trackInfoForID:[self currentTrackID]]` with `[self currentTrackInfo]`
 	if (![proxy isKindOfClass:[NSString class]])
 		proxy = [proxy identifier];
 	if (!QSAppIsRunning(@"com.apple.iTunes") )
@@ -209,8 +209,10 @@ mSHARED_INSTANCE_CLASS_METHOD
 }
 
 - (id)currentTrackInfo {
-	if ([recentTracks count])
+	// TODO get info from iTunes (if running) via SB
+	if ([recentTracks count]) {
 		return [recentTracks objectAtIndex:0];
+	}
 	return nil;
 }
 
@@ -228,7 +230,6 @@ mSHARED_INSTANCE_CLASS_METHOD
 	}
 	
 	QSObject *track = [self trackObjectForInfo:trackInfo inPlaylist:nil];
-	iTunesTrack *currentTrack = [QSiTunes() currentTrack];
 	
 	[[NSNotificationCenter defaultCenter] postNotificationName:@"QSEventNotification" object:@"QSiTunesTrackChangedEvent" userInfo:[NSDictionary dictionaryWithObject:track forKey:@"object"]];
 	
@@ -269,6 +270,7 @@ mSHARED_INSTANCE_CLASS_METHOD
 		icon = [self imageForTrack:trackInfo useNet:YES];
 		//NSLog(@"info : %@", trackInfo);
 		if (!icon && ![trackInfo objectForKey:@"Location"]) {
+			iTunesTrack *currentTrack = [QSiTunes() currentTrack];
 			NSData *data = [[[currentTrack artworks] objectAtIndex:0] rawData];
 			icon = [[[NSImage alloc] initWithData:data] autorelease];
 		}
@@ -679,14 +681,21 @@ mSHARED_INSTANCE_CLASS_METHOD
 	return newObject;
 }
 
-- (BOOL)loadChildrenForBundle:(QSObject *)object {
+- (NSArray *)iTunesGetChildren
+{
 	// this repeats the list created in objectsForEntry, but executes MUCH faster than re-running that method
 	NSMutableArray *children = [NSMutableArray arrayWithCapacity:1];
-	[children addObject:[QSObject objectWithIdentifier:QSiTunesRecentTracksBrowser]];
+	if ([[NSUserDefaults standardUserDefaults] boolForKey:@"QSiTunesMonitorTracks"] && [recentTracks count]) {
+		[children addObject:[QSObject objectWithIdentifier:QSiTunesRecentTracksBrowser]];
+	}
 	[children addObject:[QSAction objectWithIdentifier:@"QSiTunesShowCurrentTrack"]];
 	[children addObjectsFromArray:[self browseMasters]];
 	[children addObjectsFromArray:[QSLib arrayForType:QSiTunesPlaylistIDPboardType]];
-	
+	return children;
+}
+
+- (BOOL)loadChildrenForBundle:(QSObject *)object {
+	NSArray *children = [self iTunesGetChildren];
 	if (children) {
 		[object setChildren:children];
 		return YES;  
@@ -696,12 +705,7 @@ mSHARED_INSTANCE_CLASS_METHOD
 
 - (BOOL)loadChildrenForObject:(QSObject *)object {
 	if ([[object primaryType] isEqualToString:NSFilenamesPboardType]) {
-		// this repeats the list created in objectsForEntry, but executes MUCH faster than re-running that method
-		NSMutableArray *children = [NSMutableArray arrayWithCapacity:1];
-		[children addObject:[QSObject objectWithIdentifier:QSiTunesRecentTracksBrowser]];
-		[children addObject:[QSAction objectWithIdentifier:@"QSiTunesShowCurrentTrack"]];
-		[children addObjectsFromArray:[self browseMasters]];
-		[children addObjectsFromArray:[QSLib arrayForType:QSiTunesPlaylistIDPboardType]];
+		NSArray *children = [self iTunesGetChildren];
 		[object setChildren:children];
 		return YES; 	
 	}
