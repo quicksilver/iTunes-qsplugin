@@ -692,10 +692,13 @@ mSHARED_INSTANCE_CLASS_METHOD
 {
 	// this repeats the list created in objectsForEntry, but executes MUCH faster than re-running that method
 	NSMutableArray *children = [NSMutableArray arrayWithCapacity:1];
-	if ([[NSUserDefaults standardUserDefaults] boolForKey:@"QSiTunesMonitorTracks"] && [recentTracks count]) {
+	if ([[NSUserDefaults standardUserDefaults] boolForKey:@"QSiTunesMonitorTracks"]) {
 		[children addObject:[QSObject objectWithIdentifier:QSiTunesRecentTracksBrowser]];
 	}
-	[children addObject:[QSAction objectWithIdentifier:@"QSiTunesShowCurrentTrack"]];
+	QSAction *showCurrentTrack = [QSAction objectWithIdentifier:@"QSiTunesShowCurrentTrack"];
+	if (showCurrentTrack) {
+		[children addObject:showCurrentTrack];
+	}
 	[children addObjectsFromArray:[self browseMasters]];
 	[children addObjectsFromArray:[QSLib arrayForType:QSiTunesPlaylistIDPboardType]];
 	return children;
