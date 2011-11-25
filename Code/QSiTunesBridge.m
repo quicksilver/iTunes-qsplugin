@@ -26,7 +26,7 @@ iTunesApplication *QSiTunes()
 
 iTunesSource *QSiTunesLibrary()
 {
-	NSArray *librarySource = [[QSiTunes() sources] filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"kind == %@", [NSAppleEventDescriptor descriptorWithTypeCode:iTunesESrcLibrary]]];
+	NSArray *librarySource = [[[QSiTunes() sources] get] filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"kind == %i", iTunesESrcLibrary]];
 	if ([[librarySource lastObject] exists]) {
 		return [librarySource lastObject];
 	}
@@ -35,7 +35,7 @@ iTunesSource *QSiTunesLibrary()
 
 iTunesPlaylist *QSiTunesDJ()
 {
-	NSArray *iTunesDJplaylists = [[QSiTunesLibrary() playlists] filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"specialKind == %@", [NSAppleEventDescriptor descriptorWithTypeCode:iTunesESpKPartyShuffle]]];
+	NSArray *iTunesDJplaylists = [[[QSiTunesLibrary() playlists] get] filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"specialKind == %i", iTunesESpKPartyShuffle]];
 	if ([[iTunesDJplaylists lastObject] exists]) {
 		return [iTunesDJplaylists lastObject];
 	}
