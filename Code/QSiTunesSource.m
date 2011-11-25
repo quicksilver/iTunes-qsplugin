@@ -124,22 +124,21 @@ mSHARED_INSTANCE_CLASS_METHOD
 }
 
 - (id)resolveProxyObject:(id)proxy {
-	// TODO replace calls to `[self trackInfoForID:[self currentTrackID]]` with `[self currentTrackInfo]`
 	if (![proxy isKindOfClass:[NSString class]])
 		proxy = [proxy identifier];
 	if (!QSAppIsRunning(@"com.apple.iTunes") )
 		return nil;
 	if ([proxy isEqualToString:@"QSCurrentTrackProxy"]) {
-		id object = [self trackObjectForInfo:[self trackInfoForID:[self currentTrackID]]
+		id object = [self trackObjectForInfo:[self currentTrackInfo]
 								inPlaylist:nil];
 		//NSLog(@"object %@", object);
 		return object;
 	} else if ([proxy isEqualToString:@"QSCurrentAlbumProxy"]) {
 		
-		id newObject = [self browserObjectForTrack:[self trackInfoForID:[self currentTrackID]] andCriteria:@"Album"];
+		id newObject = [self browserObjectForTrack:[self currentTrackInfo] andCriteria:@"Album"];
 		return newObject;
 	} else if ([proxy isEqualToString:@"QSCurrentArtistProxy"]) {
-		id newObject = [self browserObjectForTrack:[self trackInfoForID:[self currentTrackID]] andCriteria:@"Artist"];
+		id newObject = [self browserObjectForTrack:[self currentTrackInfo] andCriteria:@"Artist"];
 		return newObject;
 	} else if ([proxy isEqualToString:@"QSCurrentPlaylistProxy"]) {
 		NSString *name = [[QSiTunes() currentPlaylist] name];
@@ -195,13 +194,25 @@ mSHARED_INSTANCE_CLASS_METHOD
 			iTunesLibraryPlaylist *libraryPlaylist = [[QSiTunesLibrary() libraryPlaylists] objectAtIndex:0];
 			NSArray *trackResult = [[libraryPlaylist fileTracks] filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"databaseID == %@", trackID]];
 			if ([trackResult count] > 0) {
-				iTunesTrack *track = [trackResult lastObject];
+				iTunesFileTrack *track = [trackResult lastObject];
+				[trackInfo setObject:[track persistentID] forKey:@"PersistentID"];
 				[trackInfo setObject:[track artist] forKey:@"Artist"];
+				[trackInfo setObject:[track albumArtist] forKey:@"Album Artist"];
+				[trackInfo setObject:[track composer] forKey:@"Composer"];
+				[trackInfo setObject:[track genre] forKey:@"Genre"];
 				[trackInfo setObject:[track album] forKey:@"Album"];
 				[trackInfo setObject:[track name] forKey:@"Name"];
 				[trackInfo setObject:[NSNumber numberWithLong:[track rating]] forKey:@"Rating"];
+				[trackInfo setObject:[NSString stringWithFormat:@"%d", [track albumRating]] forKey:@"Album Rating"];
 				[trackInfo setObject:[track kind] forKey:@"Kind"];
 				[trackInfo setObject:[NSNumber numberWithInt:1] forKey:@"Artwork Count"];
+				[trackInfo setObject:[track location] forKey:@"Location"];
+				[trackInfo setObject:[NSString stringWithFormat:@"%d", [track playedCount]] forKey:@"Play Count"];
+				[trackInfo setObject:[track playedDate] forKey:@"Play Date"];
+				[trackInfo setObject:[NSString stringWithFormat:@"%d", [track skippedCount]] forKey:@"Skip Count"];
+				[trackInfo setObject:[track time] forKey:@"Total Time"];
+				[trackInfo setObject:[NSString stringWithFormat:@"%d", [track trackNumber]] forKey:@"Track Number"];
+				[trackInfo setObject:[NSString stringWithFormat:@"%d", [track year]] forKey:@"Year"];
 			}
 		}
 	}
@@ -209,11 +220,7 @@ mSHARED_INSTANCE_CLASS_METHOD
 }
 
 - (id)currentTrackInfo {
-	// TODO get info from iTunes (if running) via SB
-	if ([recentTracks count]) {
-		return [recentTracks objectAtIndex:0];
-	}
-	return nil;
+	return [self trackInfoForID:[self currentTrackID]];
 }
 
 - (NSString *)currentTrackID {

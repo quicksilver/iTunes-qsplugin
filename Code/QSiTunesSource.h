@@ -18,6 +18,7 @@
 - (NSAppleScript *)iTunesScript;
 
 - (NSString *)currentTrackID;
+- (id)currentTrackInfo;
 - (NSDictionary *)trackInfoForID:(id)trackID;
 - (void)showNotificationForTrack:(id)trackID info:(NSDictionary *)trackInfo;
 - (QSObject *)browserObjectForTrack:(NSDictionary *)trackDict andCriteria:(NSString *)rootType;
