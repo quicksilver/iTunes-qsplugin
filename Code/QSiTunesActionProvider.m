@@ -89,7 +89,7 @@
 //																		  notFoundMarker:[NSAppleEventDescriptor descriptorWithTypeCode:'msng']]];
 //	NSDictionary *errorDict = nil;
 //	
-//	if ([[NSUserDefaults standardUserDefaults] boolForKey:@"QSiTunesFastBrowserPlay"] && [browseDict objectForKey:@"Type"])
+//	if ([browseDict objectForKey:@"Type"])
 //		[criteria addObject:[browseDict objectForKey:@"Type"]];
 //	else
 //		[criteria addObject:[NSAppleEventDescriptor descriptorWithTypeCode:'msng']];
