@@ -96,7 +96,6 @@
 	NSMutableDictionary *tagDict;
 	NSMutableArray *valueArray;
 	NSString *thisValue;
-	BOOL addBlanks = [[NSUserDefaults standardUserDefaults] boolForKey:@"QSiTunesShowUnknown"];
 	BOOL groupCompilations = [[NSUserDefaults standardUserDefaults] boolForKey:@"QSiTunesGroupCompilations"];
 	BOOL showPodcasts = NO; //[[NSUserDefaults standardUserDefaults] boolForKey:@"QSiTunesShowPodcasts"];
   
@@ -113,7 +112,6 @@
 			} else {
 				thisValue = [trackInfo objectForKey:thisTag];
 			}
-			if (addBlanks && ![thisValue length]) thisValue = BLANK_TAG;
 			
 			tagDict = [newTagDictionaries objectForKey:thisTag];
 			NSString *lowercaseKey = [thisValue lowercaseString];
@@ -183,7 +181,6 @@
 
 - (NSArray *)objectsForKey:(NSString *)key inArray:(NSArray *)array {
 	NSMutableSet *values = [NSMutableSet setWithCapacity:1];
-	BOOL addBlanks = [[NSUserDefaults standardUserDefaults] boolForKey:@"QSiTunesShowUnknown"];
 	BOOL groupCompilations = [key isEqualToString:@"Artist"] && [[NSUserDefaults standardUserDefaults] boolForKey:@"QSiTunesGroupCompilations"];
 	id value;
 	
@@ -193,7 +190,6 @@
 		else
 			value = [thisObject objectForKey:key];
 		if (value) [values addObject:value];
-		else if (addBlanks) [values addObject:BLANK_TAG];
 	}
 	return [[values allObjects] sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)];
 }
@@ -245,7 +241,6 @@
 
 - (BOOL)isLoaded {
 	return [iTunesMusicLibrary count];
-
 }
 
 - (NSDictionary *)playlistInfoForID:(NSNumber *)theID {
