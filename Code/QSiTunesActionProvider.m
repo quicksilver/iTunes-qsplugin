@@ -266,7 +266,8 @@
 		// clear the old list
 		[[qs tracks] removeAllObjects];
 	}
-	// filter out PDFs and videos
+	// filter out PDFs and (optionally) videos
+	BOOL includeVideos = [[NSUserDefaults standardUserDefaults] boolForKey:@"QSiTunesIncludeVideos"];
 	NSMutableArray *songsOnly = [NSMutableArray arrayWithCapacity:[trackList count]];
 	for (iTunesFileTrack *track in trackList) {
 		if ([[track kind] isEqualToString:QSiTunesBookletKind]) {
@@ -274,7 +275,7 @@
 		}
 		// TODO add a preference to include videos
 		// TODO if playlist is *only* videos, include them regardless of preferences
-		if ([track videoKind] != iTunesEVdKNone) {
+		if (!includeVideos && [track videoKind] != iTunesEVdKNone) {
 			continue;
 		}
 		[songsOnly addObject:track];
