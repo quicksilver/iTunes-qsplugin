@@ -29,8 +29,6 @@
   return ident;
 }
 
-
-
 - (void)registerAdditionalTrack:(NSDictionary *)info forID:(id)num {
 	[extraTracks setObject:info forKey:num];
 }
@@ -52,7 +50,6 @@
 	}
 	return tracks;
 }
-
 
 - (NSArray *)tracksMatchingCriteria:(NSDictionary *)criteria {
 	if (![criteria count]) return [[[self iTunesMusicLibrary] objectForKey:@"Tracks"] allValues];
@@ -85,21 +82,19 @@
 } 
 
 - (void)createTagArrays {
-	int i;
 	NSArray *sortTags = [NSArray arrayWithObjects:@"Genre", @"Artist", @"Album Artist", @"Composer", @"Album", nil];
-	int count = [sortTags count];
 	
 	NSMutableDictionary *newTagDictionaries = [NSMutableDictionary dictionaryWithCapacity:[sortTags count]];
 	
-	for (i = 0; i  < count; i++)
-		[newTagDictionaries setObject:[NSMutableDictionary dictionaryWithCapacity:1] forKey:[sortTags objectAtIndex:i]];
+	for (NSString *thisTag in sortTags) {
+		[newTagDictionaries setObject:[NSMutableDictionary dictionaryWithCapacity:1] forKey:thisTag];
+	}
 	
 	NSDictionary *tracks = [[self iTunesMusicLibrary] objectForKey:@"Tracks"];
 	NSDictionary *trackInfo;
 	
 	NSMutableDictionary *tagDict;
 	NSMutableArray *valueArray;
-	NSString *thisTag;
 	NSString *thisValue;
 	BOOL addBlanks = [[NSUserDefaults standardUserDefaults] boolForKey:@"QSiTunesShowUnknown"];
 	BOOL groupCompilations = [[NSUserDefaults standardUserDefaults] boolForKey:@"QSiTunesGroupCompilations"];
@@ -107,14 +102,12 @@
   
 	for (NSString *key in tracks) {
 		trackInfo = [tracks objectForKey:key];
+		
+		if (!showPodcasts && [[trackInfo objectForKey:@"Podcast"] boolValue]) {
+			continue;
+		}
     
-    if(!showPodcasts && [[trackInfo objectForKey:@"Podcast"] boolValue])
-      continue;
-    
-		for (i = 0; i  < count; i++) {
-			thisTag = [sortTags objectAtIndex:i];  
-			
-			
+		for (NSString *thisTag in sortTags) {
 			if (groupCompilations && [thisTag isEqualToString:@"Artist"] && [[trackInfo objectForKey:@"Compilation"] boolValue]) {
 				thisValue = COMPILATION_STRING;
 			} else {
@@ -130,7 +123,6 @@
 					[tagDict setObject:(valueArray = [NSMutableArray arrayWithCapacity:1]) forKey:lowercaseKey];
 				[valueArray addObject:trackInfo];
 			}
-			
 		}
 	}
 	[self setTagDictionaries:newTagDictionaries];
@@ -144,6 +136,7 @@
 	}
 	return libraryLocation;
 }
+
 - (BOOL)loadMusicLibrary {
 	//if (VERBOSE) NSLog(@"Loading Music Library from: %@", [self libraryLocation]);
 	
@@ -187,6 +180,7 @@
 	
 	return [nextSort objectForKey:sortTag];
 }
+
 - (NSArray *)objectsForKey:(NSString *)key inArray:(NSArray *)array {
 	NSMutableSet *values = [NSMutableSet setWithCapacity:1];
 	BOOL addBlanks = [[NSUserDefaults standardUserDefaults] boolForKey:@"QSiTunesShowUnknown"];
@@ -202,9 +196,7 @@
 		else if (addBlanks) [values addObject:BLANK_TAG];
 	}
 	return [[values allObjects] sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)];
-} 
-
-
+}
 
 - (NSDictionary *)tagDictionaries { 
 	if (!tagDictionaries) {
@@ -217,7 +209,6 @@
 	[tagDictionaries release];
 	tagDictionaries = [newTagDictionaries retain];
 }
-
 
 /*
  -(void)getMusicPreferences {
@@ -247,13 +238,16 @@
 	 [self setMusicDirectory:musicPath];
  }
  */
+
 - (NSArray *)playlists {
 	return [[self iTunesMusicLibrary] objectForKey:@"Playlists"];
 }
+
 - (BOOL)isLoaded {
 	return [iTunesMusicLibrary count];
 
 }
+
 - (NSDictionary *)playlistInfoForID:(NSNumber *)theID {
 	if (![theID isKindOfClass:[NSNumber class]]) {
 		[NSApp activateIgnoringOtherApps:YES];
