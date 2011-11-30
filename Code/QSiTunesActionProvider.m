@@ -241,6 +241,10 @@
 		} else {
 			if ([trackResult count] == 1) {
 				// for a single track, just play
+				if ([[trackResult lastObject] videoKind] != iTunesEVdKNone) {
+					// give iTunes focus when playing a video
+					[QSiTunes() activate];
+				}
 				[[trackResult lastObject] playOnce:YES];
 			} else {
 				// for multiple tracks, create a playlist and play
