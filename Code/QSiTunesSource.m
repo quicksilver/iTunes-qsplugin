@@ -651,23 +651,35 @@ mSHARED_INSTANCE_CLASS_METHOD
 }
 
 - (NSString *)detailsOfObject:(QSObject *)object {
+	NSString *details;
 	if ([[object primaryType] isEqualToString:QSiTunesPlaylistIDPboardType]) {
-		
+		// Playlist details
 		NSDictionary *info = [library playlistInfoForID:[object objectForType:QSiTunesPlaylistIDPboardType]];
 		int count = [(NSArray *)[info objectForKey:@"Playlist Items"] count];
-		if (count) return [NSString stringWithFormat:@"%d track%@", count, ESS(count)];
-		return nil;
+		if (count) {
+			details = [NSString stringWithFormat:@"%d track%@", count, ESS(count)];
+			return details;
+		}
 	} else if ([[object primaryType] isEqualToString:QSiTunesBrowserPboardType]) {
-		NSString *details = [[[[object objectForType:QSiTunesBrowserPboardType] objectForKey:@"Criteria"] allValues] componentsJoinedByString:[NSString stringWithFormat:@" %C ", 0x25B8]];
-		if (![details isEqualToString:[object displayName]]) return details;
-		
+		// Browser item details
+		details = [[[[object objectForType:QSiTunesBrowserPboardType] objectForKey:@"Criteria"] allValues] componentsJoinedByString:[NSString stringWithFormat:@" %C ", 0x25B8]];
+		if (![details isEqualToString:[object displayName]]) {
+			return details;
+		}
 	} else if ([[object primaryType] isEqualToString:QSiTunesTrackIDPboardType]) {
+		// Track details
 		NSDictionary *info = [object objectForType:QSiTunesTrackIDPboardType];
 		NSString *artist = [info objectForKey:@"Artist"];
 		NSString *album = [info objectForKey:@"Album"];
-		// TODO add the year
-		//NSString *year = [info objectForKey:@"Year"];
-		return [NSString stringWithFormat:@"%@%@%@", artist?artist:@"", artist && album?@": ":@"", album?album:@""];
+		NSString *year = [info objectForKey:@"Year"];
+		details = artist;
+		if (album) {
+			details = [details stringByAppendingFormat:@" - %@", album];
+		}
+		if (year) {
+			details = [details stringByAppendingFormat:@" (%@)", year];
+		}
+		return details;
 	}
 	return nil;  
 }
