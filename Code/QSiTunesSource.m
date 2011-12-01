@@ -1,35 +1,7 @@
 #import <Carbon/Carbon.h>
 #import "QSiTunesSource.h"
 #import "QSiTunesDefines.h"
-#import "QSAlbumArtSources.h"
 #define QSiTunesRecentTracksBrowser @"QSiTunesRecentTracksBrowser"
-BOOL useSofa, useClutter, useSynergy;
-
-@interface NSObject (QSArtworkSources)
-- (NSImage *)imageForTrackInfo:(NSDictionary *)dict;
-- (NSString *)imageURLForTrackInfo:(NSDictionary *)dict;
-- (void)storeImageData:(NSData *)data ofType:(NSString *)type forTrackInfo:(NSDictionary *)dict;
-
-
-
-@end
-
-int iTunesGetCurrentTrack() {
-	OSType adrITunes = 'hook';
-	AppleEvent trackEvent = {typeNull, 0} ;
-	// Track ID Event
-	AEBuildAppleEvent ('core', 'getd', typeApplSignature, &adrITunes, sizeof(adrITunes), kAutoGenerateReturnID, kAnyTransactionID, &trackEvent, NULL,
-					   "'----':'obj ' {form:'prop', want:type('prop'), seld:type('pDID'), from:'obj ' {form:'prop', want:type('prop'), seld:type('pTrk'), from:'null'() } } ");
-	
-	AppleEvent reply;
-	long thisID = 0;
-	//OSErr err=
-	AESend(&trackEvent, &reply, kAEWaitReply, kAENormalPriority, 120 , NULL, NULL);
-	AEGetParamPtr(&reply, keyDirectObject, cLongInteger, NULL, &thisID, sizeof(thisID), NULL);
-	AEDisposeDesc(&reply);
-	AEDisposeDesc(&trackEvent);
-	return thisID; 	
-}
 
 @implementation QSiTunesObjectSource
 mSHARED_INSTANCE_CLASS_METHOD

@@ -74,8 +74,6 @@
 		E1B9F7EE07A2B21A00B4017B /* QSiTunesActionProvider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSiTunesActionProvider.m; sourceTree = "<group>"; };
 		E1B9FA0F07A2C76300B4017B /* QSiTunesBridge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSiTunesBridge.h; sourceTree = "<group>"; };
 		E1B9FA1007A2C76300B4017B /* QSiTunesBridge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSiTunesBridge.m; sourceTree = "<group>"; };
-		E1DAFAD007007BA400FAFE2A /* QSAlbumArtSources.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = QSAlbumArtSources.h; sourceTree = "<group>"; };
-		E1DAFAD107007BA400FAFE2A /* QSAlbumArtSources.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = QSAlbumArtSources.m; sourceTree = "<group>"; };
 		E1DAFAD407007BA400FAFE2A /* QSiTunesPrefPane.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = QSiTunesPrefPane.h; sourceTree = "<group>"; };
 		E1DAFAD507007BA400FAFE2A /* QSiTunesPrefPane.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = QSiTunesPrefPane.m; sourceTree = "<group>"; };
 		E1DAFAD607007BA400FAFE2A /* QSiTunesSource.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = QSiTunesSource.h; sourceTree = "<group>"; };
@@ -172,8 +170,6 @@
 				E1B9F7EE07A2B21A00B4017B /* QSiTunesActionProvider.m */,
 				E1B9F7E707A2B18600B4017B /* QSiTunesDatabase.h */,
 				E1B9F7E807A2B18600B4017B /* QSiTunesDatabase.m */,
-				E1DAFAD007007BA400FAFE2A /* QSAlbumArtSources.h */,
-				E1DAFAD107007BA400FAFE2A /* QSAlbumArtSources.m */,
 				E1DAFAD407007BA400FAFE2A /* QSiTunesPrefPane.h */,
 				E1DAFAD507007BA400FAFE2A /* QSiTunesPrefPane.m */,
 				E1DAFAD607007BA400FAFE2A /* QSiTunesSource.h */,
