@@ -272,6 +272,21 @@
 	return nil;
 }
 
+- (NSArray *)trackObjectsFromQSObject:(QSObject *)tracks
+{
+	// get iTunesTrack objects to represent each track
+	NSString *searchFilter = @"persistentID == %@";
+	NSArray *trackIDs = [[tracks splitObjects] arrayByPerformingSelector:@selector(identifier)];
+	NSMutableArray *filters = [NSMutableArray arrayWithCapacity:[tracks count]];
+	for (int i = 0; i < [tracks count]; i++) {
+		[filters addObject:searchFilter];
+	}
+	searchFilter = [filters componentsJoinedByString:@" OR "];
+	iTunesLibraryPlaylist *libraryPlaylist = [[QSiTunesLibrary() libraryPlaylists] objectAtIndex:0];
+	NSArray *trackResult = [[libraryPlaylist fileTracks] filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:searchFilter argumentArray:trackIDs]];
+	return trackResult;
+}
+
 - (NSAppleScript *)iTunesScript {
 	if (!iTunesScript)
 		iTunesScript = [[NSAppleScript alloc] initWithContentsOfURL:[NSURL fileURLWithPath:

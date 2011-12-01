@@ -17,6 +17,7 @@
 - (void) playBrowser:(QSObject *)dObject party:(BOOL)party append:(BOOL)append next:(BOOL)next;
 - (QSObject *) playTrack:(QSObject *)dObject party:(BOOL)party append:(BOOL)append next:(BOOL)next;
 - (void)playUsingDynamicPlaylist:(NSArray *)trackList;
+- (NSArray *)trackObjectsFromQSObject:(QSObject *)tracks;
 @end
 
 @interface QSiTunesControlProvider : QSActionProvider
