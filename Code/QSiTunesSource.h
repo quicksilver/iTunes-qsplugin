@@ -25,5 +25,4 @@
 - (NSArray *)browseMasters;
 
 - (NSImage *)imageForTrack:(NSDictionary *)trackDict;
-- (NSImage *)imageForTrack:(NSDictionary *)trackDict useNet:(BOOL)useNet;	
 @end

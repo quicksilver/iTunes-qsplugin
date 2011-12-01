@@ -246,7 +246,7 @@ mSHARED_INSTANCE_CLASS_METHOD
 
 		
 		NSImage *icon = nil;
-		icon = [self imageForTrack:trackInfo useNet:YES];
+		icon = [self imageForTrack:trackInfo];
 		//NSLog(@"info : %@", trackInfo);
 		if (!icon && ![trackInfo objectForKey:@"Location"]) {
 			iTunesTrack *currentTrack = [QSiTunes() currentTrack];
@@ -467,13 +467,16 @@ mSHARED_INSTANCE_CLASS_METHOD
 		if ([displayType isEqualToString:@"Album"] && album && ([[NSUserDefaults standardUserDefaults] boolForKey:@"QSiTunesShowArtwork"]) ) {
 			NSDictionary *typeDicts = [[library tagDictionaries] objectForKey:@"Album"];
 			NSArray *valueArray = [typeDicts objectForKey:[album lowercaseString]];
+			// TODO match artist as well
 			NSDictionary *firstTrack = [valueArray objectAtIndex:0];
 			[object setIcon:[self imageForTrack:firstTrack]];
 			return YES;
 		}
 	} else if ([[object primaryType] isEqualToString:QSiTunesTrackIDPboardType]) {
 		NSImage *icon = nil;
-		if ([[NSUserDefaults standardUserDefaults] boolForKey:@"QSiTunesShowArtwork"]) icon = [self imageForTrack:[object objectForType:QSiTunesTrackIDPboardType]];
+		if ([[NSUserDefaults standardUserDefaults] boolForKey:@"QSiTunesShowArtwork"]) {
+			icon = [self imageForTrack:[object objectForType:QSiTunesTrackIDPboardType]];
+		}
 		if (icon) {
 			[object setIcon:icon];
 			return YES;
@@ -482,129 +485,21 @@ mSHARED_INSTANCE_CLASS_METHOD
 	return NO;
 }
 
-
-/*
- Attached picture   "PIC"
- Frame size         $xx xx xx
- Text encoding      $xx
- Image format       $xx xx xx
- Picture type       $xx
- Description        <textstring > $00 (00)
- Picture data       <binary data>
- */
-- (NSImage *)imageForTrack:(NSDictionary *)trackDict {return [self imageForTrack:trackDict useNet:NO /*FIXME*/];}
-
-- (NSImage *)imageForTrack:(NSDictionary *)trackDict useNet:(BOOL)useNet {
-	//return nil;
-
+- (NSImage *)imageForTrack:(NSDictionary *)trackDict
+{
 	NSImage *icon = nil;
+	NSSize iconSize = NSMakeSize(128, 128);
 	if ([trackDict objectForKey:@"Location"]) {
-		//NSString *kind = [trackDict objectForKey:@"Kind"];
 		NSString *URLString = [trackDict objectForKey:@"Location"];
-		
 		if (!URLString) return nil;
 		NSString *path = [[NSURL URLWithString:URLString] path];
-		
-#if QSAlchemy
-		icon = [[QSReg instanceForPointID:@"QSFSFileTypePreviewers" withID:[path pathExtension]] iconForFile:path
-                                                                                                ofType:[path pathExtension]];
-#else
-		icon = [[QSReg getClassInstance:@"QSMusicFilePreviewProvider"] iconForFile:path ofType:[path pathExtension]];
-#endif
-
+		icon = [NSImage imageWithPreviewOfFileAtPath:path ofSize:iconSize asIcon:YES];
 	}
-	
-#if QSAlchemy
-	NSEnumerator *e = [[QSReg loadedInstancesForPointID:@"QSMusicArtworkSources"] objectEnumerator];
-#else
-		
-		NSEnumerator *e = [[QSReg instancesForTable:@"QSMusicArtworkSources"] objectEnumerator];
-#endif
-	
-	
-	id source;
-
-	while (!icon && (source = [e nextObject]) ) {
-		icon = [source imageForTrackInfo:trackDict];
-	}
-	
-	if (useNet && !icon) {
-		e = [[QSReg instancesForTable:@"QSOnlineMusicArtworkSources"] objectEnumerator];
-		while (!icon && (source = [e nextObject]) ) {
-			NSString *imageURL = [source imageURLForTrackInfo:trackDict];
-			NSData *data = nil;
-			if (imageURL) {
-				data = [NSData dataWithData:[[NSURL URLWithString:imageURL] resourceDataUsingCache:YES]];
-				icon = [[[NSImage alloc] initWithData:data] autorelease];
-				
-			} else {
-#ifdef DEBUG
-				if (VERBOSE) NSLog(@"No Artwork Found");
-#endif
-			}
-			
-			if (data) {
-				//NSLog(@"Loaded online artwork");
-				
-				[(id)[QSReg getClassInstance:@"QSCommonMusicArtworkPlugIn"] storeImageData:data ofType:[imageURL pathExtension] forTrackInfo:trackDict];
-				
-			}
-		}
-	}
-	
 	if (icon) {
 		[icon createIconRepresentations];
-		[icon createRepresentationOfSize:NSMakeSize(128, 128)];
+		//[icon createRepresentationOfSize:iconSize];
 	}
 	return icon;
-}
-
-
-
-
-- (NSImage *)imageForTrackInfo:(NSDictionary *)info {
-  NSString *trackid = [info objectForKey:@"Persistent ID"];
-  NSString *libraryid = [library libraryID];
-  
-  int length = [trackid length];
-  
- int dir1 = [[trackid substringWithRange:NSMakeRange(length-1, 1)] hexIntValue];
- int dir2 = [[trackid substringWithRange:NSMakeRange(length-2, 1)] hexIntValue];
- int dir3 = [[trackid substringWithRange:NSMakeRange(length-3, 1)] hexIntValue];
-  
-  NSString *path = [NSString stringWithFormat:@"%@/Album Artwork/Download/%@/%@/%@/%@-%@.itc",  
-    [[library libraryLocation] stringByDeletingLastPathComponent] ,
-    [NSString stringWithFormat:@"%02d", dir1] ,
-        [NSString stringWithFormat:@"%02d", dir2] ,
-        [NSString stringWithFormat:@"%02d", dir3] ,
-    libraryid,
-    trackid,
-    nil];
-   
-  NSLog(@"path %@ %@", path, info);
-
-
-
-  
-//	NSString *album = [info objectForKey:@"Album"];
-//	NSString *artist = [info objectForKey:@"Artist"];
-//	BOOL compilation = [[info objectForKey:@"Compilation"] boolValue];
-//	//if (!album) album = @"Unknown album";
-//	NSString *fileName = @"*";
-//	if (compilation) artist = @"Compilation";
-//	
-//	NSString *sofaFile = [NSString stringWithFormat:@"%@/%@/%@", artist, album, fileName];
-//	sofaFile = [sofaFile stringByReplacing:@"." with:@""];
-//	sofaFile = [sofaFile stringByReplacing:@":" with:@" "];
-//	sofaFile = [sofaFile stringByReplacing:@"\"" with:@""];
-//	//	sofaFile = [sofaFile stringByReplacing:@"  " with:@" "];
-//	
-//	NSString *sofaPath = [[SOFPATH stringByAppendingPathComponent:sofaFile] stringByResolvingWildcardsInPath]; 			
-//	//	 	NSLog(@"Sofa art: %@", sofaPath);
-//	if ([[NSFileManager defaultManager] fileExistsAtPath:sofaPath]) {
-//		return [[[NSImage alloc] initWithContentsOfFile:sofaPath] autorelease];
-//	}
-	return nil;
 }
 
 - (BOOL)objectHasChildren:(id <QSObject>)object {
@@ -726,7 +621,7 @@ mSHARED_INSTANCE_CLASS_METHOD
 	newObject = [QSObject objectWithName:value];
 	[newObject setObject:childCriteria forType:QSiTunesBrowserPboardType];  
 	[newObject setPrimaryType:QSiTunesBrowserPboardType];
-	return newObject; 	
+	return newObject;
 }
 
 - (NSArray *)childrenForObject:(QSObject *)object {
