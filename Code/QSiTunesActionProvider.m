@@ -156,15 +156,7 @@
 	NSDictionary *errorDict = nil;
 	
 	// get iTunesTrack objects to represent each track
-	NSString *searchFilter = @"persistentID == %@";
-	NSArray *trackIDs = [[dObject splitObjects] arrayByPerformingSelector:@selector(identifier)];
-	NSMutableArray *filters = [NSMutableArray arrayWithCapacity:[dObject count]];
-	for (int i = 0; i < [dObject count]; i++) {
-		[filters addObject:searchFilter];
-	}
-	searchFilter = [filters componentsJoinedByString:@" OR "];
-	iTunesLibraryPlaylist *libraryPlaylist = [[QSiTunesLibrary() libraryPlaylists] objectAtIndex:0];
-	NSArray *trackResult = [[libraryPlaylist fileTracks] filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:searchFilter argumentArray:trackIDs]];
+	NSArray *trackResult = [self trackObjectsFromQSObject:dObject];
 	NSArray *newTracks = [trackResult arrayByPerformingSelector:@selector(location)];
 	
 	if (party) {
