@@ -5,7 +5,7 @@
 
 #import "QSiTunesDatabase.h"
 
-@interface QSiTunesObjectSource : QSObjectSource{
+@interface QSiTunesObjectSource : QSObjectSource {
      NSMutableArray *recentTracks;
 	BOOL showArtwork;
 	QSiTunesDatabase *library;
@@ -25,4 +25,9 @@
 - (NSArray *)browseMasters;
 
 - (NSImage *)imageForTrack:(NSDictionary *)trackDict;
+@end
+
+@interface QSiTunesControlSource : QSObjectSource {
+
+}
 @end

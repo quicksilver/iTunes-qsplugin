@@ -809,3 +809,28 @@ mSHARED_INSTANCE_CLASS_METHOD
 	return QSiTunesScript();
 }
 @end
+
+@implementation QSiTunesControlSource
+
+- (BOOL)indexIsValidFromDate:(NSDate *)indexDate forEntry:(NSDictionary *)theEntry {
+	// this never needs to be rescanned once the plug-in loads
+	return YES;
+}
+
+- (NSArray *)objectsForEntry:(NSDictionary *)theEntry {
+	NSMutableArray *controlObjects = [NSMutableArray arrayWithCapacity:1];
+	QSCommand *command;
+	QSObject *foo;
+	NSArray *controls = [NSArray arrayWithObjects:@"QSiTunesShowTrackNotification", @"QSiTunesPlayPauseCommand", @"QSiTunesPlayCommand", @"QSiTunesPauseCommand", @"QSiTunesStopCommand" @"QSiTunesIncreaseVolume", @"QSiTunesDecreaseVolume", @"QSiTunesMute", @"QSiTunesSearchAll", @"QSiTunesSearchArtists", @"QSiTunesSearchAlbums", @"QSiTunesSearchTracks", @"QSiTunesPreviousSongCommand", @"QSiTunesNextSongCommand", @"QSiTunesIncreaseRating", @"QSiTunesDecreaseRating", @"QSiTunesSetRating0", @"QSiTunesSetRating1", @"QSiTunesSetRating2", @"QSiTunesSetRating3", @"QSiTunesSetRating4", @"QSiTunesSetRating5", nil];
+	for (NSString *control in controls) {
+		command = [QSCommand commandWithIdentifier:control];
+		if (command) {
+			[controlObjects addObject:command];
+			foo = [command dObject];
+			NSLog(@"actionID: %@", [foo identifier]);
+		}
+	}
+	return controlObjects;
+}
+
+@end

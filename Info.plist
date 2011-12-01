@@ -181,28 +181,11 @@
 					<key>ID</key>
 					<string>QSPresetiTunesControlScripts</string>
 					<key>icon</key>
-					<string>ScriptIcon</string>
+					<string>com.apple.iTunes</string>
 					<key>name</key>
-					<string>Control Scripts</string>
-					<key>settings</key>
-					<dict>
-						<key>baseBundle</key>
-						<string>com.blacktree.Quicksilver.QSiTunesPlugIn</string>
-						<key>folderDepth</key>
-						<integer>1</integer>
-						<key>icon</key>
-						<string>ScriptIcon</string>
-						<key>parser</key>
-						<string>QSDirectoryParser</string>
-						<key>path</key>
-						<string>Contents/Resources/Scripts/</string>
-						<key>scanContents</key>
-						<integer>1</integer>
-						<key>skipItem</key>
-						<integer>1</integer>
-					</dict>
+					<string>iTunes Controls</string>
 					<key>source</key>
-					<string>QSFileSystemObjectSource</string>
+					<string>QSiTunesControlSource</string>
 				</dict>
 				<dict>
 					<key>ID</key>
@@ -909,6 +892,8 @@
 		</dict>
 		<key>QSObjectSources</key>
 		<dict>
+			<key>QSiTunesControlSource</key>
+			<string>QSiTunesControlSource</string>
 			<key>QSiTunesObjectSource</key>
 			<string>QSiTunesObjectSource</string>
 		</dict>
@@ -1118,7 +1103,7 @@
 				<string>QSHotKeyTrigger</string>
 			</dict>
 			<key>name</key>
-			<string>Play / Pause</string>
+			<string>Play/Pause</string>
 			<key>set</key>
 			<string>iTunes</string>
 		</dict>
