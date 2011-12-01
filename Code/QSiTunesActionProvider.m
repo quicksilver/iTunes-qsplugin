@@ -77,41 +77,6 @@
  }
  */
 
-//- (QSObject *)playBrowser:(QSObject *)dObject party:(BOOL)party append:(BOOL)append next:(BOOL)next {
-//	
-//	NSDictionary *browseDict = [dObject objectForType:QSiTunesBrowserPboardType];
-//	NSMutableDictionary *criteriaDict = [[[browseDict objectForKey:@"Criteria"] mutableCopy] autorelease];
-//	
-//	if ([[criteriaDict objectForKey:@"Artist"] isEqualToString:COMPILATION_STRING])
-//		[criteriaDict removeObjectForKey:@"Artist"];
-//	
-//	NSMutableArray *criteria = [NSMutableArray arrayWithArray:[criteriaDict objectsForKeys:[NSArray arrayWithObjects:@"Genre", @"Artist", @"Composer", @"Album", nil]
-//																		  notFoundMarker:[NSAppleEventDescriptor descriptorWithTypeCode:'msng']]];
-//	NSDictionary *errorDict = nil;
-//	
-//	if ([browseDict objectForKey:@"Type"])
-//		[criteria addObject:[browseDict objectForKey:@"Type"]];
-//	else
-//		[criteria addObject:[NSAppleEventDescriptor descriptorWithTypeCode:'msng']];
-//	
-//	
-//	if (party) {
-//		if (next) {
-//			[[self iTunesScript] executeSubroutine:@"ps_play_next_criteria" arguments:criteria  error:&errorDict];
-//		} else if (append) {
-//			[[self iTunesScript] executeSubroutine:@"ps_add_criteria" arguments:criteria  error:&errorDict];
-//		} else {
-//			[[self iTunesScript] executeSubroutine:@"ps_play_criteria" arguments:criteria  error:&errorDict];
-//		}
-//	} else {
-//		[[self iTunesScript] executeSubroutine:(append?@"append_with_criteria":@"play_with_criteria") arguments:criteria  error:&errorDict];
-//	}
-//	
-//	
-//	if (errorDict) {NSLog(@"Error: %@", errorDict);}
-//	return nil;
-//}
-
 - (void)playBrowser:(QSObject *)dObject party:(BOOL)party append:(BOOL)append next:(BOOL)next
 {
 	NSMutableArray *formatStrings = [NSMutableArray arrayWithCapacity:1];
@@ -161,12 +126,20 @@
 	NSArray *tracksToPlay = [[libraryPlaylist fileTracks] filteredArrayUsingPredicate:trackFilter];
 	if (party) {
 		// iTunes DJ stuff
+		iTunesPlaylist *iTunesDJ = QSiTunesDJ();
+		NSDictionary *errorDict = nil;
+		NSDictionary *ascriteria = [NSMutableArray arrayWithArray:[criteriaDict objectsForKeys:[NSArray arrayWithObjects:@"Genre", @"Artist", @"Composer", @"Album", @"Fail Intentionally", nil] notFoundMarker:[NSAppleEventDescriptor descriptorWithTypeCode:'msng']]];
+		NSLog(@"criteria for AppleScript: %@", ascriteria);
+		NSArray *newTracks = [tracksToPlay arrayByPerformingSelector:@selector(location)];
 		if (next) {
 			// play next
+			[[self iTunesScript] executeSubroutine:@"ps_play_next_criteria" arguments:ascriteria  error:&errorDict];
 		} else if (append) {
 			// append to iTunes DJ
+			[QSiTunes() add:newTracks to:iTunesDJ];
 		} else {
 			// play
+			[[self iTunesScript] executeSubroutine:@"ps_play_criteria" arguments:ascriteria  error:&errorDict];
 		}
 	} else {
 		[self playUsingDynamicPlaylist:tracksToPlay];
