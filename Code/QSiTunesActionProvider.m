@@ -287,16 +287,73 @@
 
 - (NSArray *)trackObjectsFromQSObject:(QSObject *)tracks
 {
+	NSArray *trackResult = nil;
 	// get iTunesTrack objects to represent each track
-	NSString *searchFilter = @"persistentID == %@";
-	NSArray *trackIDs = [[tracks splitObjects] arrayByPerformingSelector:@selector(identifier)];
-	NSMutableArray *filters = [NSMutableArray arrayWithCapacity:[tracks count]];
-	for (int i = 0; i < [tracks count]; i++) {
-		[filters addObject:searchFilter];
+	if ([tracks containsType:QSiTunesPlaylistIDPboardType]) {
+		// from a playlist
+		NSArray *playlistResult = [[QSiTunesLibrary() playlists] filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"persistentID == %@", [tracks identifier]]];
+		if ([playlistResult count] > 0) {
+			trackResult = [[playlistResult objectAtIndex:0] fileTracks];
+		}
+	} else if ([tracks containsType:QSiTunesBrowserPboardType]) {
+		// from browsing in Quicksilver
+		NSMutableArray *formatStrings = [NSMutableArray arrayWithCapacity:1];
+		NSDictionary *browseDict;
+		NSDictionary *criteriaDict;
+		NSString *formatString;
+		NSMutableArray *criteria = [NSMutableArray arrayWithCapacity:2];
+		BOOL first;
+		for (QSObject *browseResult in [tracks splitObjects]) {
+			browseDict = [browseResult objectForType:QSiTunesBrowserPboardType];
+			criteriaDict = [browseDict objectForKey:@"Criteria"];
+			
+			// build a search query
+			/*
+			 // Adding kind and videoKind to the predicate seems like the right way to filter, but
+			 while it will work, it's *very* slow for some reason. Better to just enumerate the result later.
+			 Also, adding albumArtist to the predicate is unusably slow. iTunes hits 100% CPU for several minutes.
+			 NSMutableArray *criteria = [NSMutableArray arrayWithObjects:@"kind", @"PDF document", @"videoKind", [NSAppleEventDescriptor descriptorWithTypeCode:iTunesEVdKNone], nil];
+			 NSString *formatString = @"%K != %@ AND %K == %@";
+			 */
+			formatString = @"(";
+			first = YES;
+			for (NSString *criteriaKey in [criteriaDict allKeys]) {
+				if ([criteriaKey isEqualToString:@"Artist"] && [[criteriaDict objectForKey:@"Artist"] isEqualToString:COMPILATION_STRING]) {
+					// don't use "Compilations" as a criteria
+					continue;
+				}
+				if ([criteriaDict objectForKey:criteriaKey]) {
+					[criteria addObject:[criteriaKey lowercaseString]];
+					[criteria addObject:[criteriaDict objectForKey:criteriaKey]];
+					if (first) {
+						first = NO;
+					} else {
+						formatString = [formatString stringByAppendingString:@" AND "];
+					}
+					formatString = [formatString stringByAppendingString:@"%K == %@"];
+				}
+			}
+			formatString = [formatString stringByAppendingString:@")"];
+			[formatStrings addObject:formatString];
+		}
+		formatString = [formatStrings componentsJoinedByString:@" OR "];
+		NSPredicate *trackFilter = [NSPredicate predicateWithFormat:formatString argumentArray:criteria];
+		//NSLog(@"playlist filter: %@", [trackFilter predicateFormat]);
+		iTunesLibraryPlaylist *libraryPlaylist = [[QSiTunesLibrary() libraryPlaylists] objectAtIndex:0];
+		// TODO see if we can get the results to be in the same order as the objects passed in
+		trackResult = [[libraryPlaylist fileTracks] filteredArrayUsingPredicate:trackFilter];
+	} else if ([tracks containsType:QSiTunesTrackIDPboardType]) {
+		// from individual track objects
+		NSString *searchFilter = @"persistentID == %@";
+		NSArray *trackIDs = [[tracks splitObjects] arrayByPerformingSelector:@selector(identifier)];
+		NSMutableArray *filters = [NSMutableArray arrayWithCapacity:[tracks count]];
+		for (int i = 0; i < [tracks count]; i++) {
+			[filters addObject:searchFilter];
+		}
+		searchFilter = [filters componentsJoinedByString:@" OR "];
+		iTunesLibraryPlaylist *libraryPlaylist = [[QSiTunesLibrary() libraryPlaylists] objectAtIndex:0];
+		trackResult = [[libraryPlaylist fileTracks] filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:searchFilter argumentArray:trackIDs]];
 	}
-	searchFilter = [filters componentsJoinedByString:@" OR "];
-	iTunesLibraryPlaylist *libraryPlaylist = [[QSiTunesLibrary() libraryPlaylists] objectAtIndex:0];
-	NSArray *trackResult = [[libraryPlaylist fileTracks] filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:searchFilter argumentArray:trackIDs]];
 	return trackResult;
 }
 
