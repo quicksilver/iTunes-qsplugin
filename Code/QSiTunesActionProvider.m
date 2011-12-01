@@ -129,7 +129,7 @@
 		iTunesPlaylist *iTunesDJ = QSiTunesDJ();
 		NSDictionary *errorDict = nil;
 		NSDictionary *ascriteria = [NSMutableArray arrayWithArray:[criteriaDict objectsForKeys:[NSArray arrayWithObjects:@"Genre", @"Artist", @"Composer", @"Album", @"Fail Intentionally", nil] notFoundMarker:[NSAppleEventDescriptor descriptorWithTypeCode:'msng']]];
-		NSLog(@"criteria for AppleScript: %@", ascriteria);
+		//NSLog(@"criteria for AppleScript: %@", ascriteria);
 		NSArray *newTracks = [tracksToPlay arrayByPerformingSelector:@selector(location)];
 		if (next) {
 			// play next
@@ -260,6 +260,27 @@
 	NSArray *playlistResult = [[library playlists] filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"persistentID == %@", playlistID]];
 	if ([playlistResult count] > 0) {
 		[[playlistResult lastObject] playOnce:YES];
+	}
+	return nil;
+}
+
+- (QSObject *)appendTracks:(QSObject *)dObject toPlaylist:(QSObject *)iObject
+{
+	// get the tracks
+	NSArray *trackResult = [self trackObjectsFromQSObject:dObject];
+	NSArray *newTracks = [trackResult arrayByPerformingSelector:@selector(location)];
+	// get the playlist
+	NSArray *playlistResult = [[QSiTunesLibrary() playlists] filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"persistentID == %@", [iObject identifier]]];
+	if ([playlistResult count] > 0) {
+		[QSiTunes() add:newTracks to:[playlistResult lastObject]];
+	}
+	return nil;
+}
+
+- (NSArray *)validIndirectObjectsForAction:(NSString *)action directObject:(QSObject *)dObject
+{
+	if ([action isEqualToString:@"QSiTunesAddToPlaylistAction"]) {
+		return [QSLib arrayForType:QSiTunesPlaylistIDPboardType];
 	}
 	return nil;
 }

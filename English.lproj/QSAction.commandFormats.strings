@@ -2,3 +2,4 @@
 "QSiTunesPSPlayAction" = "Play %@ in iTunes DJ";
 "QSiTunesPSPlayNextAction" = "Play %@ Next in iTunes DJ";
 "QSiTunesPSAddAction" = "Add %@ to End of iTunes DJ";
+"QSiTunesAddToPlaylistAction" = "Add %@ to Playlist…";

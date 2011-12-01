@@ -17,13 +17,29 @@
 	<key>CFBundlePackageType</key>
 	<string>BNDL</string>
 	<key>CFBundleVersion</key>
-	<string>33B</string>
+	<string>33C</string>
 	<key>NSHumanReadableCopyright</key>
 	<string>Copyright © 2004, Blacktree, Inc.</string>
 	<key>NSPrincipalClass</key>
 	<string>QSiTunesObjectSource</string>
 	<key>QSActions</key>
 	<dict>
+		<key>QSiTunesAddToPlaylistAction</key>
+		<dict>
+			<key>actionClass</key>
+			<string>QSiTunesActionProvider</string>
+			<key>actionSelector</key>
+			<string>appendTracks:toPlaylist:</string>
+			<key>directTypes</key>
+			<array>
+				<string>com.apple.itunes.track</string>
+				<string>com.apple.itunes.qsbrowsercriteria</string>
+			</array>
+			<key>icon</key>
+			<string>iTunesIcon</string>
+			<key>rankModification</key>
+			<real>3.5</real>
+		</dict>
 		<key>QSiTunesPSAddAction</key>
 		<dict>
 			<key>actionClass</key>
