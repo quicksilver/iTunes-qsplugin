@@ -1,3 +1,21 @@
+# iTunes Plug-in Notes #
+
+## Scripting Bridge ##
+
+The Scripting Bridge code requires `iTunes.h`, which will be generated automatically the first time you build. When it's created, it'll be in `DerivedSources` (not part of your project). The easiest way to open it for reference is to highlight the filename on the import line and hit ⌃⌘J for "Jump to Definition".
+
+You should [familiarize yourself with Scripting Bridge][sbdoc] a bit before making any changes. Particularly the sections that discuss performance.
+
+In the end though, you just need to test everything out and see what works. Certain things that should be faster in theory (like filtering by `kind` using `NSPredicate`) are actually unusably slow. You're better off if you just enumerate through an array of tracks.
+
+[sbdoc]: http://developer.apple.com/library/mac/#documentation/Cocoa/Conceptual/ScriptingBridgeConcepts/Introduction/Introduction.html
+
+## The iTunes Library and Quicksilver's Catalog ##
+
+Most plug-ins put things directly into Quicksilver's catalog. iTunes typically holds a large number of items and it's unlikely that someone will want them all in the catalog. (Do you need every individual song at your fingertips?)
+
+You may have noticed that browsing through artists, albums, playlists, etc. is very fast in Quicksilver even though most of these things aren't in the catalog. The reason is that the plug-in reads in the entire iTunes library from `~/Music/iTunes/iTunes Music Library.xml` into memory using `dictionaryWithContentsOfFile:`. The `QSObject`s you see when browsing around are generated on-the-fly from what's in the dictionary.
+
 About Quicksilver Plugins on Github
 ===================================
 
