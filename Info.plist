@@ -40,6 +40,22 @@
 			<key>rankModification</key>
 			<real>3.5</real>
 		</dict>
+		<key>QSiTunesOpenBookletAction</key>
+		<dict>
+			<key>actionClass</key>
+			<string>QSiTunesActionProvider</string>
+			<key>actionSelector</key>
+			<string>openBooklet:</string>
+			<key>directTypes</key>
+			<array>
+				<string>com.apple.itunes.track</string>
+				<string>com.apple.itunes.qsbrowsercriteria</string>
+			</array>
+			<key>icon</key>
+			<string>iTunesIcon</string>
+			<key>rankModification</key>
+			<real>3.5</real>
+		</dict>
 		<key>QSiTunesPSAddAction</key>
 		<dict>
 			<key>actionClass</key>

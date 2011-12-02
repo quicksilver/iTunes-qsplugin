@@ -249,6 +249,17 @@
 	return nil;
 }
 
+- (QSObject *)openBooklet:(QSObject *)dObject
+{
+	NSArray *itemsToCheck = [self trackObjectsFromQSObject:dObject];
+	for (iTunesFileTrack *track in itemsToCheck) {
+		if ([[track kind] isEqualToString:QSiTunesBookletKind]) {
+			[[NSWorkspace sharedWorkspace] openURL:[track location]];
+		}
+	}
+	return nil;
+}
+
 - (NSArray *)validIndirectObjectsForAction:(NSString *)action directObject:(QSObject *)dObject
 {
 	if ([action isEqualToString:@"QSiTunesAddToPlaylistAction"]) {

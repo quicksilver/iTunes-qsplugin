@@ -4,3 +4,4 @@
 "QSiTunesPSAddAction" = "Add %@ to End of iTunes DJ";
 "QSiTunesAddToPlaylistAction" = "Add %@ to Playlist…";
 "QSiTunesRevealItem" = "Reveal %@ in iTunes";
+"QSiTunesOpenBookletAction" = "Open Booklet(s) for %@";
