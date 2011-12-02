@@ -367,23 +367,6 @@ mSHARED_INSTANCE_CLASS_METHOD
 		
 	}
 	
-	NSDictionary *actionDict = [NSDictionary dictionaryWithObjectsAndKeys:
-		NSStringFromClass([self class]), kActionClass,
-		@"showCurrentTrackNotification", kActionSelector,
-		@"iTunesIcon", kActionIcon,
-		@"Show Playing Track", @"name",
-		nil];
-	
-	newObject = [QSAction actionWithDictionary:actionDict
-								  identifier:@"QSiTunesShowCurrentTrack"
-									  bundle:nil];
-	
-	//[newObject setName:@"Show Playing Track"];
-	
-	
-	[objects addObject:newObject];
-	
-	
 	[objects addObjectsFromArray:[self browseMasters]];
 	
 	//Playlists
@@ -820,17 +803,29 @@ mSHARED_INSTANCE_CLASS_METHOD
 - (NSArray *)objectsForEntry:(NSDictionary *)theEntry {
 	NSMutableArray *controlObjects = [NSMutableArray arrayWithCapacity:1];
 	QSCommand *command;
-	QSObject *foo;
-	NSArray *controls = [NSArray arrayWithObjects:@"QSiTunesShowTrackNotification", @"QSiTunesPlayPauseCommand", @"QSiTunesPlayCommand", @"QSiTunesPauseCommand", @"QSiTunesStopCommand" @"QSiTunesIncreaseVolume", @"QSiTunesDecreaseVolume", @"QSiTunesMute", @"QSiTunesSearchAll", @"QSiTunesSearchArtists", @"QSiTunesSearchAlbums", @"QSiTunesSearchTracks", @"QSiTunesPreviousSongCommand", @"QSiTunesNextSongCommand", @"QSiTunesIncreaseRating", @"QSiTunesDecreaseRating", @"QSiTunesSetRating0", @"QSiTunesSetRating1", @"QSiTunesSetRating2", @"QSiTunesSetRating3", @"QSiTunesSetRating4", @"QSiTunesSetRating5", nil];
+	NSDictionary *commandDict;
+	QSAction *newObject;
+	NSString *actionID;
+	NSDictionary *actionDict;
+	// create catalog objects using info specified in the plist (under QSCommands)
+	NSArray *controls = [NSArray arrayWithObjects:@"QSiTunesShowTrackNotification", @"QSiTunesPlayPauseCommand", @"QSiTunesPlayCommand", @"QSiTunesPauseCommand", @"QSiTunesStopCommand", @"QSiTunesIncreaseVolume", @"QSiTunesDecreaseVolume", @"QSiTunesMute", @"QSiTunesPreviousSongCommand", @"QSiTunesNextSongCommand", @"QSiTunesIncreaseRating", @"QSiTunesDecreaseRating", @"QSiTunesSetRating0", @"QSiTunesSetRating1", @"QSiTunesSetRating2", @"QSiTunesSetRating3", @"QSiTunesSetRating4", @"QSiTunesSetRating5", nil];
 	for (NSString *control in controls) {
 		command = [QSCommand commandWithIdentifier:control];
 		if (command) {
-			[controlObjects addObject:command];
-			foo = [command dObject];
-			NSLog(@"actionID: %@", [foo identifier]);
+			commandDict = [command commandDict];
+			actionID = [commandDict objectForKey:@"directID"];
+			actionDict = [[[commandDict objectForKey:@"directArchive"] objectForKey:@"data"] objectForKey:QSActionType];
+			if (actionDict) {
+				newObject = [QSAction actionWithDictionary:actionDict identifier:actionID bundle:nil];
+				[controlObjects addObject:newObject];
+			}
 		}
 	}
 	return controlObjects;
+}
+
+- (NSImage *)iconForEntry:(NSDictionary *)dict {
+	return [QSResourceManager imageNamed:@"iTunesIcon"];
 }
 
 @end
