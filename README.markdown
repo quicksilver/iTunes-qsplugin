@@ -6,7 +6,20 @@ The Scripting Bridge code requires `iTunes.h`, which will be generated automatic
 
 You should [familiarize yourself with Scripting Bridge][sbdoc] a bit before making any changes. Particularly the sections that discuss performance.
 
-In the end though, you just need to test everything out and see what works. Certain things that should be faster in theory (like filtering by `kind` using `NSPredicate`) are actually unusably slow. You're better off if you just enumerate through an array of tracks.
+In the end though, you just need to test everything out and see what works. Certain things that should be faster in theory are actually unusably slow. You're better off if you just enumerate through an array of tracks in some cases.
+
+Specifically, adding `kind` and `videoKind` to a predicate seems like the right way to filter, but
+while it will work, it's *very* slow for some reason.
+
+    NSMutableArray *criteria = [NSMutableArray arrayWithObjects:@"kind", QSiTunesBookletKind, @"videoKind", iTunesEVdKNone, nil];
+    NSString *formatString = @"%K != %@ AND %K == %i";
+    NSPredicate *trackFilter = [NSPredicate predicateWithFormat:formatString argumentArray:criteria];
+    trackResult = [[libraryPlaylist fileTracks] filteredArrayUsingPredicate:trackFilter];
+
+Also, adding `albumArtist` to the predicate is unusably slow. iTunes hits 100% CPU for several minutes. This is very fast on the other hand:
+
+    [[libraryPlaylist fileTracks] valueForKey:@"albumArtist"]
+    # console: Quicksilver: time to get album artists for 7721 tracks: 0.051879
 
 [sbdoc]: http://developer.apple.com/library/mac/#documentation/Cocoa/Conceptual/ScriptingBridgeConcepts/Introduction/Introduction.html
 

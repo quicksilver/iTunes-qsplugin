@@ -288,16 +288,6 @@
 			criteriaDict = [browseDict objectForKey:@"Criteria"];
 			
 			// build a search query
-			/*
-			 Adding kind and videoKind to the predicate seems like the right way to filter, but
-			 while it will work, it's *very* slow for some reason. Better to just enumerate the result later.
-			 Also, adding albumArtist to the predicate is unusably slow. iTunes hits 100% CPU for several minutes.
-			 [[libraryPlaylist fileTracks] valueForKey:@"albumArtist"] is very fast on the other hand
-				Quicksilver: time to get album artists for 7721 tracks: 0.051879
-
-			 NSMutableArray *criteria = [NSMutableArray arrayWithObjects:@"kind", @"PDF document", @"videoKind", [NSAppleEventDescriptor descriptorWithTypeCode:iTunesEVdKNone], nil];
-			 NSString *formatString = @"%K != %@ AND %K == %@";
-			 */
 			formatString = @"(";
 			first = YES;
 			for (NSString *criteriaKey in [criteriaDict allKeys]) {
