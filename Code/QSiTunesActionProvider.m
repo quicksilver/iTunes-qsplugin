@@ -119,7 +119,7 @@
 	
 	// get iTunesTrack objects to represent each track
 	NSArray *trackResult = [self trackObjectsFromQSObject:dObject];
-	NSArray *newTracks = [trackResult arrayByPerformingSelector:@selector(location)];
+	NSArray *newTracks = [trackResult valueForKey:@"location"];
 	
 	if (party) {
 		iTunesApplication *iTunes = QSiTunes();
@@ -226,7 +226,7 @@
 {
 	// get the tracks
 	NSArray *trackResult = [self trackObjectsFromQSObject:dObject];
-	NSArray *newTracks = [trackResult arrayByPerformingSelector:@selector(location)];
+	NSArray *newTracks = [trackResult valueForKey:@"location"];
 	// get the playlist
 	NSArray *playlistResult = [[QSiTunesLibrary() playlists] filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"persistentID == %@", [iObject identifier]]];
 	if ([playlistResult count] > 0) {
@@ -278,9 +278,12 @@
 			
 			// build a search query
 			/*
-			 // Adding kind and videoKind to the predicate seems like the right way to filter, but
+			 Adding kind and videoKind to the predicate seems like the right way to filter, but
 			 while it will work, it's *very* slow for some reason. Better to just enumerate the result later.
 			 Also, adding albumArtist to the predicate is unusably slow. iTunes hits 100% CPU for several minutes.
+			 [[libraryPlaylist fileTracks] valueForKey:@"albumArtist"] is very fast on the other hand
+				Quicksilver: time to get album artists for 7721 tracks: 0.051879
+
 			 NSMutableArray *criteria = [NSMutableArray arrayWithObjects:@"kind", @"PDF document", @"videoKind", [NSAppleEventDescriptor descriptorWithTypeCode:iTunesEVdKNone], nil];
 			 NSString *formatString = @"%K != %@ AND %K == %@";
 			 */
