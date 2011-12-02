@@ -217,12 +217,8 @@
 
 - (QSObject *)playPlaylist:(QSObject *)dObject
 {
-	NSString *playlistID = [dObject identifier];
-	iTunesSource *library = QSiTunesLibrary();
-	NSArray *playlistResult = [[library playlists] filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"persistentID == %@", playlistID]];
-	if ([playlistResult count] > 0) {
-		[[playlistResult lastObject] playOnce:YES];
-	}
+	iTunesPlaylist *playlist = [self playlistObjectFromQSObject:dObject];
+	[playlist playOnce:YES];
 	return nil;
 }
 
@@ -253,10 +249,7 @@
 	// get iTunesTrack objects to represent each track
 	if ([tracks containsType:QSiTunesPlaylistIDPboardType]) {
 		// from a playlist
-		NSArray *playlistResult = [[QSiTunesLibrary() playlists] filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"persistentID == %@", [tracks identifier]]];
-		if ([playlistResult count] > 0) {
-			trackResult = [[playlistResult objectAtIndex:0] fileTracks];
-		}
+		trackResult = [[self playlistObjectFromQSObject:tracks] fileTracks];
 	} else if ([tracks containsType:QSiTunesBrowserPboardType]) {
 		// from browsing in Quicksilver
 		NSMutableArray *formatStrings = [NSMutableArray arrayWithCapacity:1];
@@ -317,6 +310,15 @@
 		trackResult = [[libraryPlaylist fileTracks] filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:searchFilter argumentArray:trackIDs]];
 	}
 	return trackResult;
+}
+
+- (iTunesPlaylist *)playlistObjectFromQSObject:(QSObject *)playlist
+{
+	NSArray *playlistResult = [[QSiTunesLibrary() playlists] filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"persistentID == %@", [playlist identifier]]];
+	if ([playlistResult count] > 0) {
+		return [playlistResult objectAtIndex:0];
+	}
+	return nil;
 }
 
 - (NSAppleScript *)iTunesScript {
