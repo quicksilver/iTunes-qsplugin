@@ -428,7 +428,7 @@
 								<key>actionSelector</key>
 								<string>next</string>
 								<key>icon</key>
-								<string>iTunesIcon</string>
+								<string>iTunesNext</string>
 								<key>name</key>
 								<string>Next</string>
 							</dict>
@@ -455,7 +455,7 @@
 								<key>actionSelector</key>
 								<string>pause</string>
 								<key>icon</key>
-								<string>iTunesIcon</string>
+								<string>iTunesPause</string>
 								<key>name</key>
 								<string>Pause</string>
 							</dict>
@@ -482,7 +482,7 @@
 								<key>actionSelector</key>
 								<string>play</string>
 								<key>icon</key>
-								<string>iTunesIcon</string>
+								<string>iTunesPlay</string>
 								<key>name</key>
 								<string>Play</string>
 							</dict>
@@ -509,7 +509,7 @@
 								<key>actionSelector</key>
 								<string>togglePlayPause</string>
 								<key>icon</key>
-								<string>iTunesIcon</string>
+								<string>iTunesPlay-Pause</string>
 								<key>name</key>
 								<string>Play/Pause</string>
 							</dict>
@@ -536,7 +536,7 @@
 								<key>actionSelector</key>
 								<string>previous</string>
 								<key>icon</key>
-								<string>iTunesIcon</string>
+								<string>iTunesPrevious</string>
 								<key>name</key>
 								<string>Previous</string>
 							</dict>
@@ -870,7 +870,7 @@
 								<key>actionSelector</key>
 								<string>stop</string>
 								<key>icon</key>
-								<string>iTunesIcon</string>
+								<string>iTunesStop</string>
 								<key>name</key>
 								<string>Stop</string>
 							</dict>
