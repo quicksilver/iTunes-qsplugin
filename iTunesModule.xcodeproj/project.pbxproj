@@ -12,7 +12,6 @@
 		D4239676148564800072DE1F /* QSiTunesPrefPane.xib in Resources */ = {isa = PBXBuildFile; fileRef = D4239675148564800072DE1F /* QSiTunesPrefPane.xib */; };
 		D43DDF4F1472E35D00EB2E9D /* iTunes.app in Resources */ = {isa = PBXBuildFile; fileRef = D43DDF4E1472E35D00EB2E9D /* iTunes.app */; };
 		D43DDF551472E60600EB2E9D /* iTunes.app in Sources */ = {isa = PBXBuildFile; fileRef = D43DDF4E1472E35D00EB2E9D /* iTunes.app */; };
-		E128E0420703470600B34075 /* Scripts in Resources */ = {isa = PBXBuildFile; fileRef = E128E0390703470600B34075 /* Scripts */; };
 		E128E0EB070348F100B34075 /* QSPreset.name.strings in Resources */ = {isa = PBXBuildFile; fileRef = E1DAFADF07007BA400FAFE2A /* QSPreset.name.strings */; };
 		E1B9F7E907A2B18600B4017B /* QSiTunesDatabase.h in Resources */ = {isa = PBXBuildFile; fileRef = E1B9F7E707A2B18600B4017B /* QSiTunesDatabase.h */; };
 		E1B9F7EA07A2B18600B4017B /* QSiTunesDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = E1B9F7E807A2B18600B4017B /* QSiTunesDatabase.m */; };
@@ -67,7 +66,6 @@
 		D4239675148564800072DE1F /* QSiTunesPrefPane.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QSiTunesPrefPane.xib; sourceTree = "<group>"; };
 		D43DDF4E1472E35D00EB2E9D /* iTunes.app */ = {isa = PBXFileReference; lastKnownFileType = wrapper.application; name = iTunes.app; path = /Applications/iTunes.app; sourceTree = "<absolute>"; };
 		DD92D38A0106425D02CA0E72 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
-		E128E0390703470600B34075 /* Scripts */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Scripts; sourceTree = SOURCE_ROOT; };
 		E1B9F7E707A2B18600B4017B /* QSiTunesDatabase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSiTunesDatabase.h; sourceTree = "<group>"; };
 		E1B9F7E807A2B18600B4017B /* QSiTunesDatabase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSiTunesDatabase.m; sourceTree = "<group>"; };
 		E1B9F7ED07A2B21A00B4017B /* QSiTunesActionProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSiTunesActionProvider.h; sourceTree = "<group>"; };
@@ -205,7 +203,6 @@
 				E1DAFAED07007BA400FAFE2A /* iTunesPurchasedMusicPlaylistIcon.icns */,
 				E1DAFAEE07007BA400FAFE2A /* iTunesQuicksilverPlaylistIcon.icns */,
 				E1DAFAEF07007BA400FAFE2A /* iTunesSmartPlaylistIcon.icns */,
-				E128E0390703470600B34075 /* Scripts */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -277,7 +274,6 @@
 				E1DAFB0907007BA500FAFE2A /* iTunesPurchasedMusicPlaylistIcon.icns in Resources */,
 				E1DAFB0A07007BA500FAFE2A /* iTunesQuicksilverPlaylistIcon.icns in Resources */,
 				E1DAFB0B07007BA500FAFE2A /* iTunesSmartPlaylistIcon.icns in Resources */,
-				E128E0420703470600B34075 /* Scripts in Resources */,
 				E128E0EB070348F100B34075 /* QSPreset.name.strings in Resources */,
 				E1B9F7E907A2B18600B4017B /* QSiTunesDatabase.h in Resources */,
 				E1B9F7EF07A2B21A00B4017B /* QSiTunesActionProvider.h in Resources */,
