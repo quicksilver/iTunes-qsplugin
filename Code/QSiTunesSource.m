@@ -555,6 +555,17 @@ mSHARED_INSTANCE_CLASS_METHOD
 	if (!trackInfo) return nil;
 	QSObject *newObject = [QSObject makeObjectWithIdentifier:[trackInfo objectForKey:@"Persistent ID"]];
 	[newObject setName:[trackInfo objectForKey:@"Name"]];
+	if ([trackInfo valueForKey:@"Has Video"]) {
+		// set a default label
+		[newObject setLabel:[NSString stringWithFormat:@"%@ (Video)", [newObject name]]];
+		// override with more specific info (if found)
+		NSArray *videoKinds = [NSArray arrayWithObjects:@"Music Video", @"Movie", @"TV Show", nil];
+		for (NSString *vkind in videoKinds) {
+			if ([trackInfo valueForKey:vkind]) {
+				[newObject setLabel:[NSString stringWithFormat:@"%@ (%@)", [newObject name], vkind]];
+			}
+		}
+	}
 	[newObject setObject:trackInfo forType:QSiTunesTrackIDPboardType];
 	if (playlist) [newObject setObject:playlist forMeta:@"QSiTunesSourcePlaylist"];
 	
