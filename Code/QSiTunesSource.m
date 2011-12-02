@@ -8,9 +8,9 @@ mSHARED_INSTANCE_CLASS_METHOD
 
 + (void)initialize {
 	NSImage *image;
-	NSArray *images = [[NSArray arrayWithObjects:@"iTunesLibraryPlaylistIcon", @"iTunesSmartPlaylistIcon",
+	NSArray *images = [NSArray arrayWithObjects:@"iTunesLibraryPlaylistIcon", @"iTunesSmartPlaylistIcon",
 		@"iTunesPlaylistIcon", @"iTunesPartyShufflePlaylistIcon", @"iTunesPurchasedMusicPlaylistIcon", @"iTunesQuicksilverPlaylistIcon", @"iTunesAlbumBrowserIcon",
-		@"iTunesArtistBrowserIcon", @"iTunesComposerBrowserIcon", @"iTunesGenreBrowserIcon", nil] objectEnumerator];
+		@"iTunesArtistBrowserIcon", @"iTunesComposerBrowserIcon", @"iTunesGenreBrowserIcon", nil];
 	NSBundle *bundle = [NSBundle bundleForClass:[QSiTunesObjectSource class]];
 	for (NSString *name in images) {
 		image = [[NSImage alloc] initWithContentsOfFile:[bundle pathForImageResource:name]];
@@ -822,10 +822,6 @@ mSHARED_INSTANCE_CLASS_METHOD
 		}
 	}
 	return controlObjects;
-}
-
-- (NSImage *)iconForEntry:(NSDictionary *)dict {
-	return [QSResourceManager imageNamed:@"iTunesIcon"];
 }
 
 @end
