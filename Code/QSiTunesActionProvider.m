@@ -92,7 +92,7 @@
 		}
 		NSDictionary *ascriteria = [NSMutableArray arrayWithArray:[criteriaDict objectsForKeys:[NSArray arrayWithObjects:@"Genre", @"Artist", @"Composer", @"Album", @"Fail Intentionally", nil] notFoundMarker:[NSAppleEventDescriptor descriptorWithTypeCode:'msng']]];
 		//NSLog(@"criteria for AppleScript: %@", ascriteria);
-		NSArray *newTracks = [tracksToPlay arrayByPerformingSelector:@selector(location)];
+		NSArray *newTracks = [tracksToPlay valueForKey:@"location"];
 		if (next) {
 			// play next
 			[[self iTunesScript] executeSubroutine:@"ps_play_next_criteria" arguments:ascriteria  error:&errorDict];

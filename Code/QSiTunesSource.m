@@ -137,7 +137,7 @@ mSHARED_INSTANCE_CLASS_METHOD
 		// TODO get current iTunes selection with Scripting Bridge
 //		iTunesBrowserWindow *window = [[QSiTunes() browserWindows] objectAtIndex:0];
 //		SBObject *listing = [window selection];
-//		NSArray *tracks = [[listing elementArrayWithCode:iTunesEKndTrackListing] arrayByPerformingSelector:@selector(databaseID)];
+//		NSArray *tracks = [[listing elementArrayWithCode:iTunesEKndTrackListing] valueForKey:@"databaseID"];
 //		NSLog(@"iTunes selection count: %@", [tracks count]);
 		NSArray *tracks = [[[self iTunesScript] executeSubroutine:@"current_selection_id" arguments:nil  error:nil] objectValue];
 		if ([tracks isKindOfClass:[NSNull class]]) return nil;
