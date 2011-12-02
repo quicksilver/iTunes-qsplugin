@@ -108,6 +108,21 @@
 			<key>rankModification</key>
 			<real>3.5</real>
 		</dict>
+		<key>QSiTunesRevealItem</key>
+		<dict>
+			<key>actionClass</key>
+			<string>QSiTunesActionProvider</string>
+			<key>actionSelector</key>
+			<string>revealItem:</string>
+			<key>directTypes</key>
+			<array>
+				<string>com.apple.itunes.playlist</string>
+			</array>
+			<key>icon</key>
+			<string>iTunesIcon</string>
+			<key>rankModification</key>
+			<real>3.5</real>
+		</dict>
 	</dict>
 	<key>QSPlugIn</key>
 	<dict>

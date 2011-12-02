@@ -235,6 +235,20 @@
 	return nil;
 }
 
+- (QSObject *)revealItem:(QSObject *)dObject
+{
+	[QSiTunes() activate];
+	if ([dObject containsType:QSiTunesPlaylistIDPboardType]) {
+		[[self playlistObjectFromQSObject:dObject] reveal];
+	} else if ([dObject containsType:QSiTunesTrackIDPboardType]) {
+		// TODO this doesn't work on tracks
+		NSArray *trackResult = [self trackObjectsFromQSObject:dObject];
+		iTunesTrack *track = [trackResult lastObject];
+		[track reveal];
+	}
+	return nil;
+}
+
 - (NSArray *)validIndirectObjectsForAction:(NSString *)action directObject:(QSObject *)dObject
 {
 	if ([action isEqualToString:@"QSiTunesAddToPlaylistAction"]) {
