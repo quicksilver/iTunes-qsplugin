@@ -16,10 +16,10 @@
 	<string>iTunes Module</string>
 	<key>CFBundlePackageType</key>
 	<string>BNDL</string>
+	<key>CFBundleShortVersionString</key>
+	<string>2.0</string>
 	<key>CFBundleVersion</key>
-	<string>33C</string>
-	<key>NSHumanReadableCopyright</key>
-	<string>Copyright © 2004, Blacktree, Inc.</string>
+	<string>33D</string>
 	<key>NSPrincipalClass</key>
 	<string>QSiTunesObjectSource</string>
 	<key>QSActions</key>
@@ -143,16 +143,112 @@
 	<key>QSPlugIn</key>
 	<dict>
 		<key>author</key>
-		<string>Blacktree, Inc.</string>
+		<string>Alcor, Rob McBroom</string>
 		<key>categories</key>
 		<array>
 			<string>Music</string>
 			<string>Applications</string>
 		</array>
 		<key>description</key>
-		<string>Provides access to playlists and allows browsing by Artist, Album, Genre, and Composer.</string>
+		<string>Allows you to control iTunes and browse the iTunes library</string>
 		<key>extendedDescription</key>
-		<string>Provides access to playlists and allows browsing by Artist, Album, Genre, and Composer.&lt;P&gt;&lt;h3&gt;Enhancements&lt;/h3&gt;&lt;br&gt;&lt;ul&gt;&lt;li&gt;Playlists and Browsing groups in catalog and as children of iTunes&lt;li&gt;iTunes DJ and Play actions&lt;li&gt;Display notifications on track changes&lt;li&gt;Adds control scripts for playing, pausing, skipping tracks&lt;/ul&gt;</string>
+		<string>&lt;h2 id=&quot;preferences&quot;&gt;Preferences&lt;/h2&gt;
+
+&lt;h4 id=&quot;show_artwork&quot;&gt;Show Artwork&lt;/h4&gt;
+
+&lt;p&gt;With this enabled, Quicksilver will show the album cover (for albums and tracks) or the poster frame (for videos). If disabled, a generic icon will be shown instead.&lt;/p&gt;
+
+&lt;h4 id=&quot;group_compilations&quot;&gt;Group Compilations&lt;/h4&gt;
+
+&lt;p&gt;With this enabled, tracks from different artists will be shown under a single album (if part of a compilation).&lt;/p&gt;
+
+&lt;h4 id=&quot;monitor_recent_tracks&quot;&gt;Monitor Recent Tracks&lt;/h4&gt;
+
+&lt;p&gt;With this enabled, Quicksilver can store the last 10 tracks played by iTunes. It only includes tracks that have played since Quicksilver last started, and only while the preference was enabled.&lt;/p&gt;
+
+&lt;h4 id=&quot;display_track_notifications&quot;&gt;Display Track Notifications&lt;/h4&gt;
+
+&lt;p&gt;If &lt;strong&gt;Monitor Recent Tracks&lt;/strong&gt; is enabled, you can optionally have Quicksilver display a notification every time a new track starts. The type of notification (built-in or Growl) can be controlled via Quicksilver&amp;#8217;s various preferences related to notifications.&lt;/p&gt;
+
+&lt;h4 id=&quot;include_videos_when_playing_albums&quot;&gt;Include Videos when Playing Albums&lt;/h4&gt;
+
+&lt;p&gt;Some albums might have videos associated with them, but you probably don&amp;#8217;t want them to play when listening to an album. This allows you to control that behavior. The name is a bit misleading, as it will also apply if you select an artist and play them (which will play everything by that artist).&lt;/p&gt;
+
+&lt;h2 id=&quot;catalog&quot;&gt;Catalog&lt;/h2&gt;
+
+&lt;p&gt;There are three catalog presets to choose from.&lt;/p&gt;
+
+&lt;h3 id=&quot;itunes_playlists&quot;&gt;iTunes Playlists&lt;/h3&gt;
+
+&lt;p&gt;This will add the following to your main catalog:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;All playlists&lt;/li&gt;
+&lt;li&gt;Entry points for browsing the library (Browse Artists, Browse Albums, etc.)&lt;/li&gt;
+&lt;li&gt;A &amp;#8220;Recent Tracks&amp;#8221; entry. (Select it and hit → or / to see them.)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;These items can also be accessed by selecting iTunes in Quicksilver and hitting → or /.&lt;/p&gt;
+
+&lt;p&gt;Individual tracks are not added to the catalog as they&amp;#8217;re rarely sought out, and would really just slow Quicksilver down. Artists, Albums, Tracks, etc. can still be accessed quickly (see &lt;strong&gt;Browsing&lt;/strong&gt; below).&lt;/p&gt;
+
+&lt;h3 id=&quot;itunes_controls&quot;&gt;iTunes Controls&lt;/h3&gt;
+
+&lt;p&gt;These are the same controls you can add triggers for (to control playback, adjust volume, and adjust rating). You can add them to the catalog in addition to (or instead of) assigning triggers to them.&lt;/p&gt;
+
+&lt;h3 id=&quot;scripts_itunes&quot;&gt;Scripts (iTunes)&lt;/h3&gt;
+
+&lt;p&gt;This will add any AppleScripts you have in &lt;code&gt;~/Library/iTunes/Scripts/&lt;/code&gt;. (There are none by default.)&lt;/p&gt;
+
+&lt;h2 id=&quot;browsing&quot;&gt;Browsing&lt;/h2&gt;
+
+&lt;p&gt;You can quickly locate and play anything in your iTunes library, even if it&amp;#8217;s not stored in Quicksilver&amp;#8217;s catalog. You can do this by assigning triggers to search a certain criteria (like Artist or Genre) or by selecting &amp;#8220;Browse [Criteria]&amp;#8221; in Quicksilver.&lt;/p&gt;
+
+&lt;h2 id=&quot;actions&quot;&gt;Actions&lt;/h2&gt;
+
+&lt;h4 id=&quot;play&quot;&gt;Play&lt;/h4&gt;
+
+&lt;p&gt;You can play any of the following:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Playlists&lt;/li&gt;
+&lt;li&gt;Tracks (individually or with the comma trick)&lt;/li&gt;
+&lt;li&gt;Albums (individually or with the comma trick)&lt;/li&gt;
+&lt;li&gt;Artists (all tracks by the artist, individually or with the comma trick)&lt;/li&gt;
+&lt;li&gt;Genres (all tracks in a genre, individually or with the comma trick)&lt;/li&gt;
+&lt;li&gt;Composers (all tracks by the composer, individually or with the comma trick)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h4 id=&quot;add_to_playlist&quot;&gt;Add to Playlist…&lt;/h4&gt;
+
+&lt;p&gt;Add artists, albums, tracks, etc. to an existing playlist by selecting it in the third pane.&lt;/p&gt;
+
+&lt;h4 id=&quot;reveal&quot;&gt;Reveal&lt;/h4&gt;
+
+&lt;p&gt;Select and show a playlist in the iTunes window.&lt;/p&gt;
+
+&lt;h4 id=&quot;show_booklets&quot;&gt;Show Booklet(s)&lt;/h4&gt;
+
+&lt;p&gt;With album(s) or artist(s) in the first pane, you can display the PDF artwork that accompanies some albums purchased from the iTunes store. Nothing will happen for albums that don&amp;#8217;t include artwork.&lt;/p&gt;
+
+&lt;h4 id=&quot;play_in_itunes_dj&quot;&gt;Play in iTunes DJ&lt;/h4&gt;
+
+&lt;p&gt;Add tracks to the beginning of the list in iTunes DJ and start playing.&lt;/p&gt;
+
+&lt;h4 id=&quot;play_next_in_itunes_dj&quot;&gt;Play Next in iTunes DJ&lt;/h4&gt;
+
+&lt;p&gt;Add tracks after the current track in iTunes DJ.&lt;/p&gt;
+
+&lt;h4 id=&quot;add_to_end_of_itunes_dj&quot;&gt;Add to End of iTunes DJ&lt;/h4&gt;
+
+&lt;p&gt;Append tracks to the beginning of the list in iTunes DJ.&lt;/p&gt;
+
+&lt;h2 id=&quot;be_aware&quot;&gt;Be Aware&lt;/h2&gt;
+
+&lt;p&gt;The most accurate information comes from iTunes itself, but that only works if iTunes is running. In order to get information without requiring iTunes to be running at all times, we read it from disk (from &lt;code&gt;~/Music/iTunes/iTunes Music Library.xml&lt;/code&gt;).&lt;/p&gt;
+
+&lt;p&gt;The information you see when browsing through your library comes from this XML file, but when you take an action like Play or Add to Playlist, the affected tracks are pulled from iTunes itself. This can lead to occasional inconsistencies in what you would see browsing in Quicksilver vs. what actually happens in iTunes.&lt;/p&gt;
+</string>
 		<key>icon</key>
 		<string>com.apple.iTunes</string>
 		<key>qsversion</key>
