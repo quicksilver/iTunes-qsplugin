@@ -383,13 +383,13 @@
 - (void)volumeIncrease
 {
 	iTunesApplication *iTunes = QSiTunes();
-	[iTunes setSoundVolume:[iTunes soundVolume] + 10];
+	[iTunes setSoundVolume:[iTunes soundVolume] + 5];
 }
 
 - (void)volumeDecrease
 {
 	iTunesApplication *iTunes = QSiTunes();
-	[iTunes setSoundVolume:[iTunes soundVolume] - 10];
+	[iTunes setSoundVolume:[iTunes soundVolume] - 5];
 }
 
 - (void)volumeMute
