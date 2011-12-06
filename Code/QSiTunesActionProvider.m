@@ -188,14 +188,14 @@
 	iTunesApplication *iTunes = QSiTunes();
 	iTunesSource *library = QSiTunesLibrary();
 	iTunesPlaylist *qs = [[library userPlaylists] objectWithName:QSiTunesDynamicPlaylist];
-	if (![qs exists]) {
+	if ([qs exists]) {
+		// clear the old list
+		[[qs tracks] removeAllObjects];
+	} else {
 		// create the dynamic playlist
 		qs = [[[iTunes classForScriptingClass:@"playlist"] alloc] init];
 		[[library userPlaylists] insertObject:qs atIndex:0];
 		[qs setName:QSiTunesDynamicPlaylist];
-	} else {
-		// clear the old list
-		[[qs tracks] removeAllObjects];
 	}
 	// filter out PDFs and (optionally) videos
 	BOOL includeVideos = [[NSUserDefaults standardUserDefaults] boolForKey:@"QSiTunesIncludeVideos"];
@@ -204,7 +204,6 @@
 		if ([[track kind] isEqualToString:QSiTunesBookletKind]) {
 			continue;
 		}
-		// TODO add a preference to include videos
 		// TODO if playlist is *only* videos, include them regardless of preferences
 		if (!includeVideos && [track videoKind] != iTunesEVdKNone) {
 			continue;
