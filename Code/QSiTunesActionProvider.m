@@ -346,6 +346,11 @@
 	return iTunesScript;
 }
 
+- (void)manaullyAppendTrack:(iTunesTrack *)track toPlaylist:(iTunesPlaylist *)playlist
+{
+	[track sendEvent:'core' id:'clon' parameters:'insh', playlist, 0];
+}
+
 @end
 
 @implementation QSiTunesControlProvider
