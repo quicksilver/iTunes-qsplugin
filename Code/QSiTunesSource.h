@@ -2,13 +2,14 @@
 
 //#import <QSCore/QSCore.h>
 
-
+#import "QSiTunesDefines.h"
 #import "QSiTunesDatabase.h"
 
 @interface QSiTunesObjectSource : QSObjectSource {
      NSMutableArray *recentTracks;
 	BOOL showArtwork;
 	QSiTunesDatabase *library;
+	iTunesApplication *iTunes;
 }
 - (NSAttributedString *)starsForRating:(int)rating;
 - (QSObject *)trackObjectForInfo:(NSDictionary *)trackInfo inPlaylist:(NSString *)playlist;

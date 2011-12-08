@@ -11,6 +11,7 @@
 
 @interface QSiTunesActionProvider : QSActionProvider{
     NSAppleScript *iTunesScript;
+	iTunesApplication *iTunes;
 }
 - (NSAppleScript *)iTunesScript;
 - (QSObject *) playPlaylist:(QSObject *)dObject;
@@ -22,6 +23,9 @@
 @end
 
 @interface QSiTunesControlProvider : QSActionProvider
+{
+	iTunesApplication *iTunes;
+}
 - (void)play;
 - (void)pause;
 - (void)togglePlayPause;

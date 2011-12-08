@@ -1,6 +1,5 @@
 #import <Carbon/Carbon.h>
 #import "QSiTunesSource.h"
-#import "QSiTunesDefines.h"
 #define QSiTunesRecentTracksBrowser @"QSiTunesRecentTracksBrowser"
 
 @implementation QSiTunesObjectSource
@@ -19,6 +18,7 @@ mSHARED_INSTANCE_CLASS_METHOD
 	}
 }
 - (void)dealloc {
+	[iTunes release];
 	[super dealloc];
 }
 - (id)init {
@@ -51,8 +51,8 @@ mSHARED_INSTANCE_CLASS_METHOD
 //			
 			[[NSDistributedNotificationCenter defaultCenter] addObserver:self selector:@selector(iTunesStateChanged:) name:@"com.apple.iTunes.playerInfo" object:nil];
 			//	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(quitMonitor:) name:NSApplicationWillTerminateNotification object:nil];
-			
 		}
+		iTunes = [QSiTunes() retain];
 	}
 	return self;
 }
@@ -113,7 +113,7 @@ mSHARED_INSTANCE_CLASS_METHOD
 		id newObject = [self browserObjectForTrack:[self currentTrackInfo] andCriteria:@"Artist"];
 		return newObject;
 	} else if ([proxy isEqualToString:@"QSCurrentPlaylistProxy"]) {
-		NSString *name = [[QSiTunes() currentPlaylist] name];
+		NSString *name = [[iTunes currentPlaylist] name];
 		NSDictionary *thisPlaylist = [library playlistInfoForName:name];
 		
 		QSObject *newObject = [QSObject objectWithName:name];
@@ -122,7 +122,7 @@ mSHARED_INSTANCE_CLASS_METHOD
 		[newObject setPrimaryType:QSiTunesPlaylistIDPboardType];
 		return newObject;
 	} else if ([proxy isEqualToString:@"QSSelectedPlaylistProxy"]) {
-		iTunesBrowserWindow *window = [[QSiTunes() browserWindows] objectAtIndex:0];
+		iTunesBrowserWindow *window = [[iTunes browserWindows] objectAtIndex:0];
 		NSString *name = [[window view] name];
 		NSDictionary *thisPlaylist = [library playlistInfoForName:name];
 		
@@ -135,7 +135,7 @@ mSHARED_INSTANCE_CLASS_METHOD
 		
 	} else {// if ([ident isEqualToString:@"QSCurrentSelectionProxy"]) {
 		// TODO get current iTunes selection with Scripting Bridge
-//		iTunesBrowserWindow *window = [[QSiTunes() browserWindows] objectAtIndex:0];
+//		iTunesBrowserWindow *window = [[iTunes browserWindows] objectAtIndex:0];
 //		SBObject *listing = [window selection];
 //		NSArray *tracks = [[listing elementArrayWithCode:iTunesEKndTrackListing] valueForKey:@"databaseID"];
 //		NSLog(@"iTunes selection count: %@", [tracks count]);
@@ -162,7 +162,7 @@ mSHARED_INSTANCE_CLASS_METHOD
 	}
 	if (!trackInfo) {
 		// fall back to querying iTunes (if it's running)
-		if ([QSiTunes() isRunning]) {
+		if ([iTunes isRunning]) {
 			iTunesLibraryPlaylist *libraryPlaylist = [[QSiTunesLibrary() libraryPlaylists] objectAtIndex:0];
 			NSArray *trackResult = [[libraryPlaylist fileTracks] filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"databaseID == %@", trackID]];
 			if ([trackResult count] > 0) {
@@ -196,7 +196,7 @@ mSHARED_INSTANCE_CLASS_METHOD
 }
 
 - (NSString *)currentTrackID {
-	return [NSString stringWithFormat:@"%d", [[QSiTunes() currentTrack] databaseID]];
+	return [NSString stringWithFormat:@"%d", [[iTunes currentTrack] databaseID]];
 }
 
 - (void)showCurrentTrackNotification {	
@@ -224,7 +224,7 @@ mSHARED_INSTANCE_CLASS_METHOD
 		
 		//NSLog(@"%@ %@ %@", name, artist, album);
 		if ([trackInfo objectForKey:@"Total Time"] == nil && !album && !artist && [location hasPrefix:@"http"]) {
-			NSString *streamTitle = [QSiTunes() currentStreamTitle];
+			NSString *streamTitle = [iTunes currentStreamTitle];
 			
 			if (streamTitle) {
 				artist = name;
@@ -249,7 +249,7 @@ mSHARED_INSTANCE_CLASS_METHOD
 		icon = [self imageForTrack:trackInfo];
 		//NSLog(@"info : %@", trackInfo);
 		if (!icon && ![trackInfo objectForKey:@"Location"]) {
-			iTunesTrack *currentTrack = [QSiTunes() currentTrack];
+			iTunesTrack *currentTrack = [iTunes currentTrack];
 			NSData *data = [[[currentTrack artworks] objectAtIndex:0] rawData];
 			icon = [[[NSImage alloc] initWithData:data] autorelease];
 		}
