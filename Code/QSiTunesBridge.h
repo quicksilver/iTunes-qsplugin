@@ -9,9 +9,6 @@
 #import <Cocoa/Cocoa.h>
 #import "iTunes.h"
 
-extern NSAppleScript *gQSiTunesScript;
-
-NSAppleScript *QSiTunesScript();
 iTunesApplication *QSiTunes();
 iTunesSource *QSiTunesLibrary();
 iTunesPlaylist *QSiTunesDJ();

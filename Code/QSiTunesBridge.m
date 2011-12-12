@@ -8,17 +8,6 @@
 
 #import "QSiTunesBridge.h"
 
-NSAppleScript *gQSiTunesScript = nil;
-
-NSAppleScript *QSiTunesScript() {
-	if (!gQSiTunesScript) {
-			gQSiTunesScript = [[NSAppleScript alloc] initWithContentsOfURL:[NSURL fileURLWithPath:
-				[[NSBundle bundleForClass:NSClassFromString(@"QSiTunesObjectSource")]  pathForResource:@"iTunes" ofType:@"scpt"]] error:nil];
-
-	}
-			return gQSiTunesScript;
-}
-
 iTunesApplication *QSiTunes()
 {
 	return [SBApplication applicationWithBundleIdentifier:@"com.apple.iTunes"];
