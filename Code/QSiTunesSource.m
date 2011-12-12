@@ -131,20 +131,14 @@ mSHARED_INSTANCE_CLASS_METHOD
 		[newObject setIdentifier:[thisPlaylist objectForKey:@"Playlist Persistent ID"]];
 		[newObject setPrimaryType:QSiTunesPlaylistIDPboardType];
 		return newObject;
-		
-		
-	} else {// if ([ident isEqualToString:@"QSCurrentSelectionProxy"]) {
-		// TODO get current iTunes selection with Scripting Bridge
-//		iTunesBrowserWindow *window = [[iTunes browserWindows] objectAtIndex:0];
-//		SBObject *listing = [window selection];
-//		NSArray *tracks = [[listing elementArrayWithCode:iTunesEKndTrackListing] valueForKey:@"databaseID"];
-//		NSLog(@"iTunes selection count: %@", [tracks count]);
-		NSArray *tracks = [[[self iTunesScript] executeSubroutine:@"current_selection_id" arguments:nil  error:nil] objectValue];
-		if ([tracks isKindOfClass:[NSNull class]]) return nil;
-		tracks = [library trackInfoForIDs:tracks];
+	} else if ([proxy isEqualToString:@"QSCurrentSelectionProxy"]) {
 		NSMutableArray *objects = [NSMutableArray array];
-		for (NSDictionary *track in tracks) {
-			[objects addObject:[self trackObjectForInfo:track inPlaylist:nil]];
+		NSArray *tracks = [[iTunes selection] get];
+		NSString *trackID;
+		// you have to iterate through this - valueForKey/arrayByPerformingSelector won't work
+		for (iTunesFileTrack *track in tracks) {
+			trackID = [NSString stringWithFormat:@"%d", [track databaseID]];
+			[objects addObject:[self trackObjectForInfo:[self trackInfoForID:trackID] inPlaylist:nil]];
 		}
 		return [QSObject objectByMergingObjects:objects];
 		
@@ -788,9 +782,7 @@ mSHARED_INSTANCE_CLASS_METHOD
 	//	NSLog(@"%d", shouldShow);
 	showArtwork = shouldShow;
 }
-- (NSAppleScript *)iTunesScript {
-	return QSiTunesScript();
-}
+
 @end
 
 @implementation QSiTunesControlSource

@@ -1048,6 +1048,20 @@
 					<string>com.apple.itunes.playlist</string>
 				</array>
 			</dict>
+			<key>QSCurrentSelectionProxy</key>
+			<dict>
+				<key>icon</key>
+				<string>iTunesTrackIcon</string>
+				<key>name</key>
+				<string>Current iTunes Selection</string>
+				<key>providerClass</key>
+				<string>QSiTunesObjectSource</string>
+				<key>types</key>
+				<array>
+					<string>com.apple.itunes.track</string>
+					<string>NSFilenamesPboardType</string>
+				</array>
+			</dict>
 			<key>QSCurrentTrackProxy</key>
 			<dict>
 				<key>icon</key>
@@ -1073,20 +1087,6 @@
 				<key>types</key>
 				<array>
 					<string>com.apple.itunes.playlist</string>
-				</array>
-			</dict>
-			<key>com.apple.iTunes</key>
-			<dict>
-				<key>icon</key>
-				<string>iTunesTrackIcon</string>
-				<key>name</key>
-				<string>Current iTunes Selection</string>
-				<key>providerClass</key>
-				<string>QSiTunesObjectSource</string>
-				<key>types</key>
-				<array>
-					<string>com.apple.itunes.track</string>
-					<string>NSFilenamesPboardType</string>
 				</array>
 			</dict>
 		</dict>
