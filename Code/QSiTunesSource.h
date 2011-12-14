@@ -16,7 +16,6 @@
 - (NSImage *)imageForTrack:(NSDictionary *)trackDict;
 - (NSArray *)childrenForObject:(QSObject *)object;
 - (NSArray *)childrenForBrowseCriteria:(NSDictionary *)browseDict;
-- (NSAppleScript *)iTunesScript;
 
 - (NSString *)currentTrackID;
 - (id)currentTrackInfo;
