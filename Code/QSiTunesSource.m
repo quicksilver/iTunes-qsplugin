@@ -98,8 +98,18 @@ mSHARED_INSTANCE_CLASS_METHOD
 - (id)resolveProxyObject:(id)proxy {
 	if (![proxy isKindOfClass:[NSString class]])
 		proxy = [proxy identifier];
-	if (!QSAppIsRunning(@"com.apple.iTunes") )
+	if ([proxy isEqualToString:@"QSRandomTrackProxy"]) {
+		srand(time(NULL));
+		NSArray *allTracks = [library tracksMatchingCriteria:nil];
+		long upper = [allTracks count];
+		int trackIndex = random() % upper;
+		NSDictionary *randomTrack = [allTracks objectAtIndex:trackIndex];
+		return [self trackObjectForInfo:randomTrack inPlaylist:nil];
+	}
+	// the rest of these require iTunes to be running
+	if (![iTunes isRunning]) {
 		return nil;
+	}
 	if ([proxy isEqualToString:@"QSCurrentTrackProxy"]) {
 		id object = [self trackObjectForInfo:[self currentTrackInfo]
 								inPlaylist:nil];
@@ -141,7 +151,6 @@ mSHARED_INSTANCE_CLASS_METHOD
 			[objects addObject:[self trackObjectForInfo:[self trackInfoForID:trackID] inPlaylist:nil]];
 		}
 		return [QSObject objectByMergingObjects:objects];
-		
 	}
 	return nil;
 }
