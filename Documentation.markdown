@@ -46,6 +46,20 @@ These are the same controls you can add triggers for (to control playback, adjus
 
 This will add any AppleScripts you have in `~/Library/iTunes/Scripts/`. (There are none by default.)
 
+### Proxy Objects ###
+
+The following proxy objects will be available. Most only work when iTunes is running, and some only when a track is playing.
+
+  Proxy Name               | Running | Playing
+  ------------------------ | ------- | -------
+  Track Now Playing        | Yes     | Yes
+  Artist Now Playing       | Yes     | Yes
+  Album Now Playing        | Yes     | Yes
+  Current Playlist         | Yes     | Yes
+  Selected Playlist        | Yes     | No
+  Current iTunes Selection | Yes     | No
+  Random Track             | No      | No
+
 ## Browsing ##
 
 You can quickly locate and play anything in your iTunes library, even if it's not stored in Quicksilver's catalog. You can do this by assigning triggers to search a certain criteria (like Artist or Genre) or by selecting "Browse [Criteria]" in Quicksilver.
