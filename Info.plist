@@ -1187,18 +1187,6 @@
 			</dict>
 		</dict>
 	</dict>
-	<key>QSRequirements</key>
-	<dict>
-		<key>plugins</key>
-		<array>
-			<dict>
-				<key>id</key>
-				<string>com.blacktree.Quicksilver.QSMusicSupport</string>
-				<key>name</key>
-				<string>Music Support</string>
-			</dict>
-		</array>
-	</dict>
 	<key>QSTriggerAdditions</key>
 	<array>
 		<dict>
