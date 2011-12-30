@@ -1187,6 +1187,51 @@
 			</dict>
 		</dict>
 	</dict>
+	<key>QSResourceAdditions</key>
+	<dict>
+		<key>iTunesNext</key>
+		<dict>
+			<key>bundle</key>
+			<string>com.blacktree.Quicksilver.QSiTunesPlugIn</string>
+			<key>resource</key>
+			<string>iTunesNext.icns</string>
+		</dict>
+		<key>iTunesPause</key>
+		<dict>
+			<key>bundle</key>
+			<string>com.blacktree.Quicksilver.QSiTunesPlugIn</string>
+			<key>resource</key>
+			<string>iTunesPause.icns</string>
+		</dict>
+		<key>iTunesPlay</key>
+		<dict>
+			<key>bundle</key>
+			<string>com.blacktree.Quicksilver.QSiTunesPlugIn</string>
+			<key>resource</key>
+			<string>iTunesPlay.icns</string>
+		</dict>
+		<key>iTunesPlay-Pause</key>
+		<dict>
+			<key>bundle</key>
+			<string>com.blacktree.Quicksilver.QSiTunesPlugIn</string>
+			<key>resource</key>
+			<string>iTunesPlay-Pause.icns</string>
+		</dict>
+		<key>iTunesPrevious</key>
+		<dict>
+			<key>bundle</key>
+			<string>com.blacktree.Quicksilver.QSiTunesPlugIn</string>
+			<key>path</key>
+			<string>iTunesPrevious.icns</string>
+		</dict>
+		<key>iTunesStop</key>
+		<dict>
+			<key>bundle</key>
+			<string>com.blacktree.Quicksilver.QSiTunesPlugIn</string>
+			<key>path</key>
+			<string>iTunesStop.icns</string>
+		</dict>
+	</dict>
 	<key>QSTriggerAdditions</key>
 	<array>
 		<dict>
