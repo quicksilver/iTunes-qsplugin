@@ -8,6 +8,8 @@
 
 #import "QSiTunesBridge.h"
 
+static iTunesApplication *iTunes;
+
 iTunesApplication *QSiTunes()
 {
 	if (!iTunes) {
