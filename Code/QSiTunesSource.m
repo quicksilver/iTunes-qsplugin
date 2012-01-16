@@ -201,8 +201,12 @@ mSHARED_INSTANCE_CLASS_METHOD
 	return [NSString stringWithFormat:@"%d", [[iTunes currentTrack] databaseID]];
 }
 
-- (void)showCurrentTrackNotification {	
-	[self showNotificationForTrack:0 info:[self currentTrackInfo]];
+- (void)showCurrentTrackNotification {
+	if ([iTunes isRunning]) {
+		[self showNotificationForTrack:0 info:[self currentTrackInfo]];
+	} else {
+		NSBeep();
+	}
 }
 
 - (void)showNotificationForTrack:(id)trackID info:(NSDictionary *)trackInfo {
