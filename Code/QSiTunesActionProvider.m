@@ -22,28 +22,7 @@
     [super dealloc];
 }
 
-- (NSArray *)validActionsForDirectObject:(QSObject *)dObject indirectObject:(QSObject *)iObject {
-	if ([dObject objectForType:QSiTunesPlaylistIDPboardType]) {
-		return [NSArray arrayWithObject:kQSiTunesPlayItemAction];
-	} else if ([dObject objectForType:QSiTunesBrowserPboardType]) {
-		NSDictionary *browseDict = [dObject objectForType:QSiTunesBrowserPboardType];
-		if (![browseDict objectForKey:@"Criteria"])
-			return nil;
-	}
-	return [NSArray arrayWithObjects:kQSiTunesPSPlayNextAction, kQSiTunesPSAddAction, kQSiTunesPSPlayAction, kQSiTunesPlayItemAction, nil];
-}
-
-- (QSObject *)playItem:(QSObject *)dObject { 
-	if ([dObject containsType:QSiTunesPlaylistIDPboardType]) {
-		[self playPlaylist:dObject];
-	} else if ([dObject containsType:QSiTunesBrowserPboardType]) {
-		[self playBrowser:dObject  party:NO append:NO next:NO];
-	} else if ([dObject containsType:QSiTunesTrackIDPboardType]) {
-		[self playTrack:dObject party:NO append:NO next:NO];
-	}
-	return nil;
-}
-
+#pragma mark - iTunes DJ (formerly Party Shuffle) actions
 
 - (QSObject *)psPlayItem:(QSObject *)dObject {
 	if ([dObject containsType:QSiTunesBrowserPboardType]) [self playBrowser:dObject party:YES append:NO next:NO];
@@ -70,6 +49,19 @@
 	 return nil;
  }
  */
+
+#pragma mark - Standard iTunes actions
+
+- (QSObject *)playItem:(QSObject *)dObject { 
+	if ([dObject containsType:QSiTunesPlaylistIDPboardType]) {
+		[self playPlaylist:dObject];
+	} else if ([dObject containsType:QSiTunesBrowserPboardType]) {
+		[self playBrowser:dObject  party:NO append:NO next:NO];
+	} else if ([dObject containsType:QSiTunesTrackIDPboardType]) {
+		[self playTrack:dObject party:NO append:NO next:NO];
+	}
+	return nil;
+}
 
 - (void)playBrowser:(QSObject *)dObject party:(BOOL)party append:(BOOL)append next:(BOOL)next
 {
@@ -251,6 +243,19 @@
 	return nil;
 }
 
+#pragma mark - Quicksilver validation
+
+- (NSArray *)validActionsForDirectObject:(QSObject *)dObject indirectObject:(QSObject *)iObject {
+	if ([dObject objectForType:QSiTunesPlaylistIDPboardType]) {
+		return [NSArray arrayWithObject:kQSiTunesPlayItemAction];
+	} else if ([dObject objectForType:QSiTunesBrowserPboardType]) {
+		NSDictionary *browseDict = [dObject objectForType:QSiTunesBrowserPboardType];
+		if (![browseDict objectForKey:@"Criteria"])
+			return nil;
+	}
+	return [NSArray arrayWithObjects:kQSiTunesPSPlayNextAction, kQSiTunesPSAddAction, kQSiTunesPSPlayAction, kQSiTunesPlayItemAction, nil];
+}
+
 - (NSArray *)validIndirectObjectsForAction:(NSString *)action directObject:(QSObject *)dObject
 {
 	if ([action isEqualToString:@"QSiTunesAddToPlaylistAction"]) {
@@ -258,6 +263,8 @@
 	}
 	return nil;
 }
+
+#pragma mark - Internal helper methods
 
 - (NSArray *)trackObjectsFromQSObject:(QSObject *)tracks
 {
