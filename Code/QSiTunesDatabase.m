@@ -128,8 +128,13 @@
 
 - (NSString *)libraryLocation {
 	if (!libraryLocation) {
-		libraryLocation = (NSString *)[[(NSArray *)CFPreferencesCopyAppValue((CFStringRef)@"iTunesRecentDatabasePaths", (CFStringRef) @"com.apple.iApps") autorelease] objectAtIndex:0];
-		if (!libraryLocation) libraryLocation = ITUNESLIBRARY;
+		NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+		NSDictionary *userPref = [userDefaults persistentDomainForName:@"com.apple.iApps"];
+		NSArray *recentDatabases = [userPref objectForKey:@"iTunesRecentDatabases"];
+		libraryLocation = [[NSURL URLWithString:[recentDatabases objectAtIndex:0]] path];
+		if (!libraryLocation) {
+			libraryLocation = ITUNESLIBRARY;
+		}
 		libraryLocation = [[[NSFileManager defaultManager] fullyResolvedPathForPath:libraryLocation] retain];
 	}
 	return libraryLocation;
