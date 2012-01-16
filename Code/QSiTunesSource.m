@@ -312,7 +312,8 @@ mSHARED_INSTANCE_CLASS_METHOD
 	return [QSResourceManager imageNamed:@"iTunesIcon"];
 }
 
-- (NSString *)identifierForObject:(id <QSObject>)object {
+- (NSString *)identifierForObject:(QSObject *)object
+{
 	if ([[object primaryType] isEqualToString:QSiTunesPlaylistIDPboardType]) {
 		//NSLog(@"getplaylistid");
 		return nil;
@@ -487,7 +488,8 @@ mSHARED_INSTANCE_CLASS_METHOD
 	return icon;
 }
 
-- (BOOL)objectHasChildren:(id <QSObject>)object {
+- (BOOL)objectHasChildren:(QSObject *)object
+{
 	if ([[object primaryType] isEqualToString:QSiTunesPlaylistIDPboardType]) {
 		NSDictionary *playlistDict = [library playlistInfoForID:[object objectForType:QSiTunesPlaylistIDPboardType]];
 		return [(NSArray *)[playlistDict objectForKey:@"Playlist Items"] count];
@@ -498,7 +500,8 @@ mSHARED_INSTANCE_CLASS_METHOD
 	}
 	return NO;
 }
-- (BOOL)objectHasValidChildren:(id <QSObject>)object {
+- (BOOL)objectHasValidChildren:(QSObject *)object
+{
 	return YES;
 }
 
