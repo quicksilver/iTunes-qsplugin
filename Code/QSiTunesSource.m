@@ -75,8 +75,9 @@ mSHARED_INSTANCE_CLASS_METHOD
 			trackInfo = [notif userInfo];
 			[library registerAdditionalTrack:trackInfo forID:newTrack];
 		}
-		
-		[self showNotificationForTrack:newTrack info:trackInfo];
+		if ([[NSUserDefaults standardUserDefaults] boolForKey:@"QSiTunesNotifyTracks"]) {
+			[self showNotificationForTrack:newTrack info:trackInfo];
+		}
 		[[QSObject objectWithIdentifier:QSiTunesRecentTracksBrowser] unloadChildren];
 	}
 }
@@ -260,24 +261,16 @@ mSHARED_INSTANCE_CLASS_METHOD
 			icon = [[[NSImage alloc] initWithData:data] autorelease];
 		}
 			
-			
 		if (!icon) icon = [QSResourceManager imageNamed:@"com.apple.iTunes"];
 		
-		if ([[NSUserDefaults standardUserDefaults] boolForKey:@"QSiTunesNotifyTracks"]) {
-			//NSLog(@" >> >> >> >>>%@ %@ %@", name, text, icon);
-			
-			
-			
-			QSShowNotifierWithAttributes([NSDictionary dictionaryWithObjectsAndKeys:
-				@"QSiTunesTrackChangeNotification", QSNotifierType,
-				name, QSNotifierTitle,
-				text, QSNotifierText,
-				icon, QSNotifierIcon,
-				trackInfo, @"iTunesTrackInfo",
-				[self starsForRating:[[trackInfo objectForKey:@"Rating"] intValue]], QSNotifierDetails,
-				nil]);
-		}
-		
+		QSShowNotifierWithAttributes([NSDictionary dictionaryWithObjectsAndKeys:
+			@"QSiTunesTrackChangeNotification", QSNotifierType,
+			name, QSNotifierTitle,
+			text, QSNotifierText,
+			icon, QSNotifierIcon,
+			trackInfo, @"iTunesTrackInfo",
+			[self starsForRating:[[trackInfo objectForKey:@"Rating"] intValue]], QSNotifierDetails,
+			nil]);
 	}
 }
 
