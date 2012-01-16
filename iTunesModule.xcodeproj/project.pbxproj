@@ -88,10 +88,10 @@
 		E1DAFAD507007BA400FAFE2A /* QSiTunesPrefPane.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = QSiTunesPrefPane.m; sourceTree = "<group>"; };
 		E1DAFAD607007BA400FAFE2A /* QSiTunesSource.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = QSiTunesSource.h; sourceTree = "<group>"; };
 		E1DAFAD707007BA400FAFE2A /* QSiTunesSource.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = QSiTunesSource.m; sourceTree = "<group>"; };
-		E1DAFADA07007BA400FAFE2A /* English */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.plist.strings; name = English; path = QSAction.commandFormats.strings; sourceTree = "<group>"; };
-		E1DAFADC07007BA400FAFE2A /* English */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.plist.strings; name = English; path = QSAction.name.strings; sourceTree = "<group>"; };
-		E1DAFADE07007BA400FAFE2A /* English */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.plist.strings; name = English; path = Localizable.strings; sourceTree = "<group>"; };
-		E1DAFAE007007BA400FAFE2A /* English */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.plist.strings; name = English; path = QSPreset.name.strings; sourceTree = "<group>"; };
+		E1DAFADA07007BA400FAFE2A /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = English; path = QSAction.commandFormats.strings; sourceTree = "<group>"; };
+		E1DAFADC07007BA400FAFE2A /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = English; path = QSAction.name.strings; sourceTree = "<group>"; };
+		E1DAFADE07007BA400FAFE2A /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = English; path = Localizable.strings; sourceTree = "<group>"; };
+		E1DAFAE007007BA400FAFE2A /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = English; path = QSPreset.name.strings; sourceTree = "<group>"; };
 		E1DAFAE107007BA400FAFE2A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E1DAFAE407007BA400FAFE2A /* iTunes.scpt */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.scpt; path = iTunes.scpt; sourceTree = "<group>"; };
 		E1DAFAE507007BA400FAFE2A /* iTunesAlbumBrowserIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = iTunesAlbumBrowserIcon.png; sourceTree = "<group>"; };
