@@ -16,12 +16,28 @@
 - (id)init {
 	if (self = [super init]) {
 		//[[QSVoyeur sharedInstance] addPathToQueue:[self libraryLocation]];
-		
 		extraTracks = [[NSMutableDictionary alloc] init];
-
-		
+		iTunesMusicLibrary = nil;
+		tagDictionaries = nil;
+		// find the Library location
+		NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+		NSDictionary *userPref = [userDefaults persistentDomainForName:@"com.apple.iApps"];
+		NSArray *recentDatabases = [userPref objectForKey:@"iTunesRecentDatabases"];
+		libraryLocation = [[NSURL URLWithString:[recentDatabases objectAtIndex:0]] path];
+		if (!libraryLocation) {
+			libraryLocation = ITUNESLIBRARY;
+		}
+		libraryLocation = [[[NSFileManager defaultManager] fullyResolvedPathForPath:libraryLocation] retain];
 	}
 	return self;
+}
+
+- (void)dealloc {
+    [extraTracks release];
+	[iTunesMusicLibrary release];
+	[tagDictionaries release];
+	[libraryLocation release];
+    [super dealloc];
 }
 
 - (NSString *)libraryID {
@@ -127,16 +143,6 @@
 } 
 
 - (NSString *)libraryLocation {
-	if (!libraryLocation) {
-		NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-		NSDictionary *userPref = [userDefaults persistentDomainForName:@"com.apple.iApps"];
-		NSArray *recentDatabases = [userPref objectForKey:@"iTunesRecentDatabases"];
-		libraryLocation = [[NSURL URLWithString:[recentDatabases objectAtIndex:0]] path];
-		if (!libraryLocation) {
-			libraryLocation = ITUNESLIBRARY;
-		}
-		libraryLocation = [[[NSFileManager defaultManager] fullyResolvedPathForPath:libraryLocation] retain];
-	}
 	return libraryLocation;
 }
 
@@ -160,7 +166,7 @@
 	return YES;
 }
 
-- (NSDictionary *)iTunesMusicLibrary { 
+- (NSDictionary *)iTunesMusicLibrary {
 	if (!iTunesMusicLibrary) {
 		[self loadMusicLibrary];
 	}
