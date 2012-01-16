@@ -10,7 +10,10 @@
 
 iTunesApplication *QSiTunes()
 {
-	return [SBApplication applicationWithBundleIdentifier:@"com.apple.iTunes"];
+	if (!iTunes) {
+		iTunes = [SBApplication applicationWithBundleIdentifier:@"com.apple.iTunes"];
+	}
+	return iTunes;
 }
 
 iTunesSource *QSiTunesLibrary()

@@ -9,6 +9,8 @@
 #import <Cocoa/Cocoa.h>
 #import "iTunes.h"
 
+static iTunesApplication *iTunes;
+
 iTunesApplication *QSiTunes();
 iTunesSource *QSiTunesLibrary();
 iTunesPlaylist *QSiTunesDJ();
