@@ -8,17 +8,6 @@
 
 #import "QSiTunesActionProvider.h"
 
-//#import <QSCore/QSMacros.h>
-
-
-#define kQSiTunesPlayItemAction @"QSiTunesPlayItemAction"
-//#define kQSiTunesAppendItemAction @"QSiTunesAppendItemAction"
-
-
-#define kQSiTunesPSPlayAction @"QSiTunesPSPlayAction"
-#define kQSiTunesPSPlayNextAction @"QSiTunesPSPlayNextAction"
-#define kQSiTunesPSAddAction @"QSiTunesPSAddAction"
-
 @implementation QSiTunesActionProvider
 - (id)init {
 	if (self = [super init]) {

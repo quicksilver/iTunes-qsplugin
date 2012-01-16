@@ -1,6 +1,5 @@
 #import <Carbon/Carbon.h>
 #import "QSiTunesSource.h"
-#define QSiTunesRecentTracksBrowser @"QSiTunesRecentTracksBrowser"
 
 @implementation QSiTunesObjectSource
 mSHARED_INSTANCE_CLASS_METHOD

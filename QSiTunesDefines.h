@@ -19,4 +19,10 @@
 #define QSiTunesSpecialPboardType @"QSiTunesSpecialPboardType"
 #define QSiTunesTrackChangeNotification @"QSiTunesTrackChangeNotification"
 
+#define QSiTunesRecentTracksBrowser @"QSiTunesRecentTracksBrowser"
+#define kQSiTunesPlayItemAction @"QSiTunesPlayItemAction"
+#define kQSiTunesPSPlayAction @"QSiTunesPSPlayAction"
+#define kQSiTunesPSPlayNextAction @"QSiTunesPSPlayNextAction"
+#define kQSiTunesPSAddAction @"QSiTunesPSAddAction"
+
 #import "QSiTunesBridge.h"
