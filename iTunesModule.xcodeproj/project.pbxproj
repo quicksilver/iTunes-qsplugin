@@ -321,7 +321,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "rm -f $SRCROOT/Resources/iTunes.scpt\n/usr/bin/osacompile -x -d -o $SRCROOT/Resources/iTunes.scpt $SRCROOT/Resources/iTunes.original.scpt";
+			shellScript = "rm -f \"$SRCROOT/Resources/iTunes.scpt\"\n/usr/bin/osacompile -x -d -o \"$SRCROOT/Resources/iTunes.scpt\" \"$SRCROOT/Resources/iTunes.original.scpt\"";
 		};
 		E1022B2806B3475D00299BEC /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -334,7 +334,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "$SRCROOT/bltrversion $INFOPLIST_FILE";
+			shellScript = "\"$SRCROOT/bltrversion\" \"$INFOPLIST_FILE\"";
 		};
 /* End PBXShellScriptBuildPhase section */
 
