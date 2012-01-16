@@ -11,7 +11,6 @@
 
 @interface QSiTunesDatabase : NSObject {
 	NSDictionary *iTunesMusicLibrary;
-    BOOL libraryLoaded;
     NSString *libraryLocation;
     NSDictionary *tagDictionaries;
 	NSMutableDictionary *extraTracks;
