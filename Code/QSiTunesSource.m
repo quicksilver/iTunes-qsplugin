@@ -640,7 +640,7 @@ mSHARED_INSTANCE_CLASS_METHOD
 		int i;
 		for (i = 0; i < count; i++) {
 			NSString *rootType = [sortTags objectAtIndex:i];
-			id newObject = [self browserObjectForTrack:trackDict andCriteria:rootType];
+			newObject = [self browserObjectForTrack:trackDict andCriteria:rootType];
 			if (newObject)
 				[objects addObject:newObject];
 		}
