@@ -1,5 +1,3 @@
-@interface QSiTunesPrefPane : QSPreferencePane {
-
-}
+@interface QSiTunesPrefPane : QSPreferencePane
 
 @end
