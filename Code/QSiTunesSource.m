@@ -497,7 +497,7 @@ mSHARED_INSTANCE_CLASS_METHOD
 	} else if ([[object primaryType] isEqualToString:QSiTunesBrowserPboardType]) {
 		return YES;  
 	} else if ([[object primaryType] isEqualToString:QSiTunesTrackIDPboardType]) {
-		return NO;
+		return YES;
 	}
 	return NO;
 }
