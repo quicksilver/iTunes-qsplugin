@@ -213,6 +213,10 @@ mSHARED_INSTANCE_CLASS_METHOD
 - (void)showNotificationForTrack:(id)trackID info:(NSDictionary *)trackInfo {
 	if (!trackInfo) {
 		trackInfo = [self trackInfoForID:trackID];
+		// don't try to display a notification with nothing
+		if (!trackInfo) {
+			return;
+		}
 	}
 	
 	QSObject *track = [self trackObjectForInfo:trackInfo inPlaylist:nil];
