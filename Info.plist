@@ -1241,12 +1241,6 @@
 			<string>QSiTunesNextSongCommand</string>
 			<key>defaults</key>
 			<dict>
-				<key>characters</key>
-				<string></string>
-				<key>keyCode</key>
-				<integer>124</integer>
-				<key>modifiers</key>
-				<integer>9961768</integer>
 				<key>type</key>
 				<string>QSHotKeyTrigger</string>
 			</dict>
@@ -1487,6 +1481,10 @@
 			<string>QSiTunesDecreaseVolume</string>
 			<key>defaults</key>
 			<dict>
+				<key>keyCode</key>
+				<integer>103</integer>
+				<key>modifiers</key>
+				<integer>8651009</integer>
 				<key>type</key>
 				<string>QSHotKeyTrigger</string>
 			</dict>
@@ -1502,6 +1500,10 @@
 			<string>QSiTunesIncreaseVolume</string>
 			<key>defaults</key>
 			<dict>
+				<key>keyCode</key>
+				<integer>111</integer>
+				<key>modifiers</key>
+				<integer>8651009</integer>
 				<key>type</key>
 				<string>QSHotKeyTrigger</string>
 			</dict>
@@ -1517,6 +1519,10 @@
 			<string>QSiTunesMute</string>
 			<key>defaults</key>
 			<dict>
+				<key>keyCode</key>
+				<integer>109</integer>
+				<key>modifiers</key>
+				<integer>8651009</integer>
 				<key>type</key>
 				<string>QSHotKeyTrigger</string>
 			</dict>
