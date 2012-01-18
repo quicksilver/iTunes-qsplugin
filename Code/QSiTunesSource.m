@@ -803,8 +803,14 @@ mSHARED_INSTANCE_CLASS_METHOD
 @implementation QSiTunesControlSource
 
 - (BOOL)indexIsValidFromDate:(NSDate *)indexDate forEntry:(NSDictionary *)theEntry {
-	// this never needs to be rescanned once the plug-in loads
-	return YES;
+	// rescan only if the indexDate is prior to the last launch
+	NSDate *launched = [[NSRunningApplication currentApplication] launchDate];
+	if (launched) {
+		return ([launched compare:indexDate] == NSOrderedAscending);
+	} else {
+		// Quicksilver wasn't launched by LaunchServices - date unknown - rescan to be safe
+		return NO;
+	}
 }
 
 - (NSArray *)objectsForEntry:(NSDictionary *)theEntry {
