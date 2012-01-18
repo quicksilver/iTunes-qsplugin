@@ -183,9 +183,9 @@
 &lt;p&gt;This will add the following to your main catalog:&lt;/p&gt;
 
 &lt;ul&gt;
-&lt;li&gt;All playlists&lt;/li&gt;
+&lt;li&gt;All of your playlists&lt;/li&gt;
 &lt;li&gt;Entry points for browsing the library (Browse Artists, Browse Albums, etc.)&lt;/li&gt;
-&lt;li&gt;A &amp;#8220;Recent Tracks&amp;#8221; entry. (Select it and hit → or / to see them.)&lt;/li&gt;
+&lt;li&gt;A &amp;#8220;Recent Tracks&amp;#8221; entry. (Select it and hit → or / to see them. Only tracks that have played since Quicksilver was launched will be available.)&lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;p&gt;These items can also be accessed by selecting iTunes in Quicksilver and hitting → or /.&lt;/p&gt;

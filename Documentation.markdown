@@ -30,9 +30,9 @@ There are three catalog presets to choose from.
 
 This will add the following to your main catalog:
 
-  * All playlists
+  * All of your playlists
   * Entry points for browsing the library (Browse Artists, Browse Albums, etc.)
-  * A "Recent Tracks" entry. (Select it and hit → or / to see them.)
+  * A "Recent Tracks" entry. (Select it and hit → or / to see them. Only tracks that have played since Quicksilver was launched will be available.)
 
 These items can also be accessed by selecting iTunes in Quicksilver and hitting → or /.
 
