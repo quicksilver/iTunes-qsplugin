@@ -182,6 +182,7 @@
 		[qs setName:QSiTunesDynamicPlaylist];
 	}
 	// filter out PDFs and (optionally) videos
+	// TODO this can be done with a predicate now that we use the faster "Music" playlist
 	BOOL includeVideos = [[NSUserDefaults standardUserDefaults] boolForKey:@"QSiTunesIncludeVideos"];
 	NSMutableArray *songsOnly = [NSMutableArray arrayWithCapacity:[trackList count]];
 	for (iTunesFileTrack *track in trackList) {
@@ -272,7 +273,7 @@
 	// get iTunesTrack objects to represent each track
 	if ([tracks containsType:QSiTunesPlaylistIDPboardType]) {
 		// from a playlist
-		trackResult = [[self playlistObjectFromQSObject:tracks] fileTracks];
+		trackResult = [[self playlistObjectFromQSObject:tracks] tracks];
 	} else if ([tracks containsType:QSiTunesBrowserPboardType]) {
 		// from browsing in Quicksilver
 		NSMutableArray *formatStrings = [NSMutableArray arrayWithCapacity:1];
@@ -332,7 +333,7 @@
 		}
 		searchFilter = [filters componentsJoinedByString:@" OR "];
 		iTunesLibraryPlaylist *libraryPlaylist = QSiTunesMusic();
-		trackResult = [[libraryPlaylist fileTracks] filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:searchFilter argumentArray:trackIDs]];
+		trackResult = [[libraryPlaylist tracks] filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:searchFilter argumentArray:trackIDs]];
 	}
 	return trackResult;
 }
