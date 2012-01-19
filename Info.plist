@@ -1221,14 +1221,14 @@
 		<dict>
 			<key>bundle</key>
 			<string>com.blacktree.Quicksilver.QSiTunesPlugIn</string>
-			<key>path</key>
+			<key>resource</key>
 			<string>iTunesPrevious.icns</string>
 		</dict>
 		<key>iTunesStop</key>
 		<dict>
 			<key>bundle</key>
 			<string>com.blacktree.Quicksilver.QSiTunesPlugIn</string>
-			<key>path</key>
+			<key>resource</key>
 			<string>iTunesStop.icns</string>
 		</dict>
 	</dict>
