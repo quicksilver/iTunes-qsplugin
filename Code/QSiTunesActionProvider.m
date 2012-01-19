@@ -301,7 +301,14 @@
 					} else {
 						formatString = [formatString stringByAppendingString:@" AND "];
 					}
-					formatString = [formatString stringByAppendingString:@"%K == %@"];
+					if ([criteriaKey isEqualToString:@"Artist"]) {
+						// check album artist as well as artist
+						[criteria addObject:@"albumArtist"];
+						[criteria addObject:[criteriaDict objectForKey:criteriaKey]];
+						formatString = [formatString stringByAppendingString:@"(%K == %@ OR %K == %@)"];
+					} else {
+						formatString = [formatString stringByAppendingString:@"%K == %@"];
+					}
 				}
 			}
 			formatString = [formatString stringByAppendingString:@")"];
@@ -310,9 +317,11 @@
 		formatString = [formatStrings componentsJoinedByString:@" OR "];
 		NSPredicate *trackFilter = [NSPredicate predicateWithFormat:formatString argumentArray:criteria];
 		//NSLog(@"playlist filter: %@", [trackFilter predicateFormat]);
-		iTunesLibraryPlaylist *libraryPlaylist = [[QSiTunesLibrary() libraryPlaylists] objectAtIndex:0];
+		iTunesLibraryPlaylist *libraryPlaylist = QSiTunesMusic();
 		// TODO see if we can get the results to be in the same order as the objects passed in
-		trackResult = [[libraryPlaylist fileTracks] filteredArrayUsingPredicate:trackFilter];
+		// every message to this filtered array will be slow
+		// calling `get` here limits the slowness to one operation
+		trackResult = [(SBElementArray *)[[libraryPlaylist tracks] filteredArrayUsingPredicate:trackFilter] get];
 	} else if ([tracks containsType:QSiTunesTrackIDPboardType]) {
 		// from individual track objects
 		NSString *searchFilter = @"persistentID == %@";
@@ -322,7 +331,7 @@
 			[filters addObject:searchFilter];
 		}
 		searchFilter = [filters componentsJoinedByString:@" OR "];
-		iTunesLibraryPlaylist *libraryPlaylist = [[QSiTunesLibrary() libraryPlaylists] objectAtIndex:0];
+		iTunesLibraryPlaylist *libraryPlaylist = QSiTunesMusic();
 		trackResult = [[libraryPlaylist fileTracks] filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:searchFilter argumentArray:trackIDs]];
 	}
 	return trackResult;
