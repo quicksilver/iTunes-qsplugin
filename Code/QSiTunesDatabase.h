@@ -11,7 +11,6 @@
 
 @interface QSiTunesDatabase : NSObject {
 	NSDictionary *iTunesMusicLibrary;
-    BOOL libraryLoaded;
     NSString *libraryLocation;
     NSDictionary *tagDictionaries;
 	NSMutableDictionary *extraTracks;
@@ -22,13 +21,13 @@
 -(NSArray *)trackInfoForIDs:(NSArray *)theIDs;
 - (NSDictionary *)iTunesMusicLibrary;
 - (void)setITunesMusicLibrary:(NSDictionary *)newITunesMusicLibrary;
--(NSDictionary *)trackInfoForID:(NSString *)theID;
 
 - (NSArray *)tracksMatchingCriteria:(NSDictionary *)criteria;
 - (NSDictionary *)tagDictionaries;
 
 - (void)setTagDictionaries:(NSDictionary *)newTagDictionaries;
 - (NSString *)libraryLocation;
+- (NSString *)libraryID;
 - (BOOL)loadMusicLibrary;
 - (NSArray *)playlists;
 -(NSDictionary *)playlistInfoForID:(NSNumber *)theID;
