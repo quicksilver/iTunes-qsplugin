@@ -81,9 +81,9 @@ You can play any of the following:
 
 Add artists, albums, tracks, etc. to an existing playlist by selecting it in the third pane.
 
-#### Reveal ####
+#### Reveal in iTunes ####
 
-Select and show a playlist in the iTunes window.
+Show the selected track or playlist in iTunes.
 
 #### Show Booklet(s) ####
 
