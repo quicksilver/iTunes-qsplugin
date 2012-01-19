@@ -133,6 +133,7 @@
 			<key>directTypes</key>
 			<array>
 				<string>com.apple.itunes.playlist</string>
+				<string>com.apple.itunes.track</string>
 			</array>
 			<key>icon</key>
 			<string>iTunesIcon</string>
