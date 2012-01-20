@@ -94,7 +94,7 @@
 	}
 }
 
-- (QSObject *)playTrack:(QSObject *)dObject party:(BOOL)party append:(BOOL)append next:(BOOL)next {
+- (void)playTrack:(QSObject *)dObject party:(BOOL)party append:(BOOL)append next:(BOOL)next {
 	//NSArray *trackIDs = [[dObject arrayForType:QSiTunesTrackIDPboardType] valueForKey:@"Track ID"];
 	NSArray *paths = [dObject validPaths];
 	
@@ -165,7 +165,6 @@
 		}
 	}
 	if (errorDict) {NSLog(@"Error: %@", errorDict);}
-	return nil;
 }
 
 - (void)playUsingDynamicPlaylist:(NSArray *)trackList
@@ -199,13 +198,12 @@
 	[qs playOnce:YES];
 }
 
-- (QSObject *)playPlaylist:(QSObject *)dObject
+- (void)playPlaylist:(QSObject *)dObject
 {
 	// iTunes can only play one at a time, so grab the last one
 	QSObject *lastPlaylist = [[dObject splitObjects] lastObject];
 	iTunesPlaylist *playlist = [self playlistObjectFromQSObject:lastPlaylist];
 	[playlist playOnce:YES];
-	return nil;
 }
 
 - (QSObject *)appendTracks:(QSObject *)dObject toPlaylist:(QSObject *)iObject
