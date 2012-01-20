@@ -201,7 +201,9 @@
 
 - (QSObject *)playPlaylist:(QSObject *)dObject
 {
-	iTunesPlaylist *playlist = [self playlistObjectFromQSObject:dObject];
+	// iTunes can only play one at a time, so grab the last one
+	QSObject *lastPlaylist = [[dObject splitObjects] lastObject];
+	iTunesPlaylist *playlist = [self playlistObjectFromQSObject:lastPlaylist];
 	[playlist playOnce:YES];
 	return nil;
 }
