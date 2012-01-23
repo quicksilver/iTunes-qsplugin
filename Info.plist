@@ -17,9 +17,9 @@
 	<key>CFBundlePackageType</key>
 	<string>BNDL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>2.0</string>
+	<string>2.0.1</string>
 	<key>CFBundleVersion</key>
-	<string>33E</string>
+	<string>33F</string>
 	<key>NSPrincipalClass</key>
 	<string>QSiTunesObjectSource</string>
 	<key>QSActions</key>
@@ -133,6 +133,7 @@
 			<key>directTypes</key>
 			<array>
 				<string>com.apple.itunes.playlist</string>
+				<string>com.apple.itunes.track</string>
 			</array>
 			<key>icon</key>
 			<string>iTunesIcon</string>
@@ -274,9 +275,9 @@
 
 &lt;p&gt;Add artists, albums, tracks, etc. to an existing playlist by selecting it in the third pane.&lt;/p&gt;
 
-&lt;h4 id=&quot;reveal&quot;&gt;Reveal&lt;/h4&gt;
+&lt;h4 id=&quot;reveal_in_itunes&quot;&gt;Reveal in iTunes&lt;/h4&gt;
 
-&lt;p&gt;Select and show a playlist in the iTunes window.&lt;/p&gt;
+&lt;p&gt;Show the selected track or playlist in iTunes.&lt;/p&gt;
 
 &lt;h4 id=&quot;show_booklets&quot;&gt;Show Booklet(s)&lt;/h4&gt;
 
