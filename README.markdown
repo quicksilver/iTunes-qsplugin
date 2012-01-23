@@ -6,20 +6,23 @@ The Scripting Bridge code requires `iTunes.h`, which will be generated automatic
 
 You should [familiarize yourself with Scripting Bridge][sbdoc] a bit before making any changes. Particularly the sections that discuss performance.
 
-In the end though, you just need to test everything out and see what works. Certain things that should be faster in theory are actually unusably slow. You're better off if you just enumerate through an array of tracks in some cases.
+In the end though, you just need to test everything out and see what works. Here are some tips specific to iTunes:
 
-Specifically, adding `kind` and `videoKind` to a predicate seems like the right way to filter, but
-while it will work, it's *very* slow for some reason.
-
-    NSMutableArray *criteria = [NSMutableArray arrayWithObjects:@"kind", QSiTunesBookletKind, @"videoKind", iTunesEVdKNone, nil];
-    NSString *formatString = @"%K != %@ AND %K == %i";
-    NSPredicate *trackFilter = [NSPredicate predicateWithFormat:formatString argumentArray:criteria];
-    trackResult = [[libraryPlaylist fileTracks] filteredArrayUsingPredicate:trackFilter];
-
-Also, adding `albumArtist` to the predicate is unusably slow. iTunes hits 100% CPU for several minutes. This is very fast on the other hand:
-
-    [[libraryPlaylist fileTracks] valueForKey:@"albumArtist"]
-    # console: Quicksilver: time to get album artists for 7721 tracks: 0.051879
+  1. When you want to look through "all tracks", use the Music playlist, not the Library playlist.
+  
+        iTunesApplication *iTunes = [SBApplication applicationWithBundleIdentifier:@"com.apple.iTunes"];
+        iTunesSource *library = [[[[iTunes sources] get] filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"kind == %i", iTunesESrcLibrary]] objectAtIndex:0];
+        iTunesLibraryPlaylist *lp = [[[[library playlists] get] filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"specialKind == %i", iTunesESpKMusic]] objectAtIndex:0];
+  
+     Using the Library playlist can make certain things take thousands of times longer. (That's not an exaggeration.) Specifically, filtering out tracks with predicates involving `kind`, `videoKind`, or `albumArtist` is unusably slow (though it will eventually work). 
+  
+  2. When filtering the Music playlist for certain criteria, always call `get` on the resulting array. This can be tricky, since `filteredArrayUsingPredicate:` returns an NSArray which doesn't have a `get`, but it can be made to work by casting it as an SBElementArray.
+  
+        NSArray *tracks = [(SBElementArray *)[[musicPlaylist tracks] filteredArrayUsingPredicate:trackFilter] get];
+  
+     Depending on what you search for, everything you do with the result can be very slow. By calling `get` on it right away and using the result of that for everything else, you're essentially limiting the slowness to a single call.
+  
+  3. Always use `tracks` instead of `fileTracks`. `fileTracks` can slow things down even if you use the `get` trick above. Using `tracks` is quick. The only difference I've found is that the `location` property is sometimes missing from `tracks` while `fileTracks` will always have it. (You need location to add a track to a playlist.) But it turns out that using `get` on the result as advised above soemhow causes `tracks` to provide a `location` property. So, if you follow the above advice, this shouldn't be a problem.
 
 [sbdoc]: http://developer.apple.com/library/mac/#documentation/Cocoa/Conceptual/ScriptingBridgeConcepts/Introduction/Introduction.html
 
