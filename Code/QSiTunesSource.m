@@ -166,8 +166,8 @@ mSHARED_INSTANCE_CLASS_METHOD
 	if (!trackInfo) {
 		// fall back to querying iTunes (if it's running)
 		if ([iTunes isRunning]) {
-			iTunesLibraryPlaylist *libraryPlaylist = [[QSiTunesLibrary() libraryPlaylists] objectAtIndex:0];
-			NSArray *trackResult = [[libraryPlaylist fileTracks] filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"databaseID == %@", trackID]];
+			iTunesLibraryPlaylist *libraryPlaylist = QSiTunesMusic();
+			NSArray *trackResult = [[libraryPlaylist tracks] filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"databaseID == %@", trackID]];
 			if ([trackResult count] > 0) {
 				iTunesFileTrack *track = [trackResult lastObject];
 				[trackInfo setObject:[track persistentID] forKey:@"PersistentID"];
@@ -281,16 +281,12 @@ mSHARED_INSTANCE_CLASS_METHOD
 - (NSAttributedString *)starsForRating:(int)rating {
 //	NSLog(@"rating %d", rating);
 	if (rating == 0) return nil;
-	NSString *string = [NSString stringWithFormat:@"%C%C%C%C%C",
-								rating > 1?0x2606:0x2022,
-							   rating > 20?0x2606:0x2022,
-							   rating > 40?0x2606:0x2022,
-							   rating > 60?0x2606:0x2022,
-							   rating > 80?0x2606:0x2022];
-	return [[[NSAttributedString alloc] initWithString:string
-										  attributes:[NSDictionary dictionaryWithObject:[NSFont fontWithName:@"AppleGothic" size:20] forKey:NSFontNameAttribute]]autorelease];
+	NSString *string = @"";
+	for (int i = 0; i < rating; i += 20) {
+		string = [string stringByAppendingFormat:@"%C", (rating - i == 10)?0xbd:0x2605];
+	}
+	return [[[NSAttributedString alloc] initWithString:string attributes:[NSDictionary dictionaryWithObject:[NSFont fontWithName:@"AppleGothic" size:20] forKey:NSFontNameAttribute]] autorelease];
 }
-
 
 - (NSArray *)recentTrackObjects {
 	NSMutableArray *objects = [NSMutableArray arrayWithCapacity:1];
