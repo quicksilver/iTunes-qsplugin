@@ -98,9 +98,8 @@
 	//NSArray *trackIDs = [[dObject arrayForType:QSiTunesTrackIDPboardType] valueForKey:@"Track ID"];
 	NSArray *paths = [dObject validPaths];
 	
-	if (!paths) return nil;
+	if (!paths) return;
 	
-	//return;
 	NSDictionary *errorDict = nil;
 	
 	// get iTunesTrack objects to represent each track
@@ -225,7 +224,6 @@
 	if ([dObject containsType:QSiTunesPlaylistIDPboardType]) {
 		[[self playlistObjectFromQSObject:dObject] reveal];
 	} else if ([dObject containsType:QSiTunesTrackIDPboardType]) {
-		// TODO this doesn't work on tracks
 		NSArray *trackResult = [self trackObjectsFromQSObject:dObject];
 		iTunesTrack *track = [trackResult lastObject];
 		[track reveal];
