@@ -180,19 +180,15 @@
 		[qs setName:QSiTunesDynamicPlaylist];
 	}
 	// filter out PDFs and (optionally) videos
-	// TODO this can be done with a predicate now that we use the faster "Music" playlist
 	BOOL includeVideos = [[NSUserDefaults standardUserDefaults] boolForKey:@"QSiTunesIncludeVideos"];
-	NSMutableArray *songsOnly = [NSMutableArray arrayWithCapacity:[trackList count]];
-	for (iTunesFileTrack *track in trackList) {
-		if ([[track kind] isEqualToString:QSiTunesBookletKind]) {
-			continue;
-		}
-		// TODO if playlist is *only* videos, include them regardless of preferences
-		if (!includeVideos && [track videoKind] != iTunesEVdKNone) {
-			continue;
-		}
-		[songsOnly addObject:track];
+	NSString *filterString = [NSString stringWithFormat:@"kind != '%@'", QSiTunesBookletKind];
+	if (!includeVideos) {
+		filterString = [filterString stringByAppendingFormat:@" AND videoKind == %i", iTunesEVdKNone];
 	}
+	NSPredicate *trackFilter = [NSPredicate predicateWithFormat:filterString];
+	//NSLog(@"playlist filter: %@", [trackFilter predicateFormat]);
+	NSArray *songsOnly = [trackList filteredArrayUsingPredicate:trackFilter];
+	// play the resulting tracks
 	[iTunes add:[songsOnly valueForKey:@"location"] to:qs];
 	[qs playOnce:YES];
 }
