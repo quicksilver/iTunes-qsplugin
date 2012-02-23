@@ -180,14 +180,23 @@
 		[qs setName:QSiTunesDynamicPlaylist];
 	}
 	// filter out PDFs and (optionally) videos
-	BOOL includeVideos = [[NSUserDefaults standardUserDefaults] boolForKey:@"QSiTunesIncludeVideos"];
+	BOOL skipVideos = ![[NSUserDefaults standardUserDefaults] boolForKey:@"QSiTunesIncludeVideos"];
 	NSString *filterString = [NSString stringWithFormat:@"kind != '%@'", QSiTunesBookletKind];
-	if (!includeVideos) {
+	if (skipVideos) {
 		filterString = [filterString stringByAppendingFormat:@" AND videoKind == %i", iTunesEVdKNone];
 	}
 	NSPredicate *trackFilter = [NSPredicate predicateWithFormat:filterString];
 	//NSLog(@"playlist filter: %@", [trackFilter predicateFormat]);
 	NSArray *songsOnly = [trackList filteredArrayUsingPredicate:trackFilter];
+	if (skipVideos && [songsOnly count] == 0) {
+		// no results when skipping videos
+		// see if all tracks are videos, and if so, play them anyway
+		NSPredicate *videoFilter = [NSPredicate predicateWithFormat:@"videoKind != %i", iTunesEVdKNone];
+		NSArray *videos = [trackList filteredArrayUsingPredicate:videoFilter];
+		if ([videos count] == [trackList count]) {
+			songsOnly = videos;
+		}
+	}
 	// play the resulting tracks
 	[iTunes add:[songsOnly valueForKey:@"location"] to:qs];
 	[qs playOnce:YES];
