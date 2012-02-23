@@ -150,7 +150,9 @@ mSHARED_INSTANCE_CLASS_METHOD
 			trackID = [NSString stringWithFormat:@"%d", [track databaseID]];
 			[objects addObject:[self trackObjectForInfo:[self trackInfoForID:trackID] inPlaylist:nil]];
 		}
-		return [QSObject objectByMergingObjects:objects];
+		if ([objects count]) {
+			return [QSObject objectByMergingObjects:objects];
+		}
 	}
 	return nil;
 }
