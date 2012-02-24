@@ -381,12 +381,12 @@ mSHARED_INSTANCE_CLASS_METHOD
 		if ([[thisPlaylist objectForKey:@"Master"] boolValue] && [name isEqualToString:@"Library"]) {
 			continue;
 		}
-		if (![[thisPlaylist objectForKey:@"Folder"] boolValue]) {
-			// identify playlists by appending to the name, but skip folders
-			name = [name stringByAppendingString:@" Playlist"];
+		if ([[thisPlaylist objectForKey:@"Folder"] boolValue]) {
+			// skip folders
+			continue;
 		}
 		
-		newObject = [QSObject objectWithName:name];
+		newObject = [QSObject objectWithName:[name stringByAppendingString:@" Playlist"]];
 		[newObject setObject:[thisPlaylist objectForKey:@"Playlist ID"] forType:QSiTunesPlaylistIDPboardType];
 		[newObject setIdentifier:[thisPlaylist objectForKey:@"Playlist Persistent ID"]];
 		[newObject setPrimaryType:QSiTunesPlaylistIDPboardType];
@@ -399,9 +399,7 @@ mSHARED_INSTANCE_CLASS_METHOD
 - (void)setQuickIconForObject:(QSObject *)object {
 	if ([[object primaryType] isEqualToString:QSiTunesPlaylistIDPboardType]) {
 		NSDictionary *playlistDict = [library playlistInfoForID:[object objectForType:QSiTunesPlaylistIDPboardType]];
-		if ([[playlistDict objectForKey:@"Folder"] boolValue])
-			[object setIcon:[QSResourceManager imageNamed:@"GenericFolderIcon"]];
-		else if ([playlistDict objectForKey:@"Smart Criteria"])
+		if ([playlistDict objectForKey:@"Smart Criteria"])
 			[object setIcon:[NSImage imageNamed:@"iTunesSmartPlaylistIcon"]];
 		else if ([[playlistDict objectForKey:@"Name"] isEqualToString:@"iTunes DJ"])
 			[object setIcon:[NSImage imageNamed:@"iTunesPartyShufflePlaylistIcon"]];
