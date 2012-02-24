@@ -40,6 +40,21 @@
 			<key>rankModification</key>
 			<real>3.5</real>
 		</dict>
+		<key>QSiTunesGetLyrics</key>
+		<dict>
+			<key>actionClass</key>
+			<string>QSiTunesActionProvider</string>
+			<key>actionSelector</key>
+			<string>getLyrics:</string>
+			<key>directTypes</key>
+			<array>
+				<string>com.apple.itunes.track</string>
+			</array>
+			<key>displaysResult</key>
+			<true/>
+			<key>icon</key>
+			<string>iTunesIcon</string>
+		</dict>
 		<key>QSiTunesOpenBookletAction</key>
 		<dict>
 			<key>actionClass</key>

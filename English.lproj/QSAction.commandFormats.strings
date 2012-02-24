@@ -5,3 +5,4 @@
 "QSiTunesAddToPlaylistAction" = "Add %@ to Playlist…";
 "QSiTunesRevealItem" = "Reveal %@ in iTunes";
 "QSiTunesOpenBookletAction" = "Open Booklet(s) for %@";
+"QSiTunesGetLyrics" = "Get Lyrics for %@";

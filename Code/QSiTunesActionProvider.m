@@ -247,6 +247,20 @@
 	return nil;
 }
 
+- (QSObject *)getLyrics:(QSObject *)dObject
+{
+	iTunesTrack *track = [[self trackObjectsFromQSObject:dObject] lastObject];
+	NSString *lyricsText = [track lyrics];
+	if ([lyricsText length]) {
+		NSString *name = [NSString stringWithFormat:@"Lyrics for %@", [track name]];
+		QSObject *lyrics = [QSObject objectWithName:name];
+		[lyrics setObject:lyricsText forType:QSTextType];
+		[lyrics setPrimaryType:QSTextType];
+		return lyrics;
+	}
+	return nil;
+}
+
 #pragma mark - Quicksilver validation
 
 - (NSArray *)validActionsForDirectObject:(QSObject *)dObject indirectObject:(QSObject *)iObject {
