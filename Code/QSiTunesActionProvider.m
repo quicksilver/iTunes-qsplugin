@@ -272,6 +272,14 @@
 	return nil;
 }
 
+- (QSObject *)toggleEnabled:(QSObject *)dObject
+{
+	for (iTunesTrack *track in [self trackObjectsFromQSObject:dObject]) {
+		[track setEnabled:![track enabled]];
+	}
+	return nil;
+}
+
 #pragma mark - Quicksilver validation
 
 - (NSArray *)validActionsForDirectObject:(QSObject *)dObject indirectObject:(QSObject *)iObject {

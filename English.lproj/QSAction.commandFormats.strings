@@ -7,3 +7,4 @@
 "QSiTunesOpenBookletAction" = "Open Booklet(s) for %@";
 "QSiTunesGetLyrics" = "Get Lyrics for %@";
 "QSiTunesToggleShuffle" = "Toggle Shuffle for %@";
+"QSiTunesToggleEnabled" = "Enable/Disable %@";
