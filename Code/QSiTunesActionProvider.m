@@ -261,6 +261,17 @@
 	return nil;
 }
 
+- (QSObject *)toggleShuffle:(QSObject *)dObject
+{
+	for (QSObject *qsplaylist in [dObject splitObjects]) {
+		iTunesPlaylist *playlist = [self playlistObjectFromQSObject:qsplaylist];
+		if (playlist) {
+			[playlist setShuffle:![playlist shuffle]];
+		}
+	}
+	return nil;
+}
+
 #pragma mark - Quicksilver validation
 
 - (NSArray *)validActionsForDirectObject:(QSObject *)dObject indirectObject:(QSObject *)iObject {

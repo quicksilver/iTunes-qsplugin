@@ -6,3 +6,4 @@
 "QSiTunesRevealItem" = "Reveal in iTunes";
 "QSiTunesOpenBookletAction" = "Open Booklet(s)";
 "QSiTunesGetLyrics" = "Get Lyrics";
+"QSiTunesToggleShuffle" = "Toggle Shuffle";
