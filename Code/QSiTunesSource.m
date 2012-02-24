@@ -376,9 +376,10 @@ mSHARED_INSTANCE_CLASS_METHOD
 	//NSLog(@"Loading %d Playlists", [playlists count]);
 	//	if (![playlists count])   NSLog(@"Library Dump: %@", [self iTunesMusicLibrary]);
 	
+	NSString *label;
 	for (NSDictionary *thisPlaylist in playlists) {
-		NSString *name = [thisPlaylist objectForKey:@"Name"];
-		if ([[thisPlaylist objectForKey:@"Master"] boolValue] && [name isEqualToString:@"Library"]) {
+		label = [thisPlaylist objectForKey:@"Name"];
+		if ([[thisPlaylist objectForKey:@"Master"] boolValue] && [label isEqualToString:@"Library"]) {
 			continue;
 		}
 		if ([[thisPlaylist objectForKey:@"Folder"] boolValue]) {
@@ -386,7 +387,8 @@ mSHARED_INSTANCE_CLASS_METHOD
 			continue;
 		}
 		
-		newObject = [QSObject objectWithName:[name stringByAppendingString:@" Playlist"]];
+		newObject = [QSObject objectWithName:[label stringByAppendingString:@" Playlist"]];
+		[newObject setLabel:label];
 		[newObject setObject:[thisPlaylist objectForKey:@"Playlist ID"] forType:QSiTunesPlaylistIDPboardType];
 		[newObject setIdentifier:[thisPlaylist objectForKey:@"Playlist Persistent ID"]];
 		[newObject setPrimaryType:QSiTunesPlaylistIDPboardType];
