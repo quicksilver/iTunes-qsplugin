@@ -2,7 +2,6 @@
 #import "QSiTunesSource.h"
 
 @implementation QSiTunesObjectSource
-mSHARED_INSTANCE_CLASS_METHOD
 
 + (void)initialize {
 	NSImage *image;
