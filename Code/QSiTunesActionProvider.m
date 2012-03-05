@@ -415,7 +415,11 @@
 
 - (void)play
 {
-	[iTunes playOnce:YES];
+    if ([iTunes respondsToSelector:@selector(playOnce:)]) {
+        [iTunes playOnce:YES];
+    } else if ([iTunes playerState] != iTunesEPlSPlaying) {
+        [iTunes playpause];
+    }
 }
 
 - (void)pause
