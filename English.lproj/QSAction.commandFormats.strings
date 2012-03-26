@@ -8,3 +8,4 @@
 "QSiTunesGetLyrics" = "Get Lyrics for %@";
 "QSiTunesToggleShuffle" = "Toggle Shuffle for %@";
 "QSiTunesToggleEnabled" = "Enable/Disable %@";
+"QSiTunesSelectEQPreset" = "Set EQ Preset to %@";

@@ -810,7 +810,8 @@
 	}
 }
 
-- (NSArray *)objectsForEntry:(NSDictionary *)theEntry {
+- (NSArray *)objectsForEntry:(NSDictionary *)theEntry
+{
 	NSMutableArray *controlObjects = [NSMutableArray arrayWithCapacity:1];
 	QSCommand *command;
 	NSDictionary *commandDict;
@@ -832,6 +833,49 @@
 		}
 	}
 	return controlObjects;
+}
+
+@end
+
+@implementation QSiTunesEQPresets
+
+- (BOOL)indexIsValidFromDate:(NSDate *)indexDate forEntry:(NSDictionary *)theEntry
+{
+	NSString *sourceFile = [@"~/Library/Preferences/com.apple.iTunes.eq.plist" stringByExpandingTildeInPath];
+	// get the last modified date on the source file
+	NSFileManager *manager = [NSFileManager defaultManager];
+	if (![manager fileExistsAtPath:sourceFile isDirectory:NULL]) {
+		return YES;
+	}
+	NSDate *modDate = [[manager attributesOfItemAtPath:sourceFile error:NULL] fileModificationDate];
+	// compare dates and return whether or not the entry should be rescanned
+	if ([indexDate compare:modDate] == NSOrderedAscending) {
+		NSLog(@"rescanning EQ presets");
+		return NO;
+	}
+	// don't rescan by default
+	return YES;
+}
+
+- (NSArray *)objectsForEntry:(NSDictionary *)theEntry
+{
+	iTunesApplication *iTunes = QSiTunes();
+	QSObject *newObject = nil;
+	NSMutableArray *objects = [NSMutableArray arrayWithCapacity:[[iTunes EQPresets] count]];
+	for (iTunesEQPreset *eq in [iTunes EQPresets]) {
+		NSString *name = [eq name];
+		newObject = [QSObject makeObjectWithIdentifier:[NSString stringWithFormat:@"iTunes Preset:%@", name]];
+		[newObject setName:[NSString stringWithFormat:@"%@ Equalizer Preset", name]];
+		[newObject setDetails:@"iTunes Equalizer Preset"];
+		[newObject setObject:eq forType:QSiTunesEQPresetType];
+		[objects addObject:newObject];
+	}
+	return objects;
+}
+
+- (void)setQuickIconForObject:(QSObject *)object
+{
+	[object setIcon:[QSResourceManager imageNamed:@"iTunesEQ"]];
 }
 
 @end

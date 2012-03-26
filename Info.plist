@@ -19,7 +19,7 @@
 	<key>CFBundleShortVersionString</key>
 	<string>2.1.0</string>
 	<key>CFBundleVersion</key>
-	<string>340</string>
+	<string>341</string>
 	<key>NSPrincipalClass</key>
 	<string>QSiTunesObjectSource</string>
 	<key>QSActions</key>
@@ -154,6 +154,21 @@
 			<string>iTunesIcon</string>
 			<key>rankModification</key>
 			<real>3.5</real>
+		</dict>
+		<key>QSiTunesSelectEQPreset</key>
+		<dict>
+			<key>actionClass</key>
+			<string>QSiTunesActionProvider</string>
+			<key>actionSelector</key>
+			<string>selectEQPreset:</string>
+			<key>directTypes</key>
+			<array>
+				<string>com.apple.itunes.eqpreset</string>
+			</array>
+			<key>icon</key>
+			<string>iTunesIcon</string>
+			<key>rankModification</key>
+			<integer>2</integer>
 		</dict>
 		<key>QSiTunesToggleEnabled</key>
 		<dict>
@@ -421,6 +436,16 @@
 					</dict>
 					<key>source</key>
 					<string>QSFileSystemObjectSource</string>
+				</dict>
+				<dict>
+					<key>ID</key>
+					<string>QSPresetiTunesEQPresets</string>
+					<key>icon</key>
+					<string>iTunesEQ</string>
+					<key>name</key>
+					<string>iTunes Equalizer Presets</string>
+					<key>source</key>
+					<string>QSiTunesEQPresets</string>
 				</dict>
 			</array>
 			<key>icon</key>
@@ -1087,6 +1112,8 @@
 		</dict>
 		<key>QSObjectHandlers</key>
 		<dict>
+			<key>com.apple.itunes.eqpreset</key>
+			<string>QSiTunesEQPresets</string>
 			<key>com.apple.itunes.playlist</key>
 			<string>QSiTunesObjectSource</string>
 			<key>com.apple.itunes.qsbrowsercriteria</key>
@@ -1098,6 +1125,8 @@
 		<dict>
 			<key>QSiTunesControlSource</key>
 			<string>QSiTunesControlSource</string>
+			<key>QSiTunesEQPresets</key>
+			<string>QSiTunesEQPresets</string>
 			<key>QSiTunesObjectSource</key>
 			<string>QSiTunesObjectSource</string>
 		</dict>
@@ -1247,6 +1276,13 @@
 	</dict>
 	<key>QSResourceAdditions</key>
 	<dict>
+		<key>iTunesEQ</key>
+		<dict>
+			<key>bundle</key>
+			<string>com.blacktree.Quicksilver.QSiTunesPlugIn</string>
+			<key>resource</key>
+			<string>EqualizerIcon.png</string>
+		</dict>
 		<key>iTunesNext</key>
 		<dict>
 			<key>bundle</key>

@@ -280,6 +280,15 @@
 	return nil;
 }
 
+- (QSObject *)selectEQPreset:(QSObject *)dObject
+{
+	iTunesEQPreset *eq = [dObject objectForType:QSiTunesEQPresetType];
+	if (![[iTunes currentEQPreset] isEqual:eq]) {
+		[iTunes setCurrentEQPreset:eq];
+	}
+	return nil;
+}
+
 #pragma mark - Quicksilver validation
 
 - (NSArray *)validActionsForDirectObject:(QSObject *)dObject indirectObject:(QSObject *)iObject {
