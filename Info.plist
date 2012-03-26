@@ -37,8 +37,8 @@
 			</array>
 			<key>icon</key>
 			<string>iTunesIcon</string>
-			<key>rankModification</key>
-			<real>3.5</real>
+			<key>precedence</key>
+			<integer>1</integer>
 		</dict>
 		<key>QSiTunesGetLyrics</key>
 		<dict>
@@ -68,8 +68,6 @@
 			</array>
 			<key>icon</key>
 			<string>iTunesIcon</string>
-			<key>rankModification</key>
-			<real>3.5</real>
 		</dict>
 		<key>QSiTunesPSAddAction</key>
 		<dict>
@@ -85,8 +83,6 @@
 			</array>
 			<key>icon</key>
 			<string>iTunesIcon</string>
-			<key>rankModification</key>
-			<integer>3</integer>
 		</dict>
 		<key>QSiTunesPSPlayAction</key>
 		<dict>
@@ -102,8 +98,6 @@
 			</array>
 			<key>icon</key>
 			<string>iTunesIcon</string>
-			<key>rankModification</key>
-			<integer>3</integer>
 		</dict>
 		<key>QSiTunesPSPlayNextAction</key>
 		<dict>
@@ -119,8 +113,6 @@
 			</array>
 			<key>icon</key>
 			<string>iTunesIcon</string>
-			<key>rankModification</key>
-			<integer>3</integer>
 		</dict>
 		<key>QSiTunesPlayItemAction</key>
 		<dict>
@@ -136,8 +128,8 @@
 			</array>
 			<key>icon</key>
 			<string>iTunesIcon</string>
-			<key>rankModification</key>
-			<real>3.5</real>
+			<key>precedence</key>
+			<integer>3</integer>
 		</dict>
 		<key>QSiTunesRevealItem</key>
 		<dict>
@@ -152,8 +144,8 @@
 			</array>
 			<key>icon</key>
 			<string>iTunesIcon</string>
-			<key>rankModification</key>
-			<real>3.5</real>
+			<key>precedence</key>
+			<integer>1</integer>
 		</dict>
 		<key>QSiTunesSelectEQPreset</key>
 		<dict>
@@ -167,7 +159,7 @@
 			</array>
 			<key>icon</key>
 			<string>iTunesIcon</string>
-			<key>rankModification</key>
+			<key>precedence</key>
 			<integer>2</integer>
 		</dict>
 		<key>QSiTunesToggleEnabled</key>
