@@ -48,6 +48,10 @@ These are the same controls you can add triggers for (to control playback, adjus
 
 This will add any AppleScripts you have in `~/Library/iTunes/Scripts/`. (There are none by default.)
 
+### Equalizer Presets ###
+
+This entry adds all of your equalizer settings to the catalog.
+
 ### Proxy Objects ###
 
 The following proxy objects will be available. Most only work when iTunes is running, and some only when a track is playing.
@@ -114,6 +118,10 @@ Add tracks after the current track in iTunes DJ.
 #### Add to End of iTunes DJ ####
 
 Append tracks to the beginning of the list in iTunes DJ.
+
+#### Set EQ Preset ####
+
+Make the selected equalizer preset active in iTunes.
 
 ## Be Aware ##
 
