@@ -5,3 +5,7 @@
 "QSiTunesAddToPlaylistAction" = "Add to Playlist…";
 "QSiTunesRevealItem" = "Reveal in iTunes";
 "QSiTunesOpenBookletAction" = "Open Booklet(s)";
+"QSiTunesGetLyrics" = "Get Lyrics";
+"QSiTunesToggleShuffle" = "Shuffle On/Off";
+"QSiTunesToggleEnabled" = "Enable/Disable Track(s)";
+"QSiTunesSelectEQPreset" = "Set EQ Preset";

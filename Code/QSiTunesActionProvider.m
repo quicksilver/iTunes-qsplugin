@@ -98,9 +98,8 @@
 	//NSArray *trackIDs = [[dObject arrayForType:QSiTunesTrackIDPboardType] valueForKey:@"Track ID"];
 	NSArray *paths = [dObject validPaths];
 	
-	if (!paths) return nil;
+	if (!paths) return;
 	
-	//return;
 	NSDictionary *errorDict = nil;
 	
 	// get iTunesTrack objects to represent each track
@@ -181,19 +180,24 @@
 		[qs setName:QSiTunesDynamicPlaylist];
 	}
 	// filter out PDFs and (optionally) videos
-	// TODO this can be done with a predicate now that we use the faster "Music" playlist
-	BOOL includeVideos = [[NSUserDefaults standardUserDefaults] boolForKey:@"QSiTunesIncludeVideos"];
-	NSMutableArray *songsOnly = [NSMutableArray arrayWithCapacity:[trackList count]];
-	for (iTunesFileTrack *track in trackList) {
-		if ([[track kind] isEqualToString:QSiTunesBookletKind]) {
-			continue;
-		}
-		// TODO if playlist is *only* videos, include them regardless of preferences
-		if (!includeVideos && [track videoKind] != iTunesEVdKNone) {
-			continue;
-		}
-		[songsOnly addObject:track];
+	BOOL skipVideos = ![[NSUserDefaults standardUserDefaults] boolForKey:@"QSiTunesIncludeVideos"];
+	NSString *filterString = [NSString stringWithFormat:@"kind != '%@'", QSiTunesBookletKind];
+	if (skipVideos) {
+		filterString = [filterString stringByAppendingFormat:@" AND videoKind == %i", iTunesEVdKNone];
 	}
+	NSPredicate *trackFilter = [NSPredicate predicateWithFormat:filterString];
+	//NSLog(@"playlist filter: %@", [trackFilter predicateFormat]);
+	NSArray *songsOnly = [trackList filteredArrayUsingPredicate:trackFilter];
+	if (skipVideos && [songsOnly count] == 0) {
+		// no results when skipping videos
+		// see if all tracks are videos, and if so, play them anyway
+		NSPredicate *videoFilter = [NSPredicate predicateWithFormat:@"videoKind != %i", iTunesEVdKNone];
+		NSArray *videos = [trackList filteredArrayUsingPredicate:videoFilter];
+		if ([videos count] == [trackList count]) {
+			songsOnly = videos;
+		}
+	}
+	// play the resulting tracks
 	[iTunes add:[songsOnly valueForKey:@"location"] to:qs];
 	[qs playOnce:YES];
 }
@@ -225,7 +229,6 @@
 	if ([dObject containsType:QSiTunesPlaylistIDPboardType]) {
 		[[self playlistObjectFromQSObject:dObject] reveal];
 	} else if ([dObject containsType:QSiTunesTrackIDPboardType]) {
-		// TODO this doesn't work on tracks
 		NSArray *trackResult = [self trackObjectsFromQSObject:dObject];
 		iTunesTrack *track = [trackResult lastObject];
 		[track reveal];
@@ -240,6 +243,48 @@
 		if ([[track kind] isEqualToString:QSiTunesBookletKind]) {
 			[[NSWorkspace sharedWorkspace] openURL:[track location]];
 		}
+	}
+	return nil;
+}
+
+- (QSObject *)getLyrics:(QSObject *)dObject
+{
+	iTunesTrack *track = [[self trackObjectsFromQSObject:dObject] lastObject];
+	NSString *lyricsText = [track lyrics];
+	if ([lyricsText length]) {
+		NSString *name = [NSString stringWithFormat:@"Lyrics for %@", [track name]];
+		QSObject *lyrics = [QSObject objectWithName:name];
+		[lyrics setObject:lyricsText forType:QSTextType];
+		[lyrics setPrimaryType:QSTextType];
+		return lyrics;
+	}
+	return nil;
+}
+
+- (QSObject *)toggleShuffle:(QSObject *)dObject
+{
+	for (QSObject *qsplaylist in [dObject splitObjects]) {
+		iTunesPlaylist *playlist = [self playlistObjectFromQSObject:qsplaylist];
+		if (playlist) {
+			[playlist setShuffle:![playlist shuffle]];
+		}
+	}
+	return nil;
+}
+
+- (QSObject *)toggleEnabled:(QSObject *)dObject
+{
+	for (iTunesTrack *track in [self trackObjectsFromQSObject:dObject]) {
+		[track setEnabled:![track enabled]];
+	}
+	return nil;
+}
+
+- (QSObject *)selectEQPreset:(QSObject *)dObject
+{
+	iTunesEQPreset *eq = [dObject objectForType:QSiTunesEQPresetType];
+	if ([iTunes isRunning] && ![[iTunes currentEQPreset] isEqual:eq]) {
+		[iTunes setCurrentEQPreset:eq];
 	}
 	return nil;
 }
@@ -379,7 +424,11 @@
 
 - (void)play
 {
-	[iTunes playOnce:YES];
+    if ([iTunes respondsToSelector:@selector(playOnce:)]) {
+        [iTunes playOnce:YES];
+    } else if ([iTunes playerState] != iTunesEPlSPlaying) {
+        [iTunes playpause];
+    }
 }
 
 - (void)pause

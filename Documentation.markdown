@@ -22,6 +22,8 @@ If **Monitor Recent Tracks** is enabled, you can optionally have Quicksilver dis
 
 Some albums might have videos associated with them, but you probably don't want them to play when listening to an album. This allows you to control that behavior. The name is a bit misleading, as it will also apply if you select an artist and play them (which will play everything by that artist).
 
+If your selection contains *only* videos, they will play regardless of this setting.
+
 ## Catalog ##
 
 There are three catalog presets to choose from.
@@ -45,6 +47,10 @@ These are the same controls you can add triggers for (to control playback, adjus
 ### Scripts (iTunes) ###
 
 This will add any AppleScripts you have in `~/Library/iTunes/Scripts/`. (There are none by default.)
+
+### Equalizer Presets ###
+
+This entry adds all of your equalizer settings to the catalog.
 
 ### Proxy Objects ###
 
@@ -89,6 +95,18 @@ Show the selected track or playlist in iTunes.
 
 With album(s) or artist(s) in the first pane, you can display the PDF artwork that accompanies some albums purchased from the iTunes store. Nothing will happen for albums that don't include artwork.
 
+#### Enable/Disable Track(s) ####
+
+Toggle track(s) between "checked" and "unchecked" in iTunes. You can apply this to individual tracks, multiple tracks, albums, entire artists, or even entire genres.
+
+#### Shuffle On/Off ####
+
+Toggle the shuffle setting for the selected playlist(s).
+
+#### Get Lyrics ####
+
+Get the lyrics for the selected track.
+
 #### Play in iTunes DJ ####
 
 Add tracks to the beginning of the list in iTunes DJ and start playing.
@@ -100,6 +118,10 @@ Add tracks after the current track in iTunes DJ.
 #### Add to End of iTunes DJ ####
 
 Append tracks to the beginning of the list in iTunes DJ.
+
+#### Set EQ Preset ####
+
+Make the selected equalizer preset active in iTunes.
 
 ## Be Aware ##
 
