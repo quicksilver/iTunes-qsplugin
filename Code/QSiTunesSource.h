@@ -27,7 +27,10 @@
 - (NSImage *)imageForTrack:(NSDictionary *)trackDict;
 @end
 
-@interface QSiTunesControlSource : QSObjectSource {
+@interface QSiTunesControlSource : QSObjectSource
 
-}
+@end
+
+@interface QSiTunesEQPresets : QSObjectSource
+
 @end

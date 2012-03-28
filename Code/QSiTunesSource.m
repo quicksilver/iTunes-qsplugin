@@ -2,7 +2,6 @@
 #import "QSiTunesSource.h"
 
 @implementation QSiTunesObjectSource
-mSHARED_INSTANCE_CLASS_METHOD
 
 + (void)initialize {
 	NSImage *image;
@@ -150,7 +149,9 @@ mSHARED_INSTANCE_CLASS_METHOD
 			trackID = [NSString stringWithFormat:@"%d", [track databaseID]];
 			[objects addObject:[self trackObjectForInfo:[self trackInfoForID:trackID] inPlaylist:nil]];
 		}
-		return [QSObject objectByMergingObjects:objects];
+		if ([objects count]) {
+			return [QSObject objectByMergingObjects:objects];
+		}
 	}
 	return nil;
 }
@@ -374,17 +375,19 @@ mSHARED_INSTANCE_CLASS_METHOD
 	//NSLog(@"Loading %d Playlists", [playlists count]);
 	//	if (![playlists count])   NSLog(@"Library Dump: %@", [self iTunesMusicLibrary]);
 	
+	NSString *label;
 	for (NSDictionary *thisPlaylist in playlists) {
-		NSString *name = [thisPlaylist objectForKey:@"Name"];
-		if ([[thisPlaylist objectForKey:@"Master"] boolValue] && [name isEqualToString:@"Library"]) {
+		label = [thisPlaylist objectForKey:@"Name"];
+		if ([[thisPlaylist objectForKey:@"Master"] boolValue] && [label isEqualToString:@"Library"]) {
 			continue;
 		}
-		if (![[thisPlaylist objectForKey:@"Folder"] boolValue]) {
-			// identify playlists by appending to the name, but skip folders
-			name = [name stringByAppendingString:@" Playlist"];
+		if ([[thisPlaylist objectForKey:@"Folder"] boolValue]) {
+			// skip folders
+			continue;
 		}
 		
-		newObject = [QSObject objectWithName:name];
+		newObject = [QSObject objectWithName:[label stringByAppendingString:@" Playlist"]];
+		[newObject setLabel:label];
 		[newObject setObject:[thisPlaylist objectForKey:@"Playlist ID"] forType:QSiTunesPlaylistIDPboardType];
 		[newObject setIdentifier:[thisPlaylist objectForKey:@"Playlist Persistent ID"]];
 		[newObject setPrimaryType:QSiTunesPlaylistIDPboardType];
@@ -397,9 +400,7 @@ mSHARED_INSTANCE_CLASS_METHOD
 - (void)setQuickIconForObject:(QSObject *)object {
 	if ([[object primaryType] isEqualToString:QSiTunesPlaylistIDPboardType]) {
 		NSDictionary *playlistDict = [library playlistInfoForID:[object objectForType:QSiTunesPlaylistIDPboardType]];
-		if ([[playlistDict objectForKey:@"Folder"] boolValue])
-			[object setIcon:[QSResourceManager imageNamed:@"GenericFolderIcon"]];
-		else if ([playlistDict objectForKey:@"Smart Criteria"])
+		if ([playlistDict objectForKey:@"Smart Criteria"])
 			[object setIcon:[NSImage imageNamed:@"iTunesSmartPlaylistIcon"]];
 		else if ([[playlistDict objectForKey:@"Name"] isEqualToString:@"iTunes DJ"])
 			[object setIcon:[NSImage imageNamed:@"iTunesPartyShufflePlaylistIcon"]];
@@ -809,7 +810,8 @@ mSHARED_INSTANCE_CLASS_METHOD
 	}
 }
 
-- (NSArray *)objectsForEntry:(NSDictionary *)theEntry {
+- (NSArray *)objectsForEntry:(NSDictionary *)theEntry
+{
 	NSMutableArray *controlObjects = [NSMutableArray arrayWithCapacity:1];
 	QSCommand *command;
 	NSDictionary *commandDict;
@@ -831,6 +833,52 @@ mSHARED_INSTANCE_CLASS_METHOD
 		}
 	}
 	return controlObjects;
+}
+
+@end
+
+@implementation QSiTunesEQPresets
+
+- (BOOL)indexIsValidFromDate:(NSDate *)indexDate forEntry:(NSDictionary *)theEntry
+{
+	NSString *sourceFile = [@"~/Library/Preferences/com.apple.iTunes.eq.plist" stringByExpandingTildeInPath];
+	// get the last modified date on the source file
+	NSFileManager *manager = [NSFileManager defaultManager];
+	if (![manager fileExistsAtPath:sourceFile isDirectory:NULL]) {
+		return YES;
+	}
+	NSDate *modDate = [[manager attributesOfItemAtPath:sourceFile error:NULL] fileModificationDate];
+	// compare dates and return whether or not the entry should be rescanned
+	if ([indexDate compare:modDate] == NSOrderedAscending) {
+		NSLog(@"rescanning EQ presets");
+		return NO;
+	}
+	// don't rescan by default
+	return YES;
+}
+
+- (NSArray *)objectsForEntry:(NSDictionary *)theEntry
+{
+	iTunesApplication *iTunes = QSiTunes();
+	if (![iTunes isRunning]) {
+		return nil;
+	}
+	QSObject *newObject = nil;
+	NSMutableArray *objects = [NSMutableArray arrayWithCapacity:[[iTunes EQPresets] count]];
+	for (iTunesEQPreset *eq in [iTunes EQPresets]) {
+		NSString *name = [eq name];
+		newObject = [QSObject makeObjectWithIdentifier:[NSString stringWithFormat:@"iTunes Preset:%@", name]];
+		[newObject setName:[NSString stringWithFormat:@"%@ Equalizer Preset", name]];
+		[newObject setDetails:@"iTunes Equalizer Preset"];
+		[newObject setObject:eq forType:QSiTunesEQPresetType];
+		[objects addObject:newObject];
+	}
+	return objects;
+}
+
+- (void)setQuickIconForObject:(QSObject *)object
+{
+	[object setIcon:[QSResourceManager imageNamed:@"iTunesEQ"]];
 }
 
 @end

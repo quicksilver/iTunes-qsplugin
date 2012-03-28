@@ -17,9 +17,9 @@
 	<key>CFBundlePackageType</key>
 	<string>BNDL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>2.0.1</string>
+	<string>2.1.0</string>
 	<key>CFBundleVersion</key>
-	<string>33F</string>
+	<string>341</string>
 	<key>NSPrincipalClass</key>
 	<string>QSiTunesObjectSource</string>
 	<key>QSActions</key>
@@ -37,8 +37,23 @@
 			</array>
 			<key>icon</key>
 			<string>iTunesIcon</string>
-			<key>rankModification</key>
-			<real>3.5</real>
+			<key>precedence</key>
+			<integer>1</integer>
+		</dict>
+		<key>QSiTunesGetLyrics</key>
+		<dict>
+			<key>actionClass</key>
+			<string>QSiTunesActionProvider</string>
+			<key>actionSelector</key>
+			<string>getLyrics:</string>
+			<key>directTypes</key>
+			<array>
+				<string>com.apple.itunes.track</string>
+			</array>
+			<key>displaysResult</key>
+			<true/>
+			<key>icon</key>
+			<string>iTunesIcon</string>
 		</dict>
 		<key>QSiTunesOpenBookletAction</key>
 		<dict>
@@ -53,8 +68,6 @@
 			</array>
 			<key>icon</key>
 			<string>iTunesIcon</string>
-			<key>rankModification</key>
-			<real>3.5</real>
 		</dict>
 		<key>QSiTunesPSAddAction</key>
 		<dict>
@@ -70,8 +83,6 @@
 			</array>
 			<key>icon</key>
 			<string>iTunesIcon</string>
-			<key>rankModification</key>
-			<integer>3</integer>
 		</dict>
 		<key>QSiTunesPSPlayAction</key>
 		<dict>
@@ -87,8 +98,6 @@
 			</array>
 			<key>icon</key>
 			<string>iTunesIcon</string>
-			<key>rankModification</key>
-			<integer>3</integer>
 		</dict>
 		<key>QSiTunesPSPlayNextAction</key>
 		<dict>
@@ -104,8 +113,6 @@
 			</array>
 			<key>icon</key>
 			<string>iTunesIcon</string>
-			<key>rankModification</key>
-			<integer>3</integer>
 		</dict>
 		<key>QSiTunesPlayItemAction</key>
 		<dict>
@@ -121,8 +128,8 @@
 			</array>
 			<key>icon</key>
 			<string>iTunesIcon</string>
-			<key>rankModification</key>
-			<real>3.5</real>
+			<key>precedence</key>
+			<integer>3</integer>
 		</dict>
 		<key>QSiTunesRevealItem</key>
 		<dict>
@@ -137,8 +144,51 @@
 			</array>
 			<key>icon</key>
 			<string>iTunesIcon</string>
-			<key>rankModification</key>
-			<real>3.5</real>
+			<key>precedence</key>
+			<integer>1</integer>
+		</dict>
+		<key>QSiTunesSelectEQPreset</key>
+		<dict>
+			<key>actionClass</key>
+			<string>QSiTunesActionProvider</string>
+			<key>actionSelector</key>
+			<string>selectEQPreset:</string>
+			<key>directTypes</key>
+			<array>
+				<string>com.apple.itunes.eqpreset</string>
+			</array>
+			<key>icon</key>
+			<string>iTunesIcon</string>
+			<key>precedence</key>
+			<integer>2</integer>
+		</dict>
+		<key>QSiTunesToggleEnabled</key>
+		<dict>
+			<key>actionClass</key>
+			<string>QSiTunesActionProvider</string>
+			<key>actionSelector</key>
+			<string>toggleEnabled:</string>
+			<key>directTypes</key>
+			<array>
+				<string>com.apple.itunes.track</string>
+				<string>com.apple.itunes.playlist</string>
+				<string>com.apple.itunes.qsbrowsercriteria</string>
+			</array>
+			<key>icon</key>
+			<string>iTunesIcon</string>
+		</dict>
+		<key>QSiTunesToggleShuffle</key>
+		<dict>
+			<key>actionClass</key>
+			<string>QSiTunesActionProvider</string>
+			<key>actionSelector</key>
+			<string>toggleShuffle:</string>
+			<key>directTypes</key>
+			<array>
+				<string>com.apple.itunes.playlist</string>
+			</array>
+			<key>icon</key>
+			<string>iTunesIcon</string>
 		</dict>
 	</dict>
 	<key>QSPlugIn</key>
@@ -175,6 +225,8 @@
 
 &lt;p&gt;Some albums might have videos associated with them, but you probably don&amp;#8217;t want them to play when listening to an album. This allows you to control that behavior. The name is a bit misleading, as it will also apply if you select an artist and play them (which will play everything by that artist).&lt;/p&gt;
 
+&lt;p&gt;If your selection contains &lt;em&gt;only&lt;/em&gt; videos, they will play regardless of this setting.&lt;/p&gt;
+
 &lt;h2 id=&quot;catalog&quot;&gt;Catalog&lt;/h2&gt;
 
 &lt;p&gt;There are three catalog presets to choose from.&lt;/p&gt;
@@ -200,6 +252,10 @@
 &lt;h3 id=&quot;scripts_itunes&quot;&gt;Scripts (iTunes)&lt;/h3&gt;
 
 &lt;p&gt;This will add any AppleScripts you have in &lt;code&gt;~/Library/iTunes/Scripts/&lt;/code&gt;. (There are none by default.)&lt;/p&gt;
+
+&lt;h3 id=&quot;equalizer_presets&quot;&gt;Equalizer Presets&lt;/h3&gt;
+
+&lt;p&gt;This entry adds all of your equalizer settings to the catalog.&lt;/p&gt;
 
 &lt;h3 id=&quot;proxy_objects&quot;&gt;Proxy Objects&lt;/h3&gt;
 
@@ -283,6 +339,18 @@
 
 &lt;p&gt;With album(s) or artist(s) in the first pane, you can display the PDF artwork that accompanies some albums purchased from the iTunes store. Nothing will happen for albums that don&amp;#8217;t include artwork.&lt;/p&gt;
 
+&lt;h4 id=&quot;enable_disable_tracks&quot;&gt;Enable/Disable Track(s)&lt;/h4&gt;
+
+&lt;p&gt;Toggle track(s) between &amp;#8220;checked&amp;#8221; and &amp;#8220;unchecked&amp;#8221; in iTunes. You can apply this to individual tracks, multiple tracks, albums, entire artists, or even entire genres.&lt;/p&gt;
+
+&lt;h4 id=&quot;shuffle_on_off&quot;&gt;Shuffle On/Off&lt;/h4&gt;
+
+&lt;p&gt;Toggle the shuffle setting for the selected playlist(s).&lt;/p&gt;
+
+&lt;h4 id=&quot;get_lyrics&quot;&gt;Get Lyrics&lt;/h4&gt;
+
+&lt;p&gt;Get the lyrics for the selected track.&lt;/p&gt;
+
 &lt;h4 id=&quot;play_in_itunes_dj&quot;&gt;Play in iTunes DJ&lt;/h4&gt;
 
 &lt;p&gt;Add tracks to the beginning of the list in iTunes DJ and start playing.&lt;/p&gt;
@@ -294,6 +362,10 @@
 &lt;h4 id=&quot;add_to_end_of_itunes_dj&quot;&gt;Add to End of iTunes DJ&lt;/h4&gt;
 
 &lt;p&gt;Append tracks to the beginning of the list in iTunes DJ.&lt;/p&gt;
+
+&lt;h4 id=&quot;set_eq_preset&quot;&gt;Set EQ Preset&lt;/h4&gt;
+
+&lt;p&gt;Make the selected equalizer preset active in iTunes.&lt;/p&gt;
 
 &lt;h2 id=&quot;be_aware&quot;&gt;Be Aware&lt;/h2&gt;
 
@@ -364,6 +436,16 @@
 					</dict>
 					<key>source</key>
 					<string>QSFileSystemObjectSource</string>
+				</dict>
+				<dict>
+					<key>ID</key>
+					<string>QSPresetiTunesEQPresets</string>
+					<key>icon</key>
+					<string>iTunesEQ</string>
+					<key>name</key>
+					<string>iTunes Equalizer Presets</string>
+					<key>source</key>
+					<string>QSiTunesEQPresets</string>
 				</dict>
 			</array>
 			<key>icon</key>
@@ -1030,6 +1112,8 @@
 		</dict>
 		<key>QSObjectHandlers</key>
 		<dict>
+			<key>com.apple.itunes.eqpreset</key>
+			<string>QSiTunesEQPresets</string>
 			<key>com.apple.itunes.playlist</key>
 			<string>QSiTunesObjectSource</string>
 			<key>com.apple.itunes.qsbrowsercriteria</key>
@@ -1041,6 +1125,8 @@
 		<dict>
 			<key>QSiTunesControlSource</key>
 			<string>QSiTunesControlSource</string>
+			<key>QSiTunesEQPresets</key>
+			<string>QSiTunesEQPresets</string>
 			<key>QSiTunesObjectSource</key>
 			<string>QSiTunesObjectSource</string>
 		</dict>
@@ -1190,6 +1276,13 @@
 	</dict>
 	<key>QSResourceAdditions</key>
 	<dict>
+		<key>iTunesEQ</key>
+		<dict>
+			<key>bundle</key>
+			<string>com.blacktree.Quicksilver.QSiTunesPlugIn</string>
+			<key>resource</key>
+			<string>EqualizerIcon.png</string>
+		</dict>
 		<key>iTunesNext</key>
 		<dict>
 			<key>bundle</key>
