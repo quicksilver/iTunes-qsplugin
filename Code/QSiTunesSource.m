@@ -860,6 +860,9 @@
 - (NSArray *)objectsForEntry:(NSDictionary *)theEntry
 {
 	iTunesApplication *iTunes = QSiTunes();
+	if (![iTunes isRunning]) {
+		return nil;
+	}
 	QSObject *newObject = nil;
 	NSMutableArray *objects = [NSMutableArray arrayWithCapacity:[[iTunes EQPresets] count]];
 	for (iTunesEQPreset *eq in [iTunes EQPresets]) {

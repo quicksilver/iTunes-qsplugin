@@ -283,7 +283,7 @@
 - (QSObject *)selectEQPreset:(QSObject *)dObject
 {
 	iTunesEQPreset *eq = [dObject objectForType:QSiTunesEQPresetType];
-	if (![[iTunes currentEQPreset] isEqual:eq]) {
+	if ([iTunes isRunning] && ![[iTunes currentEQPreset] isEqual:eq]) {
 		[iTunes setCurrentEQPreset:eq];
 	}
 	return nil;
