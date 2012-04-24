@@ -273,17 +273,17 @@
 &lt;/thead&gt;
 &lt;tbody&gt;
 &lt;tr&gt;
-  &lt;td&gt;Track Now Playing&lt;/td&gt;
+  &lt;td&gt;Currently Playing Track&lt;/td&gt;
   &lt;td&gt;Yes&lt;/td&gt;
   &lt;td&gt;Yes&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-  &lt;td&gt;Artist Now Playing&lt;/td&gt;
+  &lt;td&gt;Currently Playing Artist&lt;/td&gt;
   &lt;td&gt;Yes&lt;/td&gt;
   &lt;td&gt;Yes&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-  &lt;td&gt;Album Now Playing&lt;/td&gt;
+  &lt;td&gt;Currently Playing Album&lt;/td&gt;
   &lt;td&gt;Yes&lt;/td&gt;
   &lt;td&gt;Yes&lt;/td&gt;
 &lt;/tr&gt;
@@ -1153,7 +1153,7 @@
 				<key>icon</key>
 				<string>iTunesAlbumBrowserIcon</string>
 				<key>name</key>
-				<string>Album Now Playing</string>
+				<string>Currently Playing Album</string>
 				<key>providerClass</key>
 				<string>QSiTunesObjectSource</string>
 				<key>types</key>
@@ -1166,7 +1166,7 @@
 				<key>icon</key>
 				<string>iTunesArtistBrowserIcon</string>
 				<key>name</key>
-				<string>Artist Now Playing</string>
+				<string>Currently Playing Artist</string>
 				<key>providerClass</key>
 				<string>QSiTunesObjectSource</string>
 				<key>types</key>
@@ -1206,7 +1206,7 @@
 				<key>icon</key>
 				<string>iTunesTrackIcon</string>
 				<key>name</key>
-				<string>Track Now Playing</string>
+				<string>Currently Playing Track</string>
 				<key>providerClass</key>
 				<string>QSiTunesObjectSource</string>
 				<key>types</key>
