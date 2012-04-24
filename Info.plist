@@ -4,6 +4,8 @@
 <dict>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>English</string>
+	<key>CFBundleDisplayName</key>
+	<string>iTunes</string>
 	<key>CFBundleExecutable</key>
 	<string>iTunes Module</string>
 	<key>CFBundleIconFile</key>
@@ -17,9 +19,9 @@
 	<key>CFBundlePackageType</key>
 	<string>BNDL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>2.1.0</string>
+	<string>2.1.1</string>
 	<key>CFBundleVersion</key>
-	<string>341</string>
+	<string>342</string>
 	<key>NSPrincipalClass</key>
 	<string>QSiTunesObjectSource</string>
 	<key>QSActions</key>
@@ -271,17 +273,17 @@
 &lt;/thead&gt;
 &lt;tbody&gt;
 &lt;tr&gt;
-  &lt;td&gt;Track Now Playing&lt;/td&gt;
+  &lt;td&gt;Currently Playing Track&lt;/td&gt;
   &lt;td&gt;Yes&lt;/td&gt;
   &lt;td&gt;Yes&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-  &lt;td&gt;Artist Now Playing&lt;/td&gt;
+  &lt;td&gt;Currently Playing Artist&lt;/td&gt;
   &lt;td&gt;Yes&lt;/td&gt;
   &lt;td&gt;Yes&lt;/td&gt;
 &lt;/tr&gt;
 &lt;tr&gt;
-  &lt;td&gt;Album Now Playing&lt;/td&gt;
+  &lt;td&gt;Currently Playing Album&lt;/td&gt;
   &lt;td&gt;Yes&lt;/td&gt;
   &lt;td&gt;Yes&lt;/td&gt;
 &lt;/tr&gt;
@@ -1151,7 +1153,7 @@
 				<key>icon</key>
 				<string>iTunesAlbumBrowserIcon</string>
 				<key>name</key>
-				<string>Album Now Playing</string>
+				<string>Currently Playing Album</string>
 				<key>providerClass</key>
 				<string>QSiTunesObjectSource</string>
 				<key>types</key>
@@ -1164,7 +1166,7 @@
 				<key>icon</key>
 				<string>iTunesArtistBrowserIcon</string>
 				<key>name</key>
-				<string>Artist Now Playing</string>
+				<string>Currently Playing Artist</string>
 				<key>providerClass</key>
 				<string>QSiTunesObjectSource</string>
 				<key>types</key>
@@ -1204,7 +1206,7 @@
 				<key>icon</key>
 				<string>iTunesTrackIcon</string>
 				<key>name</key>
-				<string>Track Now Playing</string>
+				<string>Currently Playing Track</string>
 				<key>providerClass</key>
 				<string>QSiTunesObjectSource</string>
 				<key>types</key>

@@ -453,7 +453,7 @@
 
 - (void)previous
 {
-	[iTunes previousTrack];
+	[iTunes backTrack];
 }
 
 - (void)volumeIncrease
