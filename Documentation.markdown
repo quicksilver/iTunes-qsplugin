@@ -58,9 +58,9 @@ The following proxy objects will be available. Most only work when iTunes is run
 
   Proxy Name               | Running | Playing
   ------------------------ | ------- | -------
-  Track Now Playing        | Yes     | Yes
-  Artist Now Playing       | Yes     | Yes
-  Album Now Playing        | Yes     | Yes
+  Currently Playing Track  | Yes     | Yes
+  Currently Playing Artist | Yes     | Yes
+  Currently Playing Album  | Yes     | Yes
   Current Playlist         | Yes     | Yes
   Selected Playlist        | Yes     | No
   Current iTunes Selection | Yes     | No

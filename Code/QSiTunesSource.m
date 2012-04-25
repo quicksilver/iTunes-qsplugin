@@ -101,9 +101,11 @@
 		srand(time(NULL));
 		NSArray *allTracks = [library tracksMatchingCriteria:nil];
 		long upper = [allTracks count];
-		int trackIndex = random() % upper;
-		NSDictionary *randomTrack = [allTracks objectAtIndex:trackIndex];
-		return [self trackObjectForInfo:randomTrack inPlaylist:nil];
+		if (upper >= 1) {
+			int trackIndex = random() % upper;
+			NSDictionary *randomTrack = [allTracks objectAtIndex:trackIndex];
+			return [self trackObjectForInfo:randomTrack inPlaylist:nil];
+		}
 	}
 	// the rest of these require iTunes to be running
 	if (![iTunes isRunning]) {
