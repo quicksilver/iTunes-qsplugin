@@ -862,20 +862,21 @@
 - (NSArray *)objectsForEntry:(NSDictionary *)theEntry
 {
 	iTunesApplication *iTunes = QSiTunes();
-	if (![iTunes isRunning]) {
-		return nil;
+	if ([iTunes isRunning]) {
+		NSArray *EQPresets = [[iTunes EQPresets] get];
+		QSObject *newObject = nil;
+		NSMutableArray *objects = [NSMutableArray arrayWithCapacity:[EQPresets count]];
+		for (iTunesEQPreset *eq in EQPresets) {
+			NSString *name = [eq name];
+			newObject = [QSObject makeObjectWithIdentifier:[NSString stringWithFormat:@"iTunes Preset:%@", name]];
+			[newObject setName:[NSString stringWithFormat:@"%@ Equalizer Preset", name]];
+			[newObject setDetails:@"iTunes Equalizer Preset"];
+			[newObject setObject:eq forType:QSiTunesEQPresetType];
+			[objects addObject:newObject];
+		}
+		return objects;
 	}
-	QSObject *newObject = nil;
-	NSMutableArray *objects = [NSMutableArray arrayWithCapacity:[[iTunes EQPresets] count]];
-	for (iTunesEQPreset *eq in [iTunes EQPresets]) {
-		NSString *name = [eq name];
-		newObject = [QSObject makeObjectWithIdentifier:[NSString stringWithFormat:@"iTunes Preset:%@", name]];
-		[newObject setName:[NSString stringWithFormat:@"%@ Equalizer Preset", name]];
-		[newObject setDetails:@"iTunes Equalizer Preset"];
-		[newObject setObject:eq forType:QSiTunesEQPresetType];
-		[objects addObject:newObject];
-	}
-	return objects;
+	return nil;
 }
 
 - (void)setQuickIconForObject:(QSObject *)object
