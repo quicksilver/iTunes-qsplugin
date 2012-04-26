@@ -636,10 +636,7 @@
 		
 		NSMutableArray *objects = [NSMutableArray arrayWithCapacity:1];
 		QSObject *newObject;
-		int count = [sortTags count];
-		int i;
-		for (i = 0; i < count; i++) {
-			NSString *rootType = [sortTags objectAtIndex:i];
+		for (NSString *rootType in sortTags) {
 			newObject = [self browserObjectForTrack:trackDict andCriteria:rootType];
 			if (newObject)
 				[objects addObject:newObject];
@@ -677,7 +674,6 @@
 - (NSArray *)childrenForBrowseCriteria:(NSDictionary *)browseDict {
 	NSDictionary *criteriaDict = [browseDict objectForKey:@"Criteria"];
 	NSString *displayType = [browseDict objectForKey:@"Result"];
-	int i;
 	
 	NSArray *trackArray = [library tracksMatchingCriteria:criteriaDict];
 	
@@ -742,14 +738,13 @@
 			
 			//  NSImage *icon = [NSImage imageNamed:[NSString stringWithFormat:@"iTunes%@BrowserIcon", displayType]];
 			
-			for (i = 0; i < [subsets count]; i++) {
-				NSString *thisItem = [subsets objectAtIndex:i];
+			for (NSString *thisItem in subsets) {
 				if ([usedKeys containsObject:[thisItem lowercaseString]]) continue;
 				childBrowseDict = [NSMutableDictionary dictionaryWithCapacity:1];
 				
 				NSMutableDictionary *childCriteriaDict = [[criteriaDict mutableCopy] autorelease];
 				if (!childCriteriaDict) childCriteriaDict = [NSMutableDictionary dictionaryWithCapacity:1];
-				[childCriteriaDict setObject:[subsets objectAtIndex:i] forKey:displayType];
+				[childCriteriaDict setObject:thisItem forKey:displayType];
 				
 				[childBrowseDict setObject:displayType forKey:@"Type"];
 				[childBrowseDict setObject:childSort forKey:@"Result"];
@@ -775,10 +770,7 @@
 	NSArray *sortTags = [NSArray arrayWithObjects:@"Genre", @"Artist", @"Composer", @"Album", @"Track", nil]; 	
 	NSMutableArray *objects = [NSMutableArray arrayWithCapacity:1];
 	QSObject *newObject;
-	int count = [sortTags count];
-	int i;
-	for (i = 0; i < count; i++) {
-		NSString *rootType = [sortTags objectAtIndex:i];
+	for (NSString *rootType in sortTags) {
 		NSMutableDictionary *childCriteria = [NSMutableDictionary dictionaryWithObjectsAndKeys:rootType, @"Result", rootType, @"Type", nil];
 		newObject = [QSObject objectWithName:[NSString stringWithFormat:@"Browse %@s", rootType]];
 		[newObject setObject:childCriteria forType:QSiTunesBrowserPboardType];  
@@ -862,20 +854,21 @@
 - (NSArray *)objectsForEntry:(NSDictionary *)theEntry
 {
 	iTunesApplication *iTunes = QSiTunes();
-	if (![iTunes isRunning]) {
-		return nil;
+	if ([iTunes isRunning]) {
+		NSArray *EQPresets = [[iTunes EQPresets] get];
+		QSObject *newObject = nil;
+		NSMutableArray *objects = [NSMutableArray arrayWithCapacity:[EQPresets count]];
+		for (iTunesEQPreset *eq in EQPresets) {
+			NSString *name = [eq name];
+			newObject = [QSObject makeObjectWithIdentifier:[NSString stringWithFormat:@"iTunes Preset:%@", name]];
+			[newObject setName:[NSString stringWithFormat:@"%@ Equalizer Preset", name]];
+			[newObject setDetails:@"iTunes Equalizer Preset"];
+			[newObject setObject:eq forType:QSiTunesEQPresetType];
+			[objects addObject:newObject];
+		}
+		return objects;
 	}
-	QSObject *newObject = nil;
-	NSMutableArray *objects = [NSMutableArray arrayWithCapacity:[[iTunes EQPresets] count]];
-	for (iTunesEQPreset *eq in [iTunes EQPresets]) {
-		NSString *name = [eq name];
-		newObject = [QSObject makeObjectWithIdentifier:[NSString stringWithFormat:@"iTunes Preset:%@", name]];
-		[newObject setName:[NSString stringWithFormat:@"%@ Equalizer Preset", name]];
-		[newObject setDetails:@"iTunes Equalizer Preset"];
-		[newObject setObject:eq forType:QSiTunesEQPresetType];
-		[objects addObject:newObject];
-	}
-	return objects;
+	return nil;
 }
 
 - (void)setQuickIconForObject:(QSObject *)object
