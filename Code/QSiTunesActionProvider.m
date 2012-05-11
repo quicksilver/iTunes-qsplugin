@@ -95,16 +95,18 @@
 }
 
 - (void)playTrack:(QSObject *)dObject party:(BOOL)party append:(BOOL)append next:(BOOL)next {
-	//NSArray *trackIDs = [[dObject arrayForType:QSiTunesTrackIDPboardType] valueForKey:@"Track ID"];
 	NSArray *paths = [dObject validPaths];
-	
-	if (!paths) return;
 	
 	NSDictionary *errorDict = nil;
 	
 	// get iTunesTrack objects to represent each track
 	NSArray *trackResult = [self trackObjectsFromQSObject:dObject];
 	NSArray *newTracks = [trackResult valueForKey:@"location"];
+	
+	if (!paths) {
+		// get the location from the track object(s)
+		paths = [newTracks arrayByPerformingSelector:@selector(path)];
+	}
 	
 	if (party) {
 		iTunesPlaylist *iTunesDJ = QSiTunesDJ();
