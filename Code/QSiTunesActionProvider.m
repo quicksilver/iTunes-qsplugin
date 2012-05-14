@@ -111,10 +111,11 @@
 	if (party) {
 		iTunesPlaylist *iTunesDJ = QSiTunesDJ();
 		if (next) {
+			if (!paths) {
+				return;
+			}
 			//ps_play_next_track can handle a list
-			[[self iTunesScript] executeSubroutine:@"ps_play_next_track" 
-										 arguments:[NSArray arrayWithObject:[NSAppleEventDescriptor aliasListDescriptorWithArray:paths]] 
-											 error:&errorDict];
+			[[self iTunesScript] executeSubroutine:@"ps_play_next_track" arguments:[NSArray arrayWithObject:[NSAppleEventDescriptor aliasListDescriptorWithArray:paths]] error:&errorDict];
 			// TODO get this to work via Scripting Bridge?
 //			if (![[[iTunes currentTrack] container] isEqualTo:iTunesDJ]) {
 //				// iTunes DJ wasn't already playing - start it
@@ -134,10 +135,11 @@
 		} else if (append) {
 			[iTunes add:newTracks to:iTunesDJ];
 		} else {
+			if (!paths) {
+				return;
+			}
 			// Play first track, queue rest
-			[[self iTunesScript] executeSubroutine:@"ps_play_track" 
-										 arguments:[NSArray arrayWithObject:[NSAppleEventDescriptor aliasListDescriptorWithArray:paths]]
-											 error:&errorDict];
+			[[self iTunesScript] executeSubroutine:@"ps_play_track" arguments:[NSArray arrayWithObject:[NSAppleEventDescriptor aliasListDescriptorWithArray:paths]] error:&errorDict];
 		}
 	} else if (append) {
 		iTunesPlaylist *qs = [[QSiTunesLibrary() userPlaylists] objectWithName:QSiTunesDynamicPlaylist];
@@ -145,11 +147,10 @@
 	} else {
 		NSString *playlist = [dObject objectForMeta:@"QSiTunesSourcePlaylist"];
 		if (playlist) {
-			[[self iTunesScript] executeSubroutine:@"play_track_in_playlist"
-										 arguments:[NSArray arrayWithObjects:
-											 [NSAppleEventDescriptor aliasListDescriptorWithArray:paths] ,
-											 playlist, nil]
-											 error:&errorDict];
+			if (!paths) {
+				return;
+			}
+			[[self iTunesScript] executeSubroutine:@"play_track_in_playlist" arguments:[NSArray arrayWithObjects:[NSAppleEventDescriptor aliasListDescriptorWithArray:paths], playlist, nil] error:&errorDict];
 
 		} else {
 			if ([trackResult count] == 1) {
