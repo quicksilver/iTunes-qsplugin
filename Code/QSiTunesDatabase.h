@@ -8,7 +8,6 @@
 
 #import <Cocoa/Cocoa.h>
 
-
 @interface QSiTunesDatabase : NSObject {
 	NSDictionary *iTunesMusicLibrary;
     NSString *libraryLocation;

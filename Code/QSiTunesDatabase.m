@@ -261,7 +261,7 @@
 		return nil;
 	}
 	NSArray *playlists = [[self iTunesMusicLibrary] objectForKey:@"Playlists"];
-	int i = [[playlists valueForKey:@"Playlist ID"] indexOfObject:theID];
+	NSUInteger i = [[playlists valueForKey:@"Playlist ID"] indexOfObject:theID];
 	
 	if (i == NSNotFound) return nil;
 	return [playlists objectAtIndex:i];
@@ -269,7 +269,7 @@
 
 - (NSDictionary *)playlistInfoForName:(NSString *)theName {
 	NSArray *playlists = [[self iTunesMusicLibrary] objectForKey:@"Playlists"];
-	int i = [[playlists valueForKey:@"Name"] indexOfObject:theName];
+	NSUInteger i = [[playlists valueForKey:@"Name"] indexOfObject:theName];
 	
 	if (i == NSNotFound) return nil;
 	return [playlists objectAtIndex:i];
