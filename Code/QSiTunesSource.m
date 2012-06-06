@@ -64,7 +64,7 @@
 	if ([[[notif userInfo] objectForKey:@"Player State"] isEqualToString:@"Playing"]) {
 		
 		NSString *newTrack = [self currentTrackID];
-		if ([newTrack intValue] <= 0) return;
+		if ([newTrack integerValue] <= 0) return;
 		[recentTracks insertObject:[notif userInfo] atIndex:0];
 		while ([recentTracks count] > 10) [recentTracks removeLastObject];
 		
@@ -102,7 +102,7 @@
 		NSArray *allTracks = [library tracksMatchingCriteria:nil];
 		long upper = [allTracks count];
 		if (upper >= 1) {
-			int trackIndex = random() % upper;
+			NSUInteger trackIndex = random() % upper;
 			NSDictionary *randomTrack = [allTracks objectAtIndex:trackIndex];
 			return [self trackObjectForInfo:randomTrack inPlaylist:nil];
 		}
@@ -183,7 +183,7 @@
 				[trackInfo setObject:[NSNumber numberWithLong:[track rating]] forKey:@"Rating"];
 				[trackInfo setObject:[NSString stringWithFormat:@"%d", [track albumRating]] forKey:@"Album Rating"];
 				[trackInfo setObject:[track kind] forKey:@"Kind"];
-				[trackInfo setObject:[NSNumber numberWithInt:1] forKey:@"Artwork Count"];
+				[trackInfo setObject:[NSNumber numberWithInteger:1] forKey:@"Artwork Count"];
 				[trackInfo setObject:[track location] forKey:@"Location"];
 				[trackInfo setObject:[NSString stringWithFormat:@"%d", [track playedCount]] forKey:@"Play Count"];
 				[trackInfo setObject:[track playedDate] forKey:@"Play Date"];
@@ -276,16 +276,16 @@
 			text, QSNotifierText,
 			icon, QSNotifierIcon,
 			trackInfo, @"iTunesTrackInfo",
-			[self starsForRating:[[trackInfo objectForKey:@"Rating"] intValue]], QSNotifierDetails,
-			nil]);
+			[self starsForRating:[[trackInfo objectForKey:@"Rating"] integerValue]], QSNotifierDetails,	nil]);
 	}
 }
 
-- (NSAttributedString *)starsForRating:(int)rating {
+- (NSAttributedString *)starsForRating:(NSUInteger)rating
+{
 //	NSLog(@"rating %d", rating);
 	if (rating == 0) return nil;
 	NSString *string = @"";
-	for (int i = 0; i < rating; i += 20) {
+	for (NSUInteger i = 0; i < rating; i += 20) {
 		string = [string stringByAppendingFormat:@"%C", (rating - i == 10)?0xbd:0x2605];
 	}
 	return [[[NSAttributedString alloc] initWithString:string attributes:[NSDictionary dictionaryWithObject:[NSFont fontWithName:@"AppleGothic" size:20] forKey:NSFontNameAttribute]] autorelease];
@@ -510,7 +510,7 @@
 	if ([[object primaryType] isEqualToString:QSiTunesPlaylistIDPboardType]) {
 		// Playlist details
 		NSDictionary *info = [library playlistInfoForID:[object objectForType:QSiTunesPlaylistIDPboardType]];
-		int count = [(NSArray *)[info objectForKey:@"Playlist Items"] count];
+		NSUInteger count = [(NSArray *)[info objectForKey:@"Playlist Items"] count];
 		if (count) {
 			details = [NSString stringWithFormat:@"%d track%@", count, ESS(count)];
 			return details;

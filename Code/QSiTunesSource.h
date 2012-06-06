@@ -11,7 +11,7 @@
 	QSiTunesDatabase *library;
 	iTunesApplication *iTunes;
 }
-- (NSAttributedString *)starsForRating:(int)rating;
+- (NSAttributedString *)starsForRating:(NSUInteger)rating;
 - (QSObject *)trackObjectForInfo:(NSDictionary *)trackInfo inPlaylist:(NSString *)playlist;
 - (NSImage *)imageForTrack:(NSDictionary *)trackDict;
 - (NSArray *)childrenForObject:(QSObject *)object;
