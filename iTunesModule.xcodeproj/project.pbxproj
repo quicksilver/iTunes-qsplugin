@@ -403,7 +403,6 @@
 					"~/Library/Frameworks",
 					"$(BUILT_PRODUCTS_DIR)",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				PRODUCT_NAME = "iTunes Module";
 			};
 			name = Release;
@@ -412,10 +411,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 7F350DDF0D15E8D800B2B814 /* Release.xcconfig */;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
-				MACOSX_DEPLOYMENT_TARGET = 10.6;
-				SDKROOT = macosx;
-				VALID_ARCHS = "i386 x86_64";
 			};
 			name = Release;
 		};
@@ -423,10 +418,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 7F350DD50D15E8D800B2B814 /* Debug.xcconfig */;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
-				MACOSX_DEPLOYMENT_TARGET = 10.6;
-				SDKROOT = macosx;
-				VALID_ARCHS = "i386 x86_64";
 			};
 			name = Debug;
 		};
@@ -441,7 +432,6 @@
 					"~/Library/Frameworks",
 					"$(BUILT_PRODUCTS_DIR)",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				PRODUCT_NAME = "iTunes Module";
 			};
 			name = Debug;
