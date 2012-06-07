@@ -377,7 +377,7 @@
 		NSString *searchFilter = @"persistentID == %@";
 		NSArray *trackIDs = [[tracks splitObjects] arrayByPerformingSelector:@selector(identifier)];
 		NSMutableArray *filters = [NSMutableArray arrayWithCapacity:[tracks count]];
-		for (int i = 0; i < [tracks count]; i++) {
+		for (NSUInteger i = 0; i < [tracks count]; i++) {
 			[filters addObject:searchFilter];
 		}
 		searchFilter = [filters componentsJoinedByString:@" OR "];
