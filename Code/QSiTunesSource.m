@@ -64,8 +64,18 @@
 	if ([[[notif userInfo] objectForKey:@"Player State"] isEqualToString:@"Playing"]) {
 		
 		NSString *newTrack = [self currentTrackID];
-		if ([newTrack integerValue] <= 0) return;
-		[recentTracks insertObject:[notif userInfo] atIndex:0];
+		if ([newTrack integerValue] <= 0) {
+			return;
+		}
+		NSNumber *currentTrackPersistentID = [[notif userInfo] objectForKey:@"PersistentID"];
+		NSNumber *lastPersistentID = [NSNumber numberWithInteger:0];
+		if ([recentTracks count]) {
+			lastPersistentID = [[recentTracks objectAtIndex:0] objectForKey:@"PersistentID"];
+		}
+		// don't add the track again when hitting pause, then play
+		if (![currentTrackPersistentID isEqualToNumber:lastPersistentID]) {
+			[recentTracks insertObject:[notif userInfo] atIndex:0];
+		}
 		while ([recentTracks count] > 10) [recentTracks removeLastObject];
 		
 		
