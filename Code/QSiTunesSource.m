@@ -541,7 +541,7 @@
 
 - (QSObject *)trackObjectForInfo:(NSDictionary *)trackInfo inPlaylist:(NSString *)playlist {
 	if (!trackInfo) return nil;
-	QSObject *newObject = [QSObject makeObjectWithIdentifier:[trackInfo objectForKey:@"PersistentID"]];
+	QSObject *newObject = [QSObject makeObjectWithIdentifier:[[trackInfo objectForKey:@"PersistentID"] stringValue]];
 	[newObject setName:[trackInfo objectForKey:@"Name"]];
 	if ([trackInfo valueForKey:@"Has Video"]) {
 		// set a default label
