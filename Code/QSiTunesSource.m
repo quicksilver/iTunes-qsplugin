@@ -129,7 +129,7 @@
 		
 		QSObject *newObject = [QSObject objectWithName:name];
 		[newObject setObject:[thisPlaylist objectForKey:@"Playlist ID"] forType:QSiTunesPlaylistIDPboardType];
-		[newObject setIdentifier:[thisPlaylist objectForKey:@"Playlist Persistent ID"]];
+		[newObject setIdentifier:[thisPlaylist objectForKey:@"Playlist PersistentID"]];
 		[newObject setPrimaryType:QSiTunesPlaylistIDPboardType];
 		return newObject;
 	} else if ([proxy isEqualToString:@"QSSelectedPlaylistProxy"]) {
@@ -139,7 +139,7 @@
 		
 		QSObject *newObject = [QSObject objectWithName:name];
 		[newObject setObject:[thisPlaylist objectForKey:@"Playlist ID"] forType:QSiTunesPlaylistIDPboardType];
-		[newObject setIdentifier:[thisPlaylist objectForKey:@"Playlist Persistent ID"]];
+		[newObject setIdentifier:[thisPlaylist objectForKey:@"Playlist PersistentID"]];
 		[newObject setPrimaryType:QSiTunesPlaylistIDPboardType];
 		return newObject;
 	} else if ([proxy isEqualToString:@"QSCurrentSelectionProxy"]) {
@@ -391,7 +391,7 @@
 		newObject = [QSObject objectWithName:[label stringByAppendingString:@" Playlist"]];
 		[newObject setLabel:label];
 		[newObject setObject:[thisPlaylist objectForKey:@"Playlist ID"] forType:QSiTunesPlaylistIDPboardType];
-		[newObject setIdentifier:[thisPlaylist objectForKey:@"Playlist Persistent ID"]];
+		[newObject setIdentifier:[thisPlaylist objectForKey:@"Playlist PersistentID"]];
 		[newObject setPrimaryType:QSiTunesPlaylistIDPboardType];
 		[objects addObject:newObject];
 	}
@@ -541,7 +541,7 @@
 
 - (QSObject *)trackObjectForInfo:(NSDictionary *)trackInfo inPlaylist:(NSString *)playlist {
 	if (!trackInfo) return nil;
-	QSObject *newObject = [QSObject makeObjectWithIdentifier:[trackInfo objectForKey:@"Persistent ID"]];
+	QSObject *newObject = [QSObject makeObjectWithIdentifier:[trackInfo objectForKey:@"PersistentID"]];
 	[newObject setName:[trackInfo objectForKey:@"Name"]];
 	if ([trackInfo valueForKey:@"Has Video"]) {
 		// set a default label
