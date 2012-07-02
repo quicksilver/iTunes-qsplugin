@@ -12,7 +12,7 @@ With this enabled, tracks from different artists will be shown under a single al
 
 #### Monitor Recent Tracks ####
 
-With this enabled, Quicksilver can store the last 10 tracks played by iTunes. It only includes tracks that have played since Quicksilver last started, and only while the preference was enabled.
+With this enabled, Quicksilver can store the last 25 tracks played by iTunes. It only includes tracks that have played since Quicksilver last started, and only while the preference was enabled.
 
 #### Display Track Notifications ####
 

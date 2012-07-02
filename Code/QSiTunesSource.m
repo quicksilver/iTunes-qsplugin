@@ -76,7 +76,7 @@
 		if (![currentTrackPersistentID isEqualToNumber:lastPersistentID]) {
 			[recentTracks insertObject:[notif userInfo] atIndex:0];
 		}
-		while ([recentTracks count] > 10) [recentTracks removeLastObject];
+		while ([recentTracks count] > 25) [recentTracks removeLastObject];
 		
 		
 		NSDictionary *trackInfo = nil;
