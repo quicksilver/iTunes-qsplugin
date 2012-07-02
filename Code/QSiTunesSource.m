@@ -73,7 +73,7 @@
 			lastPersistentID = [[recentTracks objectAtIndex:0] objectForKey:@"PersistentID"];
 		}
 		// don't add the track again when hitting pause, then play
-		if (![currentTrackPersistentID isEqualToNumber:lastPersistentID]) {
+		if (currentTrackPersistentID && ![currentTrackPersistentID isEqualToNumber:lastPersistentID]) {
 			[recentTracks insertObject:[notif userInfo] atIndex:0];
 		}
 		while ([recentTracks count] > 25) [recentTracks removeLastObject];
