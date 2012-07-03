@@ -314,7 +314,7 @@
 }
 
 - (BOOL)indexIsValidFromDate:(NSDate *)indexDate forEntry:(NSDictionary *)theEntry {
-	NSDate *modDate = [[[NSFileManager defaultManager] fileAttributesAtPath:[library libraryLocation] traverseLink:YES] fileModificationDate];
+	NSDate *modDate = [[[NSFileManager defaultManager] attributesOfItemAtPath:[[library libraryLocation] stringByResolvingSymlinksInPath] error:nil] fileModificationDate];
 	return [modDate compare:indexDate] == NSOrderedAscending;
 }
 
