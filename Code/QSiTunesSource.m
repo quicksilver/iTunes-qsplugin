@@ -64,9 +64,19 @@
 	if ([[[notif userInfo] objectForKey:@"Player State"] isEqualToString:@"Playing"]) {
 		
 		NSString *newTrack = [self currentTrackID];
-		if ([newTrack integerValue] <= 0) return;
-		[recentTracks insertObject:[notif userInfo] atIndex:0];
-		while ([recentTracks count] > 10) [recentTracks removeLastObject];
+		if ([newTrack integerValue] <= 0) {
+			return;
+		}
+		NSNumber *currentTrackPersistentID = [[notif userInfo] objectForKey:@"PersistentID"];
+		NSNumber *lastPersistentID = [NSNumber numberWithInteger:0];
+		if ([recentTracks count]) {
+			lastPersistentID = [[recentTracks objectAtIndex:0] objectForKey:@"PersistentID"];
+		}
+		// don't add the track again when hitting pause, then play
+		if (currentTrackPersistentID && ![currentTrackPersistentID isEqualToNumber:lastPersistentID]) {
+			[recentTracks insertObject:[notif userInfo] atIndex:0];
+		}
+		while ([recentTracks count] > 25) [recentTracks removeLastObject];
 		
 		
 		NSDictionary *trackInfo = nil;
@@ -129,7 +139,7 @@
 		
 		QSObject *newObject = [QSObject objectWithName:name];
 		[newObject setObject:[thisPlaylist objectForKey:@"Playlist ID"] forType:QSiTunesPlaylistIDPboardType];
-		[newObject setIdentifier:[thisPlaylist objectForKey:@"Playlist Persistent ID"]];
+		[newObject setIdentifier:[thisPlaylist objectForKey:@"Playlist PersistentID"]];
 		[newObject setPrimaryType:QSiTunesPlaylistIDPboardType];
 		return newObject;
 	} else if ([proxy isEqualToString:@"QSSelectedPlaylistProxy"]) {
@@ -139,7 +149,7 @@
 		
 		QSObject *newObject = [QSObject objectWithName:name];
 		[newObject setObject:[thisPlaylist objectForKey:@"Playlist ID"] forType:QSiTunesPlaylistIDPboardType];
-		[newObject setIdentifier:[thisPlaylist objectForKey:@"Playlist Persistent ID"]];
+		[newObject setIdentifier:[thisPlaylist objectForKey:@"Playlist PersistentID"]];
 		[newObject setPrimaryType:QSiTunesPlaylistIDPboardType];
 		return newObject;
 	} else if ([proxy isEqualToString:@"QSCurrentSelectionProxy"]) {
@@ -304,7 +314,7 @@
 }
 
 - (BOOL)indexIsValidFromDate:(NSDate *)indexDate forEntry:(NSDictionary *)theEntry {
-	NSDate *modDate = [[[NSFileManager defaultManager] fileAttributesAtPath:[library libraryLocation] traverseLink:YES] fileModificationDate];
+	NSDate *modDate = [[[NSFileManager defaultManager] attributesOfItemAtPath:[[library libraryLocation] stringByResolvingSymlinksInPath] error:nil] fileModificationDate];
 	return [modDate compare:indexDate] == NSOrderedAscending;
 }
 
@@ -391,7 +401,7 @@
 		newObject = [QSObject objectWithName:[label stringByAppendingString:@" Playlist"]];
 		[newObject setLabel:label];
 		[newObject setObject:[thisPlaylist objectForKey:@"Playlist ID"] forType:QSiTunesPlaylistIDPboardType];
-		[newObject setIdentifier:[thisPlaylist objectForKey:@"Playlist Persistent ID"]];
+		[newObject setIdentifier:[thisPlaylist objectForKey:@"Playlist PersistentID"]];
 		[newObject setPrimaryType:QSiTunesPlaylistIDPboardType];
 		[objects addObject:newObject];
 	}
@@ -541,7 +551,7 @@
 
 - (QSObject *)trackObjectForInfo:(NSDictionary *)trackInfo inPlaylist:(NSString *)playlist {
 	if (!trackInfo) return nil;
-	QSObject *newObject = [QSObject makeObjectWithIdentifier:[trackInfo objectForKey:@"Persistent ID"]];
+	QSObject *newObject = [QSObject makeObjectWithIdentifier:[[trackInfo objectForKey:@"PersistentID"] stringValue]];
 	[newObject setName:[trackInfo objectForKey:@"Name"]];
 	if ([trackInfo valueForKey:@"Has Video"]) {
 		// set a default label
