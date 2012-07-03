@@ -61,17 +61,18 @@
 /* End PBXBuildRule section */
 
 /* Begin PBXFileReference section */
-		7F350DD40D15E8D800B2B814 /* Common.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Common.xcconfig; path = Configuration/Common.xcconfig; sourceTree = QS_SOURCE_ROOT; };
-		7F350DD50D15E8D800B2B814 /* Debug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Debug.xcconfig; path = Configuration/Debug.xcconfig; sourceTree = QS_SOURCE_ROOT; };
-		7F350DD60D15E8D800B2B814 /* Developer.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Developer.xcconfig; path = Configuration/Developer.xcconfig; sourceTree = QS_SOURCE_ROOT; };
-		7F350DDB0D15E8D800B2B814 /* QSPlugIn.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = QSPlugIn.xcconfig; path = Configuration/QSPlugIn.xcconfig; sourceTree = QS_SOURCE_ROOT; };
-		7F350DDF0D15E8D800B2B814 /* Release.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = Release.xcconfig; path = Configuration/Release.xcconfig; sourceTree = QS_SOURCE_ROOT; };
 		7FA20E780C6E4F0F00630971 /* QSiTunesDefines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSiTunesDefines.h; sourceTree = "<group>"; };
 		8D1AC9740486D14A00FE50C9 /* iTunes Module.qsplugin */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "iTunes Module.qsplugin"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D404BE071472C83200B570AF /* ScriptingBridge.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ScriptingBridge.framework; path = System/Library/Frameworks/ScriptingBridge.framework; sourceTree = SDKROOT; };
 		D41DBC4E1520C11600AB06B1 /* EqualizerIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = EqualizerIcon.png; sourceTree = "<group>"; };
 		D4239675148564800072DE1F /* QSiTunesPrefPane.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QSiTunesPrefPane.xib; sourceTree = "<group>"; };
 		D43DDF4E1472E35D00EB2E9D /* iTunes.app */ = {isa = PBXFileReference; lastKnownFileType = wrapper.application; name = iTunes.app; path = /Applications/iTunes.app; sourceTree = "<absolute>"; };
+		D4A4664F15A1E99B001A5A4E /* Common.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Common.xcconfig; sourceTree = "<group>"; };
+		D4A4665015A1E99B001A5A4E /* Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Debug.xcconfig; sourceTree = "<group>"; };
+		D4A4665115A1E99B001A5A4E /* Developer.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Developer.xcconfig; sourceTree = "<group>"; };
+		D4A4665215A1E99B001A5A4E /* QSPlugIn.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = QSPlugIn.xcconfig; sourceTree = "<group>"; };
+		D4A4665515A1E99B001A5A4E /* Quicksilver.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Quicksilver.pch; sourceTree = "<group>"; };
+		D4A4665615A1E99B001A5A4E /* Release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Release.xcconfig; sourceTree = "<group>"; };
 		D4CE66811489618C009D2494 /* iTunesStop.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = iTunesStop.icns; sourceTree = "<group>"; };
 		D4CE66821489618C009D2494 /* iTunesPrevious.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = iTunesPrevious.icns; sourceTree = "<group>"; };
 		D4CE66831489618C009D2494 /* iTunesPlay-Pause.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = "iTunesPlay-Pause.icns"; sourceTree = "<group>"; };
@@ -127,7 +128,7 @@
 		0259C574FE90428111CA0C5A /* iTunes */ = {
 			isa = PBXGroup;
 			children = (
-				7F350DD30D15E8D800B2B814 /* Configuration */,
+				D4A4664E15A1E99B001A5A4E /* Configuration */,
 				7FA20E780C6E4F0F00630971 /* QSiTunesDefines.h */,
 				D43DDF4E1472E35D00EB2E9D /* iTunes.app */,
 				E1DAFACF07007BA400FAFE2A /* Code */,
@@ -159,17 +160,19 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		7F350DD30D15E8D800B2B814 /* Configuration */ = {
+		D4A4664E15A1E99B001A5A4E /* Configuration */ = {
 			isa = PBXGroup;
 			children = (
-				7F350DD40D15E8D800B2B814 /* Common.xcconfig */,
-				7F350DD50D15E8D800B2B814 /* Debug.xcconfig */,
-				7F350DD60D15E8D800B2B814 /* Developer.xcconfig */,
-				7F350DDB0D15E8D800B2B814 /* QSPlugIn.xcconfig */,
-				7F350DDF0D15E8D800B2B814 /* Release.xcconfig */,
+				D4A4664F15A1E99B001A5A4E /* Common.xcconfig */,
+				D4A4665015A1E99B001A5A4E /* Debug.xcconfig */,
+				D4A4665115A1E99B001A5A4E /* Developer.xcconfig */,
+				D4A4665215A1E99B001A5A4E /* QSPlugIn.xcconfig */,
+				D4A4665515A1E99B001A5A4E /* Quicksilver.pch */,
+				D4A4665615A1E99B001A5A4E /* Release.xcconfig */,
 			);
-			path = Configuration;
-			sourceTree = QS_SOURCE_ROOT;
+			name = Configuration;
+			path = /private/tmp/QS/Configuration;
+			sourceTree = "<absolute>";
 		};
 		E1DAFACF07007BA400FAFE2A /* Code */ = {
 			isa = PBXGroup;
@@ -394,7 +397,7 @@
 /* Begin XCBuildConfiguration section */
 		7F07AE0F085E432600E2AFC4 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 7F350DDB0D15E8D800B2B814 /* QSPlugIn.xcconfig */;
+			baseConfigurationReference = D4A4665215A1E99B001A5A4E /* QSPlugIn.xcconfig */;
 			buildSettings = {
 				COPYING_PRESERVES_HFS_DATA = YES;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -409,21 +412,21 @@
 		};
 		7F07AE13085E432600E2AFC4 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 7F350DDF0D15E8D800B2B814 /* Release.xcconfig */;
+			baseConfigurationReference = D4A4665615A1E99B001A5A4E /* Release.xcconfig */;
 			buildSettings = {
 			};
 			name = Release;
 		};
 		7FE2FB5F0C55A34E009CCF17 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 7F350DD50D15E8D800B2B814 /* Debug.xcconfig */;
+			baseConfigurationReference = D4A4665015A1E99B001A5A4E /* Debug.xcconfig */;
 			buildSettings = {
 			};
 			name = Debug;
 		};
 		7FE2FB600C55A34E009CCF17 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 7F350DDB0D15E8D800B2B814 /* QSPlugIn.xcconfig */;
+			baseConfigurationReference = D4A4665215A1E99B001A5A4E /* QSPlugIn.xcconfig */;
 			buildSettings = {
 				COPYING_PRESERVES_HFS_DATA = YES;
 				FRAMEWORK_SEARCH_PATHS = (

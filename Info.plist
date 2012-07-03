@@ -19,9 +19,9 @@
 	<key>CFBundlePackageType</key>
 	<string>BNDL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>2.1.4</string>
+	<string>2.1.5</string>
 	<key>CFBundleVersion</key>
-	<string>345</string>
+	<string>346</string>
 	<key>NSPrincipalClass</key>
 	<string>QSiTunesObjectSource</string>
 	<key>QSActions</key>
@@ -217,7 +217,7 @@
 
 &lt;h4 id=&quot;monitor_recent_tracks&quot;&gt;Monitor Recent Tracks&lt;/h4&gt;
 
-&lt;p&gt;With this enabled, Quicksilver can store the last 10 tracks played by iTunes. It only includes tracks that have played since Quicksilver last started, and only while the preference was enabled.&lt;/p&gt;
+&lt;p&gt;With this enabled, Quicksilver can store the last 25 tracks played by iTunes. It only includes tracks that have played since Quicksilver last started, and only while the preference was enabled.&lt;/p&gt;
 
 &lt;h4 id=&quot;display_track_notifications&quot;&gt;Display Track Notifications&lt;/h4&gt;
 
