@@ -139,7 +139,7 @@
 		
 		QSObject *newObject = [QSObject objectWithName:name];
 		[newObject setObject:[thisPlaylist objectForKey:@"Playlist ID"] forType:QSiTunesPlaylistIDPboardType];
-		[newObject setIdentifier:[thisPlaylist objectForKey:@"Playlist PersistentID"]];
+		[newObject setIdentifier:[thisPlaylist objectForKey:@"Playlist Persistent ID"]];
 		[newObject setPrimaryType:QSiTunesPlaylistIDPboardType];
 		return newObject;
 	} else if ([proxy isEqualToString:@"QSSelectedPlaylistProxy"]) {
@@ -149,7 +149,7 @@
 		
 		QSObject *newObject = [QSObject objectWithName:name];
 		[newObject setObject:[thisPlaylist objectForKey:@"Playlist ID"] forType:QSiTunesPlaylistIDPboardType];
-		[newObject setIdentifier:[thisPlaylist objectForKey:@"Playlist PersistentID"]];
+		[newObject setIdentifier:[thisPlaylist objectForKey:@"Playlist Persistent ID"]];
 		[newObject setPrimaryType:QSiTunesPlaylistIDPboardType];
 		return newObject;
 	} else if ([proxy isEqualToString:@"QSCurrentSelectionProxy"]) {
@@ -183,7 +183,7 @@
 			NSArray *trackResult = [[libraryPlaylist tracks] filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"databaseID == %@", trackID]];
 			if ([trackResult count] > 0) {
 				iTunesFileTrack *track = [trackResult lastObject];
-				[trackInfo setObject:[track persistentID] forKey:@"PersistentID"];
+				[trackInfo setObject:[track persistentID] forKey:@"Persistent ID"];
 				[trackInfo setObject:[track artist] forKey:@"Artist"];
 				[trackInfo setObject:[track albumArtist] forKey:@"Album Artist"];
 				[trackInfo setObject:[track composer] forKey:@"Composer"];
@@ -401,7 +401,7 @@
 		newObject = [QSObject objectWithName:[label stringByAppendingString:@" Playlist"]];
 		[newObject setLabel:label];
 		[newObject setObject:[thisPlaylist objectForKey:@"Playlist ID"] forType:QSiTunesPlaylistIDPboardType];
-		[newObject setIdentifier:[thisPlaylist objectForKey:@"Playlist PersistentID"]];
+		[newObject setIdentifier:[thisPlaylist objectForKey:@"Playlist Persistent ID"]];
 		[newObject setPrimaryType:QSiTunesPlaylistIDPboardType];
 		[objects addObject:newObject];
 	}
@@ -551,7 +551,7 @@
 
 - (QSObject *)trackObjectForInfo:(NSDictionary *)trackInfo inPlaylist:(NSString *)playlist {
 	if (!trackInfo) return nil;
-	QSObject *newObject = [QSObject makeObjectWithIdentifier:[[trackInfo objectForKey:@"PersistentID"] stringValue]];
+	QSObject *newObject = [QSObject makeObjectWithIdentifier:[trackInfo objectForKey:@"Persistent ID"]];
 	[newObject setName:[trackInfo objectForKey:@"Name"]];
 	if ([trackInfo valueForKey:@"Has Video"]) {
 		// set a default label
