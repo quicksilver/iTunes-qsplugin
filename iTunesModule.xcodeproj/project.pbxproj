@@ -236,11 +236,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 7F07AE0D085E432600E2AFC4 /* Build configuration list for PBXNativeTarget "iTunes Plugin" */;
 			buildPhases = (
+				E1022B2806B3475D00299BEC /* Update Version and Documentation */,
 				7F0397FC080E5171001A9FA3 /* ShellScript */,
 				8D1AC9660486D14A00FE50C9 /* Resources */,
 				8D1AC96A0486D14A00FE50C9 /* Sources */,
 				8D1AC96E0486D14A00FE50C9 /* Frameworks */,
-				E1022B2806B3475D00299BEC /* ShellScript */,
 			);
 			buildRules = (
 				D404BE091472C87F00B570AF /* PBXBuildRule */,
@@ -328,18 +328,19 @@
 			shellPath = /bin/sh;
 			shellScript = "rm -f \"$SRCROOT/Resources/iTunes.scpt\"\n/usr/bin/osacompile -x -d -o \"$SRCROOT/Resources/iTunes.scpt\" \"$SRCROOT/Resources/iTunes.original.scpt\"";
 		};
-		E1022B2806B3475D00299BEC /* ShellScript */ = {
+		E1022B2806B3475D00299BEC /* Update Version and Documentation */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
+			name = "Update Version and Documentation";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"$SRCROOT/bltrversion\" \"$INFOPLIST_FILE\"";
+			shellScript = "\"$QS_BUILD_ROOT/Tools/bltrversion\"";
 		};
 /* End PBXShellScriptBuildPhase section */
 
