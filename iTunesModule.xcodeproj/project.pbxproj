@@ -399,13 +399,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = D4A4665215A1E99B001A5A4E /* QSPlugIn.xcconfig */;
 			buildSettings = {
-				COPYING_PRESERVES_HFS_DATA = YES;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(QSFrameworks)",
-					/System/Library/PrivateFrameworks,
-					"~/Library/Frameworks",
-					"$(BUILT_PRODUCTS_DIR)",
-				);
 				PRODUCT_NAME = "iTunes Module";
 			};
 			name = Release;
@@ -428,13 +421,6 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = D4A4665215A1E99B001A5A4E /* QSPlugIn.xcconfig */;
 			buildSettings = {
-				COPYING_PRESERVES_HFS_DATA = YES;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(QSFrameworks)",
-					/System/Library/PrivateFrameworks,
-					"~/Library/Frameworks",
-					"$(BUILT_PRODUCTS_DIR)",
-				);
 				PRODUCT_NAME = "iTunes Module";
 			};
 			name = Debug;
