@@ -1,4 +1,3 @@
-#import <Carbon/Carbon.h>
 #import "QSiTunesSource.h"
 
 @implementation QSiTunesObjectSource

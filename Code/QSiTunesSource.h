@@ -1,7 +1,3 @@
-#import <Cocoa/Cocoa.h>
-
-//#import <QSCore/QSCore.h>
-
 #import "QSiTunesDefines.h"
 #import "QSiTunesDatabase.h"
 

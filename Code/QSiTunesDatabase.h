@@ -6,8 +6,6 @@
 //  Copyright 2005 __MyCompanyName__. All rights reserved.
 //
 
-#import <Cocoa/Cocoa.h>
-
 @interface QSiTunesDatabase : NSObject {
 	NSDictionary *iTunesMusicLibrary;
     NSString *libraryLocation;
