@@ -7,7 +7,7 @@
 	<key>CFBundleDisplayName</key>
 	<string>iTunes</string>
 	<key>CFBundleExecutable</key>
-	<string>iTunes Module</string>
+	<string>iTunes Plugin</string>
 	<key>CFBundleIconFile</key>
 	<string>iTunes</string>
 	<key>CFBundleIdentifier</key>
@@ -15,7 +15,7 @@
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
-	<string>iTunes Module</string>
+	<string>iTunes Plugin</string>
 	<key>CFBundlePackageType</key>
 	<string>BNDL</string>
 	<key>CFBundleShortVersionString</key>
@@ -376,8 +376,6 @@
 &lt;p&gt;The information you see when browsing through your library comes from this XML file, but when you take an action like Play or Add to Playlist, the affected tracks are pulled from iTunes itself. This can lead to occasional inconsistencies in what you would see browsing in Quicksilver vs. what actually happens in iTunes.&lt;/p&gt;</string>
 		<key>icon</key>
 		<string>com.apple.iTunes</string>
-		<key>qsversion</key>
-		<string>2E00</string>
 		<key>relatedBundles</key>
 		<array>
 			<string>com.apple.iTunes</string>

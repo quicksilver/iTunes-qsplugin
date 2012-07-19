@@ -232,9 +232,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		8D1AC9600486D14A00FE50C9 /* iTunes Module */ = {
+		8D1AC9600486D14A00FE50C9 /* iTunes Plugin */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 7F07AE0D085E432600E2AFC4 /* Build configuration list for PBXNativeTarget "iTunes Module" */;
+			buildConfigurationList = 7F07AE0D085E432600E2AFC4 /* Build configuration list for PBXNativeTarget "iTunes Plugin" */;
 			buildPhases = (
 				7F0397FC080E5171001A9FA3 /* ShellScript */,
 				8D1AC9660486D14A00FE50C9 /* Resources */,
@@ -247,7 +247,7 @@
 			);
 			dependencies = (
 			);
-			name = "iTunes Module";
+			name = "iTunes Plugin";
 			productInstallPath = "$(HOME)/Developer/Palettes";
 			productName = iTunes;
 			productReference = 8D1AC9740486D14A00FE50C9 /* iTunes Module.qsplugin */;
@@ -272,7 +272,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				8D1AC9600486D14A00FE50C9 /* iTunes Module */,
+				8D1AC9600486D14A00FE50C9 /* iTunes Plugin */,
 			);
 		};
 /* End PBXProject section */
@@ -399,7 +399,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = D4A4665215A1E99B001A5A4E /* QSPlugIn.xcconfig */;
 			buildSettings = {
-				PRODUCT_NAME = "iTunes Module";
+				PRODUCT_NAME = "iTunes Plugin";
 			};
 			name = Release;
 		};
@@ -421,14 +421,14 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = D4A4665215A1E99B001A5A4E /* QSPlugIn.xcconfig */;
 			buildSettings = {
-				PRODUCT_NAME = "iTunes Module";
+				PRODUCT_NAME = "iTunes Plugin";
 			};
 			name = Debug;
 		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		7F07AE0D085E432600E2AFC4 /* Build configuration list for PBXNativeTarget "iTunes Module" */ = {
+		7F07AE0D085E432600E2AFC4 /* Build configuration list for PBXNativeTarget "iTunes Plugin" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				7F07AE0F085E432600E2AFC4 /* Release */,
