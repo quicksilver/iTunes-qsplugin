@@ -661,7 +661,7 @@
 		
 		NSArray *tracks = [library trackInfoForIDs:trackIDs];
 		for (NSDictionary *currentTrack in tracks) {
-			id object = [self trackObjectForInfo:currentTrack inPlaylist:[playlistDict objectForKey:@"Name"]];
+			id object = [self trackObjectForInfo:currentTrack inPlaylist:[playlistDict objectForKey:@"Playlist Persistent ID"]];
 			if (object) [objects addObject:object];
 			else NSLog(@"Ignoring Track %@", currentTrack);
 		}
