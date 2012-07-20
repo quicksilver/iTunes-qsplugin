@@ -157,7 +157,7 @@
 			NSString *trackInPlaylistID = [[trackResult objectAtIndex:0] persistentID];
 			NSPredicate *findTrack = [NSPredicate predicateWithFormat:@"persistentID == %@", trackInPlaylistID];
 			iTunesTrack *trackInPlaylist = [[[container tracks] filteredArrayUsingPredicate:findTrack] objectAtIndex:0];
-			[trackInPlaylist playOnce:YES];
+			[trackInPlaylist playOnce:NO];
 		} else {
 			if ([trackResult count] == 1) {
 				// for a single track, just play
