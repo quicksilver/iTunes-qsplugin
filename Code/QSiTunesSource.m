@@ -60,28 +60,31 @@
 
 
 - (void)iTunesStateChanged:(NSNotification *)notif {
-	if ([[[notif userInfo] objectForKey:@"Player State"] isEqualToString:@"Playing"]) {
+	NSDictionary *trackInfo = [notif userInfo];
+	if ([[trackInfo objectForKey:@"Player State"] isEqualToString:@"Playing"]) {
 		
 		NSString *newTrack = [self currentTrackID];
 		if ([newTrack integerValue] <= 0) {
 			return;
 		}
-		NSNumber *currentTrackPersistentID = [[notif userInfo] objectForKey:@"PersistentID"];
+		NSNumber *currentTrackPersistentID = [trackInfo objectForKey:@"PersistentID"];
 		NSNumber *lastPersistentID = [NSNumber numberWithInteger:0];
 		if ([recentTracks count]) {
 			lastPersistentID = [[recentTracks objectAtIndex:0] objectForKey:@"PersistentID"];
 		}
 		// don't add the track again when hitting pause, then play
 		if (currentTrackPersistentID && ![currentTrackPersistentID isEqualToNumber:lastPersistentID]) {
-			[recentTracks insertObject:[notif userInfo] atIndex:0];
+			[recentTracks insertObject:trackInfo atIndex:0];
 		}
 		while ([recentTracks count] > 25) [recentTracks removeLastObject];
 		
-		
-		NSDictionary *trackInfo = nil;
-		if (!trackInfo) {
-			trackInfo = [notif userInfo];
-			[library registerAdditionalTrack:trackInfo forID:newTrack];
+		if (![library trackInfoForID:newTrack]) {
+			// playing a track that wasn't in the library on last scan
+			// library entries use "Persistent ID"
+			NSMutableDictionary *additionalTrack = [trackInfo mutableCopy];
+			[additionalTrack setObject:[currentTrackPersistentID stringValue] forKey:@"Persistent ID"];
+			[additionalTrack removeObjectForKey:@"PersistentID"];
+			[library registerAdditionalTrack:additionalTrack forID:newTrack];
 		}
 		if ([[NSUserDefaults standardUserDefaults] boolForKey:@"QSiTunesNotifyTracks"]) {
 			[self showNotificationForTrack:newTrack info:trackInfo];
