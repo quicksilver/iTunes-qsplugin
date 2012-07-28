@@ -1686,5 +1686,14 @@
 			<string>iTunes</string>
 		</dict>
 	</array>
+	<key>QSRequirements</key>
+	<dict>
+		<key>version</key>
+		<string>3926</string>
+		<key>obsoletes</key>
+		<array>
+			<string>com.blacktree.Quicksilver.QSMusicSupport</string>
+		</array>
+	</dict>
 </dict>
 </plist>
