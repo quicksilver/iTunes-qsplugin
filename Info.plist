@@ -126,6 +126,8 @@
 			<string>QSiTunesActionProvider</string>
 			<key>actionSelector</key>
 			<string>playItem:</string>
+			<key>alternateAction</key>
+			<string>QSiTunesRevealItem</string>
 			<key>directTypes</key>
 			<array>
 				<string>com.apple.itunes.track</string>
