@@ -381,6 +381,19 @@
 			<string>com.apple.iTunes</string>
 		</array>
 	</dict>
+	<key>QSDefaults</key>
+	<dict>
+		<key>QSiTunesGroupCompilations</key>
+		<true/>
+		<key>QSiTunesShowArtwork</key>
+		<true/>
+		<key>QSiTunesMonitorTracks</key>
+		<false/>
+		<key>QSiTunesNotifyTracks</key>
+		<false/>
+		<key>QSiTunesIncludeVideos</key>
+		<false/>
+	</dict>
 	<key>QSPresetAdditions</key>
 	<array>
 		<dict>
