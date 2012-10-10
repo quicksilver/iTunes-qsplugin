@@ -490,9 +490,16 @@
 	if ([trackDict objectForKey:@"Location"]) {
 		NSString *URLString = [trackDict objectForKey:@"Location"];
 		if (!URLString) return nil;
-		NSString *path = [[NSURL URLWithString:URLString] path];
-        BOOL shadowsAndGloss = ![[NSUserDefaults standardUserDefaults] boolForKey:@"QSiTunesPlainArtwork"];
-		icon = [NSImage imageWithPreviewOfFileAtPath:path ofSize:iconSize asIcon:shadowsAndGloss];
+        NSURL *locationURL = [NSURL URLWithString:URLString];
+        if ([[locationURL scheme] isEqualToString:@"file"]) {
+            NSString *path = [locationURL path];
+            BOOL shadowsAndGloss = ![[NSUserDefaults standardUserDefaults] boolForKey:@"QSiTunesPlainArtwork"];
+            icon = [NSImage imageWithPreviewOfFileAtPath:path ofSize:iconSize asIcon:shadowsAndGloss];
+        } else if ([iTunes isRunning] && [iTunes currentStreamURL]) {
+            NSURL *artworkURL = [NSURL URLWithString:[iTunes currentStreamURL]];
+            icon = [[NSImage alloc] initWithContentsOfURL:artworkURL];
+            [icon autorelease];
+        }
 	}
 	if (icon) {
 		[icon createIconRepresentations];
