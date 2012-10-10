@@ -387,6 +387,8 @@
 		<true/>
 		<key>QSiTunesShowArtwork</key>
 		<true/>
+		<key>QSiTunesPlainArtwork</key>
+		<false/>
 		<key>QSiTunesMonitorTracks</key>
 		<false/>
 		<key>QSiTunesNotifyTracks</key>

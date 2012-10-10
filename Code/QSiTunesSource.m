@@ -491,7 +491,8 @@
 		NSString *URLString = [trackDict objectForKey:@"Location"];
 		if (!URLString) return nil;
 		NSString *path = [[NSURL URLWithString:URLString] path];
-		icon = [NSImage imageWithPreviewOfFileAtPath:path ofSize:iconSize asIcon:YES];
+        BOOL shadowsAndGloss = ![[NSUserDefaults standardUserDefaults] boolForKey:@"QSiTunesPlainArtwork"];
+		icon = [NSImage imageWithPreviewOfFileAtPath:path ofSize:iconSize asIcon:shadowsAndGloss];
 	}
 	if (icon) {
 		[icon createIconRepresentations];
