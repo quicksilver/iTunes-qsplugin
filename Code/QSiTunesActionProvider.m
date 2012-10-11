@@ -184,9 +184,15 @@
 		[[qs tracks] removeAllObjects];
 	} else {
 		// create the dynamic playlist
-		qs = [[[iTunes classForScriptingClass:@"playlist"] alloc] init];
-		[[library userPlaylists] insertObject:qs atIndex:0];
-		[qs setName:QSiTunesDynamicPlaylist];
+        @try {
+            qs = [[[iTunes classForScriptingClass:@"playlist"] alloc] init];
+            [[library userPlaylists] insertObject:qs atIndex:0];
+            [qs setName:QSiTunesDynamicPlaylist];
+        }
+        @catch (NSException *exception) {
+            NSLog(@"Unable to create Quicksilver playlist. iTunes was not responding.");
+            return;
+        }
 	}
 	// filter out PDFs and (optionally) videos
 	BOOL skipVideos = ![[NSUserDefaults standardUserDefaults] boolForKey:@"QSiTunesIncludeVideos"];
