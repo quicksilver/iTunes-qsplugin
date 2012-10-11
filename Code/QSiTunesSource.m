@@ -399,6 +399,15 @@
 			// skip folders
 			continue;
 		}
+        NSString *parentID = [thisPlaylist objectForKey:@"Parent Persistent ID"];
+		if (parentID) {
+			// this playlist is inside a folder - get the parent's name
+            NSArray *playlistResult = [[QSiTunesLibrary() playlists] filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"persistentID == %@", parentID]];
+            if ([playlistResult count] > 0) {
+                iTunesPlaylist *parent = [playlistResult objectAtIndex:0];
+                label = [label stringByAppendingFormat:@" (in %@)", [parent name]];
+            }
+		}
 		
 		newObject = [QSObject objectWithName:[label stringByAppendingString:@" Playlist"]];
 		[newObject setLabel:label];
