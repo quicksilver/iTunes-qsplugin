@@ -160,7 +160,7 @@
 		NSString *trackID;
 		// you have to iterate through this - valueForKey/arrayByPerformingSelector won't work
 		for (iTunesFileTrack *track in tracks) {
-			trackID = [NSString stringWithFormat:@"%d", [track databaseID]];
+			trackID = [NSString stringWithFormat:@"%ld", (long)[track databaseID]];
 			[objects addObject:[self trackObjectForInfo:[self trackInfoForID:trackID] inPlaylist:nil]];
 		}
 		if ([objects count]) {
@@ -193,16 +193,16 @@
 				[trackInfo setObject:[track album] forKey:@"Album"];
 				[trackInfo setObject:[track name] forKey:@"Name"];
 				[trackInfo setObject:[NSNumber numberWithLong:[track rating]] forKey:@"Rating"];
-				[trackInfo setObject:[NSString stringWithFormat:@"%d", [track albumRating]] forKey:@"Album Rating"];
+				[trackInfo setObject:[NSString stringWithFormat:@"%d", (int)[track albumRating]] forKey:@"Album Rating"];
 				[trackInfo setObject:[track kind] forKey:@"Kind"];
 				[trackInfo setObject:[NSNumber numberWithInteger:1] forKey:@"Artwork Count"];
 				[trackInfo setObject:[track location] forKey:@"Location"];
-				[trackInfo setObject:[NSString stringWithFormat:@"%d", [track playedCount]] forKey:@"Play Count"];
+				[trackInfo setObject:[NSString stringWithFormat:@"%d", (int)[track playedCount]] forKey:@"Play Count"];
 				[trackInfo setObject:[track playedDate] forKey:@"Play Date"];
-				[trackInfo setObject:[NSString stringWithFormat:@"%d", [track skippedCount]] forKey:@"Skip Count"];
+				[trackInfo setObject:[NSString stringWithFormat:@"%d", (int)[track skippedCount]] forKey:@"Skip Count"];
 				[trackInfo setObject:[track time] forKey:@"Total Time"];
-				[trackInfo setObject:[NSString stringWithFormat:@"%d", [track trackNumber]] forKey:@"Track Number"];
-				[trackInfo setObject:[NSString stringWithFormat:@"%d", [track year]] forKey:@"Year"];
+				[trackInfo setObject:[NSString stringWithFormat:@"%d", (int)[track trackNumber]] forKey:@"Track Number"];
+				[trackInfo setObject:[NSString stringWithFormat:@"%d", (int)[track year]] forKey:@"Year"];
 			}
 		}
 	}
@@ -214,7 +214,7 @@
 }
 
 - (NSString *)currentTrackID {
-	return [NSString stringWithFormat:@"%d", [[iTunes currentTrack] databaseID]];
+	return [NSString stringWithFormat:@"%ld", (long)[[iTunes currentTrack] databaseID]];
 }
 
 - (void)showCurrentTrackNotification {
@@ -541,7 +541,7 @@
 		NSDictionary *info = [library playlistInfoForID:[object objectForType:QSiTunesPlaylistIDPboardType]];
 		NSUInteger count = [(NSArray *)[info objectForKey:@"Playlist Items"] count];
 		if (count) {
-			details = [NSString stringWithFormat:@"%d track%@", count, ESS(count)];
+			details = [NSString stringWithFormat:@"%d track%@", (int)count, ESS(count)];
 			return details;
 		}
 	} else if ([[object primaryType] isEqualToString:QSiTunesBrowserPboardType]) {
