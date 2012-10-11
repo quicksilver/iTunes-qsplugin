@@ -192,7 +192,7 @@
 				[trackInfo setObject:[track genre] forKey:@"Genre"];
 				[trackInfo setObject:[track album] forKey:@"Album"];
 				[trackInfo setObject:[track name] forKey:@"Name"];
-				[trackInfo setObject:[NSNumber numberWithLong:[track rating]] forKey:@"Rating"];
+				[trackInfo setObject:[NSNumber numberWithInteger:[track rating]] forKey:@"Rating"];
 				[trackInfo setObject:[NSString stringWithFormat:@"%d", (int)[track albumRating]] forKey:@"Album Rating"];
 				[trackInfo setObject:[track kind] forKey:@"Kind"];
 				[trackInfo setObject:[NSNumber numberWithInteger:1] forKey:@"Artwork Count"];
@@ -219,7 +219,11 @@
 
 - (void)showCurrentTrackNotification {
 	if ([iTunes isRunning]) {
-		[self showNotificationForTrack:0 info:[self currentTrackInfo]];
+        NSMutableDictionary *trackInfo = [self currentTrackInfo];
+        // if rating has changed recently, it might not be in the database yet
+        NSNumber *rating = [NSNumber numberWithInteger:[[iTunes currentTrack] rating]];
+        [trackInfo setObject:rating forKey:@"Rating"];
+		[self showNotificationForTrack:0 info:trackInfo];
 	} else {
 		NSBeep();
 	}
