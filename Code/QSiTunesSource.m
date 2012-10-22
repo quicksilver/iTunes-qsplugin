@@ -846,7 +846,7 @@
 	NSString *actionID;
 	NSDictionary *actionDict;
 	// create catalog objects using info specified in the plist (under QSCommands)
-	NSArray *controls = [NSArray arrayWithObjects:@"QSiTunesShowTrackNotification", @"QSiTunesPlayPauseCommand", @"QSiTunesPlayCommand", @"QSiTunesPauseCommand", @"QSiTunesStopCommand", @"QSiTunesIncreaseVolume", @"QSiTunesDecreaseVolume", @"QSiTunesMute", @"QSiTunesPreviousSongCommand", @"QSiTunesNextSongCommand", @"QSiTunesIncreaseRating", @"QSiTunesDecreaseRating", @"QSiTunesSetRating0", @"QSiTunesSetRating1", @"QSiTunesSetRating2", @"QSiTunesSetRating3", @"QSiTunesSetRating4", @"QSiTunesSetRating5", nil];
+	NSArray *controls = [NSArray arrayWithObjects:@"QSiTunesShowTrackNotification", @"QSiTunesPlayPauseCommand", @"QSiTunesPlayCommand", @"QSiTunesPauseCommand", @"QSiTunesStopCommand", @"QSiTunesIncreaseVolume", @"QSiTunesDecreaseVolume", @"QSiTunesMute", @"QSiTunesPreviousSongCommand", @"QSiTunesNextSongCommand", @"QSiTunesIncreaseRating", @"QSiTunesDecreaseRating", @"QSiTunesSetRating0", @"QSiTunesSetRating1", @"QSiTunesSetRating2", @"QSiTunesSetRating3", @"QSiTunesSetRating4", @"QSiTunesSetRating5", @"QSiTunesEQToggleCommand", nil];
 	for (NSString *control in controls) {
 		command = [QSCommand commandWithIdentifier:control];
 		if (command) {

@@ -519,6 +519,33 @@
 					<string>QSiTunesVolumeDecrease</string>
 				</dict>
 			</dict>
+			<key>QSiTunesEQToggleCommand</key>
+			<dict>
+				<key>command</key>
+				<dict>
+					<key>actionID</key>
+					<string>QSObjCSendMessageAction</string>
+					<key>directArchive</key>
+					<dict>
+						<key>data</key>
+						<dict>
+							<key>qs.action</key>
+							<dict>
+								<key>actionClass</key>
+								<string>QSiTunesControlProvider</string>
+								<key>actionSelector</key>
+								<string>equalizerToggle</string>
+								<key>icon</key>
+								<string>iTunesEQ</string>
+								<key>name</key>
+								<string>Toggle iTunes Equalizer</string>
+							</dict>
+						</dict>
+					</dict>
+					<key>directID</key>
+					<string>QSiTunesEQToggle</string>
+				</dict>
+			</dict>
 			<key>QSiTunesIncreaseRating</key>
 			<dict>
 				<key>command</key>
@@ -1651,6 +1678,21 @@
 			</dict>
 			<key>name</key>
 			<string>Search Artists</string>
+			<key>set</key>
+			<string>iTunes</string>
+		</dict>
+		<dict>
+			<key>ID</key>
+			<string>QSiTunesEQToggleTrigger</string>
+			<key>command</key>
+			<string>QSiTunesEQToggleCommand</string>
+			<key>defaults</key>
+			<dict>
+				<key>type</key>
+				<string>QSHotKeyTrigger</string>
+			</dict>
+			<key>name</key>
+			<string>Toggle iTunes Equalizer</string>
 			<key>set</key>
 			<string>iTunes</string>
 		</dict>

@@ -299,6 +299,7 @@
 {
 	iTunesEQPreset *eq = [dObject objectForType:QSiTunesEQPresetType];
 	if ([iTunes isRunning] && ![[iTunes currentEQPreset] isEqual:eq]) {
+        [iTunes setEQEnabled:YES];
 		[iTunes setCurrentEQPreset:eq];
 	}
 	return nil;
@@ -530,6 +531,11 @@
 - (void)rating5
 {
 	[[iTunes currentTrack] setRating:100];
+}
+
+- (void)equalizerToggle
+{
+    [iTunes setEQEnabled:![iTunes EQEnabled]];
 }
 
 @end
