@@ -85,6 +85,7 @@
 			[additionalTrack setObject:[currentTrackPersistentID stringValue] forKey:@"Persistent ID"];
 			[additionalTrack removeObjectForKey:@"PersistentID"];
 			[library registerAdditionalTrack:additionalTrack forID:newTrack];
+            [additionalTrack release];
 		}
 		if ([[NSUserDefaults standardUserDefaults] boolForKey:@"QSiTunesNotifyTracks"]) {
 			[self showNotificationForTrack:newTrack info:trackInfo];
