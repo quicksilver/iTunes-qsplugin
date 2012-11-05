@@ -42,4 +42,5 @@
 - (void)rating3;
 - (void)rating4;
 - (void)rating5;
+- (void)equalizerToggle;
 @end

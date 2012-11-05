@@ -1,5 +1,3 @@
-<!-- Use your favorite Markdown tool to convert this and paste the HTML into the plist's extendedDescription. -->
-
 ## Preferences ##
 
 #### Show Artwork ####
