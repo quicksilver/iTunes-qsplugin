@@ -200,9 +200,9 @@
 		<key>QSiTunesIncludeVideos</key>
 		<false/>
 		<key>QSiTunesMonitorTracks</key>
-		<false/>
+		<true/>
 		<key>QSiTunesNotifyTracks</key>
-		<false/>
+		<true/>
 		<key>QSiTunesPlainArtwork</key>
 		<false/>
 		<key>QSiTunesShowArtwork</key>
