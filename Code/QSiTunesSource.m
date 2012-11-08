@@ -60,28 +60,32 @@
 
 
 - (void)iTunesStateChanged:(NSNotification *)notif {
-	if ([[[notif userInfo] objectForKey:@"Player State"] isEqualToString:@"Playing"]) {
+	NSDictionary *trackInfo = [notif userInfo];
+	if ([[trackInfo objectForKey:@"Player State"] isEqualToString:@"Playing"]) {
 		
 		NSString *newTrack = [self currentTrackID];
 		if ([newTrack integerValue] <= 0) {
 			return;
 		}
-		NSNumber *currentTrackPersistentID = [[notif userInfo] objectForKey:@"PersistentID"];
+		NSNumber *currentTrackPersistentID = [trackInfo objectForKey:@"PersistentID"];
 		NSNumber *lastPersistentID = [NSNumber numberWithInteger:0];
 		if ([recentTracks count]) {
 			lastPersistentID = [[recentTracks objectAtIndex:0] objectForKey:@"PersistentID"];
 		}
 		// don't add the track again when hitting pause, then play
 		if (currentTrackPersistentID && ![currentTrackPersistentID isEqualToNumber:lastPersistentID]) {
-			[recentTracks insertObject:[notif userInfo] atIndex:0];
+			[recentTracks insertObject:trackInfo atIndex:0];
 		}
 		while ([recentTracks count] > 25) [recentTracks removeLastObject];
 		
-		
-		NSDictionary *trackInfo = nil;
-		if (!trackInfo) {
-			trackInfo = [notif userInfo];
-			[library registerAdditionalTrack:trackInfo forID:newTrack];
+		if (![library trackInfoForID:newTrack]) {
+			// playing a track that wasn't in the library on last scan
+			// library entries use "Persistent ID"
+			NSMutableDictionary *additionalTrack = [trackInfo mutableCopy];
+			[additionalTrack setObject:[currentTrackPersistentID stringValue] forKey:@"Persistent ID"];
+			[additionalTrack removeObjectForKey:@"PersistentID"];
+			[library registerAdditionalTrack:additionalTrack forID:newTrack];
+            [additionalTrack release];
 		}
 		if ([[NSUserDefaults standardUserDefaults] boolForKey:@"QSiTunesNotifyTracks"]) {
 			[self showNotificationForTrack:newTrack info:trackInfo];
@@ -157,7 +161,7 @@
 		NSString *trackID;
 		// you have to iterate through this - valueForKey/arrayByPerformingSelector won't work
 		for (iTunesFileTrack *track in tracks) {
-			trackID = [NSString stringWithFormat:@"%d", [track databaseID]];
+			trackID = [NSString stringWithFormat:@"%ld", (long)[track databaseID]];
 			[objects addObject:[self trackObjectForInfo:[self trackInfoForID:trackID] inPlaylist:nil]];
 		}
 		if ([objects count]) {
@@ -189,17 +193,17 @@
 				[trackInfo setObject:[track genre] forKey:@"Genre"];
 				[trackInfo setObject:[track album] forKey:@"Album"];
 				[trackInfo setObject:[track name] forKey:@"Name"];
-				[trackInfo setObject:[NSNumber numberWithLong:[track rating]] forKey:@"Rating"];
-				[trackInfo setObject:[NSString stringWithFormat:@"%d", [track albumRating]] forKey:@"Album Rating"];
+				[trackInfo setObject:[NSNumber numberWithInteger:[track rating]] forKey:@"Rating"];
+				[trackInfo setObject:[NSString stringWithFormat:@"%d", (int)[track albumRating]] forKey:@"Album Rating"];
 				[trackInfo setObject:[track kind] forKey:@"Kind"];
 				[trackInfo setObject:[NSNumber numberWithInteger:1] forKey:@"Artwork Count"];
 				[trackInfo setObject:[track location] forKey:@"Location"];
-				[trackInfo setObject:[NSString stringWithFormat:@"%d", [track playedCount]] forKey:@"Play Count"];
+				[trackInfo setObject:[NSString stringWithFormat:@"%d", (int)[track playedCount]] forKey:@"Play Count"];
 				[trackInfo setObject:[track playedDate] forKey:@"Play Date"];
-				[trackInfo setObject:[NSString stringWithFormat:@"%d", [track skippedCount]] forKey:@"Skip Count"];
+				[trackInfo setObject:[NSString stringWithFormat:@"%d", (int)[track skippedCount]] forKey:@"Skip Count"];
 				[trackInfo setObject:[track time] forKey:@"Total Time"];
-				[trackInfo setObject:[NSString stringWithFormat:@"%d", [track trackNumber]] forKey:@"Track Number"];
-				[trackInfo setObject:[NSString stringWithFormat:@"%d", [track year]] forKey:@"Year"];
+				[trackInfo setObject:[NSString stringWithFormat:@"%d", (int)[track trackNumber]] forKey:@"Track Number"];
+				[trackInfo setObject:[NSString stringWithFormat:@"%d", (int)[track year]] forKey:@"Year"];
 			}
 		}
 	}
@@ -211,12 +215,16 @@
 }
 
 - (NSString *)currentTrackID {
-	return [NSString stringWithFormat:@"%d", [[iTunes currentTrack] databaseID]];
+	return [NSString stringWithFormat:@"%ld", (long)[[iTunes currentTrack] databaseID]];
 }
 
 - (void)showCurrentTrackNotification {
 	if ([iTunes isRunning]) {
-		[self showNotificationForTrack:0 info:[self currentTrackInfo]];
+        NSMutableDictionary *trackInfo = [self currentTrackInfo];
+        // if rating has changed recently, it might not be in the database yet
+        NSNumber *rating = [NSNumber numberWithInteger:[[iTunes currentTrack] rating]];
+        [trackInfo setObject:rating forKey:@"Rating"];
+		[self showNotificationForTrack:0 info:trackInfo];
 	} else {
 		NSBeep();
 	}
@@ -396,6 +404,15 @@
 			// skip folders
 			continue;
 		}
+        NSString *parentID = [thisPlaylist objectForKey:@"Parent Persistent ID"];
+		if (parentID) {
+			// this playlist is inside a folder - get the parent's name
+            NSArray *playlistResult = [[QSiTunesLibrary() playlists] filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"persistentID == %@", parentID]];
+            if ([playlistResult count] > 0) {
+                iTunesPlaylist *parent = [playlistResult objectAtIndex:0];
+                label = [label stringByAppendingFormat:@" (in %@)", [parent name]];
+            }
+		}
 		
 		newObject = [QSObject objectWithName:[label stringByAppendingString:@" Playlist"]];
 		[newObject setLabel:label];
@@ -487,8 +504,16 @@
 	if ([trackDict objectForKey:@"Location"]) {
 		NSString *URLString = [trackDict objectForKey:@"Location"];
 		if (!URLString) return nil;
-		NSString *path = [[NSURL URLWithString:URLString] path];
-		icon = [NSImage imageWithPreviewOfFileAtPath:path ofSize:iconSize asIcon:YES];
+        NSURL *locationURL = [NSURL URLWithString:URLString];
+        if ([[locationURL scheme] isEqualToString:@"file"]) {
+            NSString *path = [locationURL path];
+            BOOL shadowsAndGloss = ![[NSUserDefaults standardUserDefaults] boolForKey:@"QSiTunesPlainArtwork"];
+            icon = [NSImage imageWithPreviewOfFileAtPath:path ofSize:iconSize asIcon:shadowsAndGloss];
+        } else if ([iTunes isRunning] && [iTunes currentStreamURL]) {
+            NSURL *artworkURL = [NSURL URLWithString:[iTunes currentStreamURL]];
+            icon = [[NSImage alloc] initWithContentsOfURL:artworkURL];
+            [icon autorelease];
+        }
 	}
 	if (icon) {
 		[icon createIconRepresentations];
@@ -521,7 +546,7 @@
 		NSDictionary *info = [library playlistInfoForID:[object objectForType:QSiTunesPlaylistIDPboardType]];
 		NSUInteger count = [(NSArray *)[info objectForKey:@"Playlist Items"] count];
 		if (count) {
-			details = [NSString stringWithFormat:@"%d track%@", count, ESS(count)];
+			details = [NSString stringWithFormat:@"%d track%@", (int)count, ESS(count)];
 			return details;
 		}
 	} else if ([[object primaryType] isEqualToString:QSiTunesBrowserPboardType]) {
@@ -661,7 +686,7 @@
 		
 		NSArray *tracks = [library trackInfoForIDs:trackIDs];
 		for (NSDictionary *currentTrack in tracks) {
-			id object = [self trackObjectForInfo:currentTrack inPlaylist:[playlistDict objectForKey:@"Name"]];
+			id object = [self trackObjectForInfo:currentTrack inPlaylist:[playlistDict objectForKey:@"Playlist Persistent ID"]];
 			if (object) [objects addObject:object];
 			else NSLog(@"Ignoring Track %@", currentTrack);
 		}
@@ -822,7 +847,7 @@
 	NSString *actionID;
 	NSDictionary *actionDict;
 	// create catalog objects using info specified in the plist (under QSCommands)
-	NSArray *controls = [NSArray arrayWithObjects:@"QSiTunesShowTrackNotification", @"QSiTunesPlayPauseCommand", @"QSiTunesPlayCommand", @"QSiTunesPauseCommand", @"QSiTunesStopCommand", @"QSiTunesIncreaseVolume", @"QSiTunesDecreaseVolume", @"QSiTunesMute", @"QSiTunesPreviousSongCommand", @"QSiTunesNextSongCommand", @"QSiTunesIncreaseRating", @"QSiTunesDecreaseRating", @"QSiTunesSetRating0", @"QSiTunesSetRating1", @"QSiTunesSetRating2", @"QSiTunesSetRating3", @"QSiTunesSetRating4", @"QSiTunesSetRating5", nil];
+	NSArray *controls = [NSArray arrayWithObjects:@"QSiTunesShowTrackNotification", @"QSiTunesPlayPauseCommand", @"QSiTunesPlayCommand", @"QSiTunesPauseCommand", @"QSiTunesStopCommand", @"QSiTunesIncreaseVolume", @"QSiTunesDecreaseVolume", @"QSiTunesMute", @"QSiTunesPreviousSongCommand", @"QSiTunesNextSongCommand", @"QSiTunesIncreaseRating", @"QSiTunesDecreaseRating", @"QSiTunesSetRating0", @"QSiTunesSetRating1", @"QSiTunesSetRating2", @"QSiTunesSetRating3", @"QSiTunesSetRating4", @"QSiTunesSetRating5", @"QSiTunesEQToggleCommand", nil];
 	for (NSString *control in controls) {
 		command = [QSCommand commandWithIdentifier:control];
 		if (command) {

@@ -147,11 +147,17 @@
 	} else {
 		NSString *playlist = [dObject objectForMeta:@"QSiTunesSourcePlaylist"];
 		if (playlist) {
-			if (!paths) {
-				return;
-			}
-			[[self iTunesScript] executeSubroutine:@"play_track_in_playlist" arguments:[NSArray arrayWithObjects:[NSAppleEventDescriptor aliasListDescriptorWithArray:paths], playlist, nil] error:&errorDict];
-
+			/* Tracks play in the context of the music library by default. To get it
+			   to play in the context of a playlist, we have to get an object representing
+			   the playlist, then get a track object from that playlist's tracks.
+			*/
+			NSPredicate *findContainer = [NSPredicate predicateWithFormat:@"persistentID == %@", playlist];
+			iTunesPlaylist *container = [[[QSiTunesLibrary() userPlaylists] filteredArrayUsingPredicate:findContainer] objectAtIndex:0];
+			// ignore all but the first track
+			NSString *trackInPlaylistID = [[trackResult objectAtIndex:0] persistentID];
+			NSPredicate *findTrack = [NSPredicate predicateWithFormat:@"persistentID == %@", trackInPlaylistID];
+			iTunesTrack *trackInPlaylist = [[[container tracks] filteredArrayUsingPredicate:findTrack] objectAtIndex:0];
+			[trackInPlaylist playOnce:NO];
 		} else {
 			if ([trackResult count] == 1) {
 				// for a single track, just play
@@ -178,9 +184,15 @@
 		[[qs tracks] removeAllObjects];
 	} else {
 		// create the dynamic playlist
-		qs = [[[iTunes classForScriptingClass:@"playlist"] alloc] init];
-		[[library userPlaylists] insertObject:qs atIndex:0];
-		[qs setName:QSiTunesDynamicPlaylist];
+        @try {
+            qs = [[[iTunes classForScriptingClass:@"playlist"] alloc] init];
+            [[library userPlaylists] insertObject:qs atIndex:0];
+            [qs setName:QSiTunesDynamicPlaylist];
+        }
+        @catch (NSException *exception) {
+            NSLog(@"Unable to create Quicksilver playlist. iTunes was not responding.");
+            return;
+        }
 	}
 	// filter out PDFs and (optionally) videos
 	BOOL skipVideos = ![[NSUserDefaults standardUserDefaults] boolForKey:@"QSiTunesIncludeVideos"];
@@ -287,6 +299,7 @@
 {
 	iTunesEQPreset *eq = [dObject objectForType:QSiTunesEQPresetType];
 	if ([iTunes isRunning] && ![[iTunes currentEQPreset] isEqual:eq]) {
+        [iTunes setEQEnabled:YES];
 		[iTunes setCurrentEQPreset:eq];
 	}
 	return nil;
@@ -518,6 +531,11 @@
 - (void)rating5
 {
 	[[iTunes currentTrack] setRating:100];
+}
+
+- (void)equalizerToggle
+{
+    [iTunes setEQEnabled:![iTunes EQEnabled]];
 }
 
 @end
