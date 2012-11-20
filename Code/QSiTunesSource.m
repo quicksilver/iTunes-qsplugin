@@ -407,10 +407,10 @@
         NSString *parentID = [thisPlaylist objectForKey:@"Parent Persistent ID"];
 		if (parentID) {
 			// this playlist is inside a folder - get the parent's name
-            NSArray *playlistResult = [[QSiTunesLibrary() playlists] filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"persistentID == %@", parentID]];
+            NSArray *playlistResult = [[library playlists] filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"%K == %@", @"Playlist Persistent ID", parentID]];
             if ([playlistResult count] > 0) {
-                iTunesPlaylist *parent = [playlistResult objectAtIndex:0];
-                label = [label stringByAppendingFormat:@" (in %@)", [parent name]];
+                NSDictionary *parent = [playlistResult objectAtIndex:0];
+                label = [label stringByAppendingFormat:@" (in %@)", [parent objectForKey:@"Name"]];
             }
 		}
 		
