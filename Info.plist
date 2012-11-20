@@ -19,9 +19,9 @@
 	<key>CFBundlePackageType</key>
 	<string>BNDL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>2.2.0</string>
+	<string>2.2.1</string>
 	<key>CFBundleVersion</key>
-	<string>349</string>
+	<string>34A</string>
 	<key>NSPrincipalClass</key>
 	<string>QSiTunesObjectSource</string>
 	<key>QSActions</key>
@@ -324,7 +324,6 @@
 &lt;p&gt;Get the lyrics for the selected track.&lt;/p&gt;
 &lt;h4&gt;Play in iTunes DJ&lt;/h4&gt;
 &lt;p&gt;Add tracks to the beginning of the list in iTunes DJ and start playing.&lt;/p&gt;
-
 &lt;h4&gt;Play Next in iTunes DJ&lt;/h4&gt;
 &lt;p&gt;Add tracks after the current track in iTunes DJ.&lt;/p&gt;
 &lt;h4&gt;Add to End of iTunes DJ&lt;/h4&gt;
