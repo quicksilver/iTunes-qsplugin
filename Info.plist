@@ -176,8 +176,10 @@
 		<string>Allows you to control iTunes and browse the iTunes library</string>
 		<key>extendedDescription</key>
 		<string>&lt;h2&gt;Preferences&lt;/h2&gt;
-&lt;h4&gt;Show Artwork&lt;/h4&gt;
+&lt;h4&gt;Show Artwork and Previews&lt;/h4&gt;
 &lt;p&gt;With this enabled, Quicksilver will show the album cover (for albums and tracks) or the poster frame (for videos). If disabled, a generic icon will be shown instead.&lt;/p&gt;
+&lt;h4&gt;Without Gloss and Shadows&lt;/h4&gt;
+&lt;p&gt;Artwork and previews are taken from the Quick Look system. By default, Quick Look adds some gloss over the image and a drop-shadow behind it. The image needs to be reduced in size to accommodate the shadow, and the gloss can obscure details in some cases. Enable this setting to see artwork and previews in their original form.&lt;/p&gt;
 &lt;h4&gt;Group Compilations&lt;/h4&gt;
 &lt;p&gt;With this enabled, tracks from different artists will be shown under a single album (if part of a compilation).&lt;/p&gt;
 &lt;h4&gt;Monitor Recent Tracks&lt;/h4&gt;
