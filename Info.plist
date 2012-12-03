@@ -1211,6 +1211,17 @@
 	</dict>
 	<key>QSRequirements</key>
 	<dict>
+		<key>bundles</key>
+		<array>
+			<dict>
+				<key>id</key>
+				<string>com.apple.iTunes</string>
+				<key>name</key>
+				<string>iTunes</string>
+				<key>version</key>
+				<string>11.0</string>
+			</dict>
+		</array>
 		<key>obsoletes</key>
 		<array>
 			<string>com.blacktree.Quicksilver.QSMusicSupport</string>
