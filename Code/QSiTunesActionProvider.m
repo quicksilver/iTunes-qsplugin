@@ -11,7 +11,6 @@
 @implementation QSiTunesActionProvider
 - (id)init {
 	if (self = [super init]) {
-		iTunesScript = nil;
 		iTunes = [QSiTunes() retain];
 	}
 	return self;
@@ -20,24 +19,6 @@
 - (void)dealloc {
     [iTunes release];
     [super dealloc];
-}
-
-#pragma mark - iTunes DJ (formerly Party Shuffle) actions
-
-- (QSObject *)psPlayItem:(QSObject *)dObject {
-	if ([dObject containsType:QSiTunesBrowserPboardType]) [self playBrowser:dObject party:YES append:NO next:NO];
-	if ([dObject containsType:QSiTunesTrackIDPboardType]) [self playTrack:dObject party:YES append:NO next:NO];
-	return nil;
-}
-- (QSObject *)psAppendItem:(QSObject *)dObject {
-	if ([dObject containsType:QSiTunesBrowserPboardType]) [self playBrowser:dObject party:YES append:YES next:NO];
-	if ([dObject containsType:QSiTunesTrackIDPboardType]) [self playTrack:dObject party:YES append:YES next:NO];
-	return nil;
-}
-- (QSObject *)psPlayNextItem:(QSObject *)dObject {
-	if ([dObject containsType:QSiTunesBrowserPboardType]) [self playBrowser:dObject party:YES append:NO next:YES];
-	if ([dObject containsType:QSiTunesTrackIDPboardType]) [self playTrack:dObject party:YES append:NO next:YES];
-	return nil;
 }
 
 /*
@@ -56,92 +37,27 @@
 	if ([dObject containsType:QSiTunesPlaylistIDPboardType]) {
 		[self playPlaylist:dObject];
 	} else if ([dObject containsType:QSiTunesBrowserPboardType]) {
-		[self playBrowser:dObject  party:NO append:NO next:NO];
+		[self playBrowser:dObject];
 	} else if ([dObject containsType:QSiTunesTrackIDPboardType]) {
-		[self playTrack:dObject party:NO append:NO next:NO];
+		[self playTrack:dObject append:NO];
 	}
 	return nil;
 }
 
-- (void)playBrowser:(QSObject *)dObject party:(BOOL)party append:(BOOL)append next:(BOOL)next
+- (void)playBrowser:(QSObject *)dObject
 {
 	NSArray *tracksToPlay = [self trackObjectsFromQSObject:dObject];
-	if (party) {
-		// iTunes DJ stuff
-		iTunesPlaylist *iTunesDJ = QSiTunesDJ();
-		NSDictionary *errorDict = nil;
-		NSDictionary *browseDict;
-		NSDictionary *criteriaDict;
-		for (QSObject *browseResult in [dObject splitObjects]) {
-			browseDict = [browseResult objectForType:QSiTunesBrowserPboardType];
-			criteriaDict = [browseDict objectForKey:@"Criteria"];
-		}
-		NSDictionary *ascriteria = [NSMutableArray arrayWithArray:[criteriaDict objectsForKeys:[NSArray arrayWithObjects:@"Genre", @"Artist", @"Composer", @"Album", @"Fail Intentionally", nil] notFoundMarker:[NSAppleEventDescriptor descriptorWithTypeCode:'msng']]];
-		//NSLog(@"criteria for AppleScript: %@", ascriteria);
-		NSArray *newTracks = [tracksToPlay valueForKey:@"location"];
-		if (next) {
-			// play next
-			[[self iTunesScript] executeSubroutine:@"ps_play_next_criteria" arguments:ascriteria  error:&errorDict];
-		} else if (append) {
-			// append to iTunes DJ
-			[iTunes add:newTracks to:iTunesDJ];
-		} else {
-			// play
-			[[self iTunesScript] executeSubroutine:@"ps_play_criteria" arguments:ascriteria  error:&errorDict];
-		}
-	} else {
-		[self playUsingDynamicPlaylist:tracksToPlay];
-	}
+    [self playUsingDynamicPlaylist:tracksToPlay];
 }
 
-- (void)playTrack:(QSObject *)dObject party:(BOOL)party append:(BOOL)append next:(BOOL)next {
-	NSArray *paths = [dObject validPaths];
-	
+- (void)playTrack:(QSObject *)dObject append:(BOOL)append {
 	NSDictionary *errorDict = nil;
 	
 	// get iTunesTrack objects to represent each track
 	NSArray *trackResult = [self trackObjectsFromQSObject:dObject];
 	NSArray *newTracks = [trackResult valueForKey:@"location"];
 	
-	if (!paths) {
-		// get the location from the track object(s)
-		paths = [newTracks arrayByPerformingSelector:@selector(path)];
-	}
-	
-	if (party) {
-		iTunesPlaylist *iTunesDJ = QSiTunesDJ();
-		if (next) {
-			if (!paths) {
-				return;
-			}
-			//ps_play_next_track can handle a list
-			[[self iTunesScript] executeSubroutine:@"ps_play_next_track" arguments:[NSArray arrayWithObject:[NSAppleEventDescriptor aliasListDescriptorWithArray:paths]] error:&errorDict];
-			// TODO get this to work via Scripting Bridge?
-//			if (![[[iTunes currentTrack] container] isEqualTo:iTunesDJ]) {
-//				// iTunes DJ wasn't already playing - start it
-//				[iTunesDJ playOnce:YES];
-//			}
-//			NSInteger currentIndex = [[iTunes currentTrack] index];
-//			// remove the old tracks from the end of the list
-//			NSPredicate *oldFilter = [NSPredicate predicateWithFormat:@"index > %d AND index <= %d", currentIndex, [[iTunesDJ tracks] count]];
-//			NSArray *oldTracks = [[iTunesDJ tracks] filteredArrayUsingPredicate:oldFilter];
-//			//iTunesItem *t = [[iTunesDJ tracks] lastObject]; [t delete];
-//			//[[iTunesDJ tracks] removeObjectsInArray:oldTracks];
-//			[oldTracks arrayByPerformingSelector:@selector(delete)];
-//			// add the new tracks
-//			[iTunes add:newTracks to:iTunesDJ];
-//			// put the old tracks back
-//			[oldTracks arrayByPerformingSelector:@selector(duplicateTo:) withObject:iTunesDJ];
-		} else if (append) {
-			[iTunes add:newTracks to:iTunesDJ];
-		} else {
-			if (!paths) {
-				return;
-			}
-			// Play first track, queue rest
-			[[self iTunesScript] executeSubroutine:@"ps_play_track" arguments:[NSArray arrayWithObject:[NSAppleEventDescriptor aliasListDescriptorWithArray:paths]] error:&errorDict];
-		}
-	} else if (append) {
+	if (append) {
 		iTunesPlaylist *qs = [[QSiTunesLibrary() userPlaylists] objectWithName:QSiTunesDynamicPlaylist];
 		[iTunes add:newTracks to:qs];
 	} else {
@@ -308,14 +224,12 @@
 #pragma mark - Quicksilver validation
 
 - (NSArray *)validActionsForDirectObject:(QSObject *)dObject indirectObject:(QSObject *)iObject {
-	if ([dObject objectForType:QSiTunesPlaylistIDPboardType]) {
-		return [NSArray arrayWithObject:kQSiTunesPlayItemAction];
-	} else if ([dObject objectForType:QSiTunesBrowserPboardType]) {
+	if ([dObject objectForType:QSiTunesBrowserPboardType]) {
 		NSDictionary *browseDict = [dObject objectForType:QSiTunesBrowserPboardType];
 		if (![browseDict objectForKey:@"Criteria"])
 			return nil;
 	}
-	return [NSArray arrayWithObjects:kQSiTunesPSPlayNextAction, kQSiTunesPSAddAction, kQSiTunesPSPlayAction, kQSiTunesPlayItemAction, nil];
+	return [NSArray arrayWithObject:kQSiTunesPlayItemAction];
 }
 
 - (NSArray *)validIndirectObjectsForAction:(NSString *)action directObject:(QSObject *)dObject
@@ -412,13 +326,6 @@
 		return [playlistResult objectAtIndex:0];
 	}
 	return nil;
-}
-
-- (NSAppleScript *)iTunesScript {
-	if (!iTunesScript)
-		iTunesScript = [[NSAppleScript alloc] initWithContentsOfURL:[NSURL fileURLWithPath:
-			[[NSBundle bundleForClass:[QSiTunesActionProvider class]]  pathForResource:@"iTunes" ofType:@"scpt"]] error:nil];
-	return iTunesScript;
 }
 
 - (void)manaullyAppendTrack:(iTunesTrack *)track toPlaylist:(iTunesPlaylist *)playlist

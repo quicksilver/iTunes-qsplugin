@@ -105,18 +105,6 @@ Toggle the shuffle setting for the selected playlist(s).
 
 Get the lyrics for the selected track.
 
-#### Play in iTunes DJ ####
-
-Add tracks to the beginning of the list in iTunes DJ and start playing.
-
-#### Play Next in iTunes DJ ####
-
-Add tracks after the current track in iTunes DJ.
-
-#### Add to End of iTunes DJ ####
-
-Append tracks to the beginning of the list in iTunes DJ.
-
 #### Set EQ Preset ####
 
 Make the selected equalizer preset active in iTunes.
