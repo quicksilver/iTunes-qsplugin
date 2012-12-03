@@ -398,7 +398,11 @@
 		// the location property is missing unless you call `get` on the result
 		trackResult = [(SBElementArray *)[[libraryPlaylist tracks] filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:searchFilter argumentArray:trackIDs]] get];
 	}
-	return trackResult;
+    // there may be some objects in the results that don't have a location - filter them
+    NSIndexSet *fileTracks = [trackResult indexesOfObjectsWithOptions:NSEnumerationConcurrent passingTest:^BOOL(id track, NSUInteger i, BOOL *stop) {
+        return [track respondsToSelector:@selector(location)];
+    }];
+	return [trackResult objectsAtIndexes:fileTracks];
 }
 
 - (iTunesPlaylist *)playlistObjectFromQSObject:(QSObject *)playlist
