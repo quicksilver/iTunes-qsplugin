@@ -477,9 +477,7 @@
 		//			}
 		//		}
 		if ([displayType isEqualToString:@"Album"] && album && ([[NSUserDefaults standardUserDefaults] boolForKey:@"QSiTunesShowArtwork"]) ) {
-			NSDictionary *typeDicts = [[library tagDictionaries] objectForKey:@"Album"];
-			NSArray *valueArray = [typeDicts objectForKey:[album lowercaseString]];
-			// TODO match artist as well
+			NSArray *valueArray = [library tracksMatchingCriteria:criteriaDict];
             // get the icon from the first non-video track
             for (NSDictionary *track in valueArray) {
                 if (![[track objectForKey:@"Has Video"] boolValue]) {
