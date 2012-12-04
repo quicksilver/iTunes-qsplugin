@@ -1086,7 +1086,7 @@
 			<key>QSCurrentAlbumProxy</key>
 			<dict>
 				<key>icon</key>
-				<string>iTunesAlbumBrowserIcon</string>
+				<string>ProxyIcon</string>
 				<key>name</key>
 				<string>Currently Playing Album</string>
 				<key>providerClass</key>
@@ -1125,7 +1125,7 @@
 			<key>QSCurrentSelectionProxy</key>
 			<dict>
 				<key>icon</key>
-				<string>iTunesTrackIcon</string>
+				<string>ProxyIcon</string>
 				<key>name</key>
 				<string>Current iTunes Selection</string>
 				<key>providerClass</key>
@@ -1139,7 +1139,7 @@
 			<key>QSCurrentTrackProxy</key>
 			<dict>
 				<key>icon</key>
-				<string>iTunesTrackIcon</string>
+				<string>ProxyIcon</string>
 				<key>name</key>
 				<string>Currently Playing Track</string>
 				<key>providerClass</key>
@@ -1153,7 +1153,7 @@
 			<key>QSRandomTrackProxy</key>
 			<dict>
 				<key>icon</key>
-				<string>iTunesTrackIcon</string>
+				<string>ProxyIcon</string>
 				<key>name</key>
 				<string>Random Track</string>
 				<key>providerClass</key>
