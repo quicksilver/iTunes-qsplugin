@@ -171,6 +171,15 @@
 	return nil;
 }
 
+- (NSTimeInterval)cacheTimeForProxy:(id)proxy
+{
+    NSString *ident = [proxy identifier];
+    if ([ident isEqualToString:@"QSRandomTrackProxy"]) {
+        return 8.0;
+    }
+    return 3.0;
+}
+
 - (NSDictionary *)trackInfoForID:(id)trackID
 {
 	NSMutableDictionary *trackInfo = nil;
