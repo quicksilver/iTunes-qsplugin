@@ -35,12 +35,3 @@ iTunesLibraryPlaylist *QSiTunesMusic()
 	}
 	return nil;
 }
-
-iTunesPlaylist *QSiTunesDJ()
-{
-	NSArray *iTunesDJplaylists = [[[QSiTunesLibrary() playlists] get] filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"specialKind == %i", iTunesESpKPartyShuffle]];
-	if ([[iTunesDJplaylists objectAtIndex:0] exists]) {
-		return [iTunesDJplaylists objectAtIndex:0];
-	}
-	return nil;
-}

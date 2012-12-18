@@ -11,4 +11,3 @@
 iTunesApplication *QSiTunes();  // returns the iTunes application
 iTunesSource *QSiTunesLibrary(); // returns the main Library "source" (the container for all playlists)
 iTunesLibraryPlaylist *QSiTunesMusic(); // returns the playlist containing all music
-iTunesPlaylist *QSiTunesDJ(); // returns the iTunes DJ playlist

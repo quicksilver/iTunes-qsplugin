@@ -171,6 +171,15 @@
 	return nil;
 }
 
+- (NSTimeInterval)cacheTimeForProxy:(id)proxy
+{
+    NSString *ident = [proxy identifier];
+    if ([ident isEqualToString:@"QSRandomTrackProxy"]) {
+        return 8.0;
+    }
+    return 3.0;
+}
+
 - (NSDictionary *)trackInfoForID:(id)trackID
 {
 	NSMutableDictionary *trackInfo = nil;
@@ -477,11 +486,17 @@
 		//			}
 		//		}
 		if ([displayType isEqualToString:@"Album"] && album && ([[NSUserDefaults standardUserDefaults] boolForKey:@"QSiTunesShowArtwork"]) ) {
-			NSDictionary *typeDicts = [[library tagDictionaries] objectForKey:@"Album"];
-			NSArray *valueArray = [typeDicts objectForKey:[album lowercaseString]];
-			// TODO match artist as well
-			NSDictionary *firstTrack = [valueArray objectAtIndex:0];
-			[object setIcon:[self imageForTrack:firstTrack]];
+			NSArray *valueArray = [library tracksMatchingCriteria:criteriaDict];
+            // get the icon from the first non-video track
+            for (NSDictionary *track in valueArray) {
+                if (![[track objectForKey:@"Has Video"] boolValue]) {
+                    [object setIcon:[self imageForTrack:track]];
+                    return YES;
+                }
+            }
+            // if they were all videos, just use the first one
+			NSDictionary *iconTrack = [valueArray objectAtIndex:0];
+			[object updateIcon:[self imageForTrack:iconTrack]];
 			return YES;
 		}
 	} else if ([[object primaryType] isEqualToString:QSiTunesTrackIDPboardType]) {

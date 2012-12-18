@@ -9,13 +9,11 @@
 #import "QSiTunesDefines.h"
 
 @interface QSiTunesActionProvider : QSActionProvider{
-    NSAppleScript *iTunesScript;
 	iTunesApplication *iTunes;
 }
-- (NSAppleScript *)iTunesScript;
 - (void)playPlaylist:(QSObject *)dObject;
-- (void)playBrowser:(QSObject *)dObject party:(BOOL)party append:(BOOL)append next:(BOOL)next;
-- (void)playTrack:(QSObject *)dObject party:(BOOL)party append:(BOOL)append next:(BOOL)next;
+- (void)playBrowser:(QSObject *)dObject;
+- (void)playTrack:(QSObject *)dObject append:(BOOL)append;
 - (void)playUsingDynamicPlaylist:(NSArray *)trackList;
 - (NSArray *)trackObjectsFromQSObject:(QSObject *)tracks;
 - (iTunesPlaylist *)playlistObjectFromQSObject:(QSObject *)playlist;
