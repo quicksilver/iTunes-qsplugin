@@ -1188,6 +1188,8 @@
 				<string>iTunes Track Changed</string>
 				<key>provider</key>
 				<string>QSiTunesObjectSource</string>
+				<key>type</key>
+				<string>Music</string>
 			</dict>
 		</dict>
 		<key>QSTriggerSets</key>
