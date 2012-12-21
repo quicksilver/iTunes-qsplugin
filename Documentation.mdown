@@ -1,8 +1,12 @@
 ## Preferences ##
 
-#### Show Artwork ####
+#### Show Artwork and Previews ####
 
 With this enabled, Quicksilver will show the album cover (for albums and tracks) or the poster frame (for videos). If disabled, a generic icon will be shown instead.
+
+#### Without Gloss and Shadows ####
+
+Artwork and previews are taken from the Quick Look system. By default, Quick Look adds some gloss over the image and a drop-shadow behind it. The image needs to be reduced in size to accommodate the shadow, and the gloss can obscure details in some cases. Enable this setting to see artwork and previews in their original form.
 
 #### Group Compilations ####
 
@@ -104,18 +108,6 @@ Toggle the shuffle setting for the selected playlist(s).
 #### Get Lyrics ####
 
 Get the lyrics for the selected track.
-
-#### Play in iTunes DJ ####
-
-Add tracks to the beginning of the list in iTunes DJ and start playing.
-
-#### Play Next in iTunes DJ ####
-
-Add tracks after the current track in iTunes DJ.
-
-#### Add to End of iTunes DJ ####
-
-Append tracks to the beginning of the list in iTunes DJ.
 
 #### Set EQ Preset ####
 

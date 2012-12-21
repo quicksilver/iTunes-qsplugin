@@ -19,9 +19,9 @@
 	<key>CFBundlePackageType</key>
 	<string>BNDL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>2.2.1</string>
+	<string>2.3.0</string>
 	<key>CFBundleVersion</key>
-	<string>34A</string>
+	<string>34C</string>
 	<key>NSPrincipalClass</key>
 	<string>QSiTunesObjectSource</string>
 	<key>QSActions</key>
@@ -66,51 +66,6 @@
 			<key>directTypes</key>
 			<array>
 				<string>com.apple.itunes.track</string>
-				<string>com.apple.itunes.qsbrowsercriteria</string>
-			</array>
-			<key>icon</key>
-			<string>iTunesIcon</string>
-		</dict>
-		<key>QSiTunesPSAddAction</key>
-		<dict>
-			<key>actionClass</key>
-			<string>QSiTunesActionProvider</string>
-			<key>actionSelector</key>
-			<string>psAppendItem:</string>
-			<key>directTypes</key>
-			<array>
-				<string>com.apple.itunes.track</string>
-				<string>com.apple.itunes.playlist</string>
-				<string>com.apple.itunes.qsbrowsercriteria</string>
-			</array>
-			<key>icon</key>
-			<string>iTunesIcon</string>
-		</dict>
-		<key>QSiTunesPSPlayAction</key>
-		<dict>
-			<key>actionClass</key>
-			<string>QSiTunesActionProvider</string>
-			<key>actionSelector</key>
-			<string>psPlayItem:</string>
-			<key>directTypes</key>
-			<array>
-				<string>com.apple.itunes.track</string>
-				<string>com.apple.itunes.playlist</string>
-				<string>com.apple.itunes.qsbrowsercriteria</string>
-			</array>
-			<key>icon</key>
-			<string>iTunesIcon</string>
-		</dict>
-		<key>QSiTunesPSPlayNextAction</key>
-		<dict>
-			<key>actionClass</key>
-			<string>QSiTunesActionProvider</string>
-			<key>actionSelector</key>
-			<string>psPlayNextItem:</string>
-			<key>directTypes</key>
-			<array>
-				<string>com.apple.itunes.track</string>
-				<string>com.apple.itunes.playlist</string>
 				<string>com.apple.itunes.qsbrowsercriteria</string>
 			</array>
 			<key>icon</key>
@@ -221,8 +176,10 @@
 		<string>Allows you to control iTunes and browse the iTunes library</string>
 		<key>extendedDescription</key>
 		<string>&lt;h2&gt;Preferences&lt;/h2&gt;
-&lt;h4&gt;Show Artwork&lt;/h4&gt;
+&lt;h4&gt;Show Artwork and Previews&lt;/h4&gt;
 &lt;p&gt;With this enabled, Quicksilver will show the album cover (for albums and tracks) or the poster frame (for videos). If disabled, a generic icon will be shown instead.&lt;/p&gt;
+&lt;h4&gt;Without Gloss and Shadows&lt;/h4&gt;
+&lt;p&gt;Artwork and previews are taken from the Quick Look system. By default, Quick Look adds some gloss over the image and a drop-shadow behind it. The image needs to be reduced in size to accommodate the shadow, and the gloss can obscure details in some cases. Enable this setting to see artwork and previews in their original form.&lt;/p&gt;
 &lt;h4&gt;Group Compilations&lt;/h4&gt;
 &lt;p&gt;With this enabled, tracks from different artists will be shown under a single album (if part of a compilation).&lt;/p&gt;
 &lt;h4&gt;Monitor Recent Tracks&lt;/h4&gt;
@@ -322,12 +279,6 @@
 &lt;p&gt;Toggle the shuffle setting for the selected playlist(s).&lt;/p&gt;
 &lt;h4&gt;Get Lyrics&lt;/h4&gt;
 &lt;p&gt;Get the lyrics for the selected track.&lt;/p&gt;
-&lt;h4&gt;Play in iTunes DJ&lt;/h4&gt;
-&lt;p&gt;Add tracks to the beginning of the list in iTunes DJ and start playing.&lt;/p&gt;
-&lt;h4&gt;Play Next in iTunes DJ&lt;/h4&gt;
-&lt;p&gt;Add tracks after the current track in iTunes DJ.&lt;/p&gt;
-&lt;h4&gt;Add to End of iTunes DJ&lt;/h4&gt;
-&lt;p&gt;Append tracks to the beginning of the list in iTunes DJ.&lt;/p&gt;
 &lt;h4&gt;Set EQ Preset&lt;/h4&gt;
 &lt;p&gt;Make the selected equalizer preset active in iTunes.&lt;/p&gt;
 &lt;h2&gt;Be Aware&lt;/h2&gt;
@@ -1135,7 +1086,7 @@
 			<key>QSCurrentAlbumProxy</key>
 			<dict>
 				<key>icon</key>
-				<string>iTunesAlbumBrowserIcon</string>
+				<string>ProxyIcon</string>
 				<key>name</key>
 				<string>Currently Playing Album</string>
 				<key>providerClass</key>
@@ -1174,7 +1125,7 @@
 			<key>QSCurrentSelectionProxy</key>
 			<dict>
 				<key>icon</key>
-				<string>iTunesTrackIcon</string>
+				<string>ProxyIcon</string>
 				<key>name</key>
 				<string>Current iTunes Selection</string>
 				<key>providerClass</key>
@@ -1188,7 +1139,7 @@
 			<key>QSCurrentTrackProxy</key>
 			<dict>
 				<key>icon</key>
-				<string>iTunesTrackIcon</string>
+				<string>ProxyIcon</string>
 				<key>name</key>
 				<string>Currently Playing Track</string>
 				<key>providerClass</key>
@@ -1202,7 +1153,7 @@
 			<key>QSRandomTrackProxy</key>
 			<dict>
 				<key>icon</key>
-				<string>iTunesTrackIcon</string>
+				<string>ProxyIcon</string>
 				<key>name</key>
 				<string>Random Track</string>
 				<key>providerClass</key>
@@ -1237,6 +1188,8 @@
 				<string>iTunes Track Changed</string>
 				<key>provider</key>
 				<string>QSiTunesObjectSource</string>
+				<key>type</key>
+				<string>Music</string>
 			</dict>
 		</dict>
 		<key>QSTriggerSets</key>
@@ -1262,6 +1215,17 @@
 	</dict>
 	<key>QSRequirements</key>
 	<dict>
+		<key>bundles</key>
+		<array>
+			<dict>
+				<key>id</key>
+				<string>com.apple.iTunes</string>
+				<key>name</key>
+				<string>iTunes</string>
+				<key>version</key>
+				<string>11.0</string>
+			</dict>
+		</array>
 		<key>obsoletes</key>
 		<array>
 			<string>com.blacktree.Quicksilver.QSMusicSupport</string>

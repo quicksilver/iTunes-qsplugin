@@ -117,6 +117,14 @@
   
 	for (NSString *key in tracks) {
 		trackInfo = [tracks objectForKey:key];
+        
+        /* skip tracks that have no URL - we can't do anything with them
+           These could be purchased tracks that aren't downloaded. If Apple ever
+           provides a way to download them, we should include them (and create a
+           "download" action). */
+        if (![trackInfo objectForKey:@"Location"]) {
+            continue;
+        }
 		
 		if (!showPodcasts && [[trackInfo objectForKey:@"Podcast"] boolValue]) {
 			continue;
