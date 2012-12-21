@@ -254,6 +254,7 @@
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
+&lt;p&gt;"Random Track" will refer to the same track for 8 seconds. This is to prevent it from changing between the time you call it up, and the time you run an action on it.&lt;/p&gt;
 &lt;h2&gt;Browsing&lt;/h2&gt;
 &lt;p&gt;You can quickly locate and play anything in your iTunes library, even if it's not stored in Quicksilver's catalog. You can do this by assigning triggers to search a certain criteria (like Artist or Genre) or by selecting "Browse [Criteria]" in Quicksilver.&lt;/p&gt;
 &lt;h2&gt;Actions&lt;/h2&gt;
