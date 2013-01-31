@@ -346,9 +346,14 @@
 		return [@"[iTunes Playlist] :" stringByAppendingString:[object objectForType:QSiTunesPlaylistIDPboardType]];
 	}
 	if ([[object primaryType] isEqualToString:QSiTunesBrowserPboardType]) {
-		id value = [object objectForType:QSiTunesBrowserPboardType];
-		if (!value) return nil;
-		return [@"[iTunes Browser] :" stringByAppendingString:[[value allValues] componentsJoinedByString:@", "]];
+		id browser = [object objectForType:QSiTunesBrowserPboardType];
+		if (!browser) return nil;
+        // keep the order predictable so we can unpack the values later
+        NSMutableArray *valueArray = [NSMutableArray arrayWithCapacity:3];
+        for (id value in [[browser allKeys] sortedArrayUsingSelector:@selector(compare:)]) {
+            [valueArray addObject:[browser objectForKey:value]];
+        }
+		return [QSiTunesBrowserIDPrefix stringByAppendingString:[valueArray description]];
 	}
 	return nil;
 }
