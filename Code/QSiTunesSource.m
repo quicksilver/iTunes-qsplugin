@@ -343,7 +343,7 @@
 	if ([[object primaryType] isEqualToString:QSiTunesPlaylistIDPboardType]) {
 		//NSLog(@"getplaylistid");
 		return nil;
-		return [@"[iTunes Playlist] :" stringByAppendingString:[object objectForType:QSiTunesPlaylistIDPboardType]];
+		return [QSiTunesPlaylistIDPrefix stringByAppendingString:[object objectForType:QSiTunesPlaylistIDPboardType]];
 	}
 	if ([[object primaryType] isEqualToString:QSiTunesBrowserPboardType]) {
 		id browser = [object objectForType:QSiTunesBrowserPboardType];
@@ -916,7 +916,7 @@
 		NSMutableArray *objects = [NSMutableArray arrayWithCapacity:[EQPresets count]];
 		for (iTunesEQPreset *eq in EQPresets) {
 			NSString *name = [eq name];
-			newObject = [QSObject makeObjectWithIdentifier:[NSString stringWithFormat:@"iTunes Preset:%@", name]];
+			newObject = [QSObject makeObjectWithIdentifier:[NSString stringWithFormat:@"%@:%@", QSiTunesEQIDPrefix, name]];
 			[newObject setName:[NSString stringWithFormat:@"%@ Equalizer Preset", name]];
 			[newObject setDetails:@"iTunes Equalizer Preset"];
 			[newObject setObject:eq forType:QSiTunesEQPresetType];
