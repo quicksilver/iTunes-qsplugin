@@ -439,6 +439,36 @@
 }
 
 // Object Handler Methods
+- (QSObject *)recreateObjectOfType:(NSString *)aType withIdentifier:(NSString *)anIdentifier
+{
+    if ([aType isEqualToString:QSiTunesTrackIDPboardType]) {
+        NSDictionary *trackInfo = [library trackInfoForPersistentID:anIdentifier];
+        return [self trackObjectForInfo:trackInfo inPlaylist:nil];
+    } else if ([aType isEqualToString:QSiTunesPlaylistIDPboardType]) {
+        NSLog(@"I need to recreate playlist: %@", anIdentifier);
+        return nil;
+    } else if ([aType isEqualToString:QSiTunesBrowserPboardType]) {
+        NSString *criteriaValues = [anIdentifier substringFromIndex:[QSiTunesBrowserIDPrefix length]];
+        @try {
+            NSArray *browserValues = [criteriaValues propertyList];
+            if ([browserValues count] == 3) {
+                NSArray *browserKeys = [NSArray arrayWithObjects:@"Criteria", @"Result", @"Type", nil];
+                NSDictionary *browseDict = [NSDictionary dictionaryWithObjects:browserValues forKeys:browserKeys];
+                NSString *name = [[browserValues objectAtIndex:0] objectForKey:[browserValues objectAtIndex:2]];
+                QSObject *browser = [QSObject objectWithName:name];
+                [browser setObject:browseDict forType:QSiTunesBrowserPboardType];
+                [browser setPrimaryType:QSiTunesBrowserPboardType];
+                return browser;
+            }
+        }
+        @catch (NSException *exception) {
+            NSLog(@"invalid iTunes browse criteria: %@", anIdentifier);
+        }
+        return nil;
+    }
+    return nil;
+}
+
 - (void)setQuickIconForObject:(QSObject *)object {
 	if ([[object primaryType] isEqualToString:QSiTunesPlaylistIDPboardType]) {
 		NSDictionary *playlistDict = [library playlistInfoForID:[object objectForType:QSiTunesPlaylistIDPboardType]];
@@ -930,6 +960,22 @@
 - (void)setQuickIconForObject:(QSObject *)object
 {
 	[object setIcon:[QSResourceManager imageNamed:@"iTunesEQ"]];
+}
+
+- (QSObject *)recreateObjectOfType:(NSString *)aType withIdentifier:(NSString *)anIdentifier
+{
+	iTunesApplication *iTunes = QSiTunes();
+	if ([iTunes isRunning]) {
+        NSString *EQname = [anIdentifier substringFromIndex:[QSiTunesEQIDPrefix length]];
+		SBElementArray *EQPresets = [iTunes EQPresets];
+        iTunesEQPreset *eq = [EQPresets objectWithName:EQname];
+		QSObject *newObject = [QSObject makeObjectWithIdentifier:anIdentifier];
+        [newObject setName:[NSString stringWithFormat:@"%@ Equalizer Preset", EQname]];
+        [newObject setDetails:@"iTunes Equalizer Preset"];
+        [newObject setObject:eq forType:QSiTunesEQPresetType];
+        return newObject;
+    }
+    return nil;
 }
 
 @end
