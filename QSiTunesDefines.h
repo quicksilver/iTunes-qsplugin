@@ -17,6 +17,10 @@
 #define QSiTunesBrowserPboardType @"com.apple.itunes.qsbrowsercriteria"
 #define QSiTunesEQPresetType @"com.apple.itunes.eqpreset"
 
+#define QSiTunesPlaylistIDPrefix @"[iTunes Playlist] :"
+#define QSiTunesBrowserIDPrefix @"[iTunes Browser] :"
+#define QSiTunesEQIDPrefix @"iTunes Preset:"
+
 #define QSiTunesSpecialPboardType @"QSiTunesSpecialPboardType"
 #define QSiTunesTrackChangeNotification @"QSiTunesTrackChangeNotification"
 
