@@ -67,6 +67,20 @@
 	return tracks;
 }
 
+- (NSDictionary *)trackInfoForPersistentID:(NSString *)persistentID
+{
+    NSDictionary *tracks = [[self iTunesMusicLibrary] objectForKey:@"Tracks"];
+    NSSet *pidMatches = [tracks keysOfEntriesWithOptions:NSEnumerationConcurrent passingTest:^BOOL(id key, NSDictionary *trackInfo, BOOL *stop){
+        return [[trackInfo objectForKey:@"Persistent ID"] isEqualToString:persistentID];
+    }];
+    NSString *theID = [pidMatches anyObject];  // the set should have only one object
+    NSDictionary *theTrack = [tracks objectForKey:theID];
+    if (!theTrack) {
+        theTrack = [extraTracks objectForKey:theID];
+    }
+    return theTrack;
+}
+
 - (NSArray *)tracksMatchingCriteria:(NSDictionary *)criteria {
 	if (![criteria count]) return [[[self iTunesMusicLibrary] objectForKey:@"Tracks"] allValues];
 	NSMutableSet *items = nil;

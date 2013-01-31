@@ -15,6 +15,7 @@
 }
 
 -(NSDictionary *)trackInfoForID:(NSString *)theID;
+- (NSDictionary *)trackInfoForPersistentID:(NSString *)theID;
 -(NSArray *)trackInfoForIDs:(NSArray *)theIDs;
 - (NSDictionary *)iTunesMusicLibrary;
 - (void)setITunesMusicLibrary:(NSDictionary *)newITunesMusicLibrary;
