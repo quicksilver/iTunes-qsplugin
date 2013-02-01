@@ -487,17 +487,19 @@
 		//		}
 		if ([displayType isEqualToString:@"Album"] && album && ([[NSUserDefaults standardUserDefaults] boolForKey:@"QSiTunesShowArtwork"]) ) {
 			NSArray *valueArray = [library tracksMatchingCriteria:criteriaDict];
-            // get the icon from the first non-video track
-            for (NSDictionary *track in valueArray) {
-                if (![[track objectForKey:@"Has Video"] boolValue]) {
-                    [object setIcon:[self imageForTrack:track]];
-                    return YES;
+            if ([valueArray count]) {
+                // get the icon from the first non-video track
+                for (NSDictionary *track in valueArray) {
+                    if (![[track objectForKey:@"Has Video"] boolValue]) {
+                        [object setIcon:[self imageForTrack:track]];
+                        return YES;
+                    }
                 }
+                // if they were all videos, just use the first one
+                NSDictionary *iconTrack = [valueArray objectAtIndex:0];
+                [object updateIcon:[self imageForTrack:iconTrack]];
+                return YES;
             }
-            // if they were all videos, just use the first one
-			NSDictionary *iconTrack = [valueArray objectAtIndex:0];
-			[object updateIcon:[self imageForTrack:iconTrack]];
-			return YES;
 		}
 	} else if ([[object primaryType] isEqualToString:QSiTunesTrackIDPboardType]) {
 		NSImage *icon = nil;
