@@ -312,7 +312,8 @@
 	if (rating == 0) return nil;
 	NSString *string = @"";
 	for (NSUInteger i = 0; i < rating; i += 20) {
-		string = [string stringByAppendingFormat:@"%C", (rating - i == 10)?0xbd:0x2605];
+        unsigned short starOrHalf = (rating - i == 10)?0xbd:0x2605;
+		string = [string stringByAppendingFormat:@"%C", starOrHalf];
 	}
 	return [[[NSAttributedString alloc] initWithString:string attributes:[NSDictionary dictionaryWithObject:[NSFont fontWithName:@"AppleGothic" size:20] forKey:NSFontNameAttribute]] autorelease];
 }
@@ -568,7 +569,7 @@
 		}
 	} else if ([[object primaryType] isEqualToString:QSiTunesBrowserPboardType]) {
 		// Browser item details
-		details = [[[[object objectForType:QSiTunesBrowserPboardType] objectForKey:@"Criteria"] allValues] componentsJoinedByString:[NSString stringWithFormat:@" %C ", 0x25B8]];
+		details = [[[[object objectForType:QSiTunesBrowserPboardType] objectForKey:@"Criteria"] allValues] componentsJoinedByString:[NSString stringWithFormat:@" %C ", (unsigned short)0x25B8]];
 		if (![details isEqualToString:[object displayName]]) {
 			return details;
 		}
@@ -776,7 +777,7 @@
 				[childBrowseDict setObject:childSort forKey:@"Result"];
 				[childBrowseDict setObject:displayType forKey:@"Type"];
 				
-				NSString *details = [[[childBrowseDict objectForKey:@"Criteria"] allValues] componentsJoinedByString:[NSString stringWithFormat:@" %C ", 0x25B8]];
+				NSString *details = [[[childBrowseDict objectForKey:@"Criteria"] allValues] componentsJoinedByString:[NSString stringWithFormat:@" %C ", (unsigned short)0x25B8]];
 				NSString *name = [NSString stringWithFormat:@"All %@s", displayType];
 				
 				if (details) name = [name stringByAppendingFormat:@" (%@) ", details];
