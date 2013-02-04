@@ -253,11 +253,11 @@
 	} else if ([tracks containsType:QSiTunesBrowserPboardType]) {
 		// from browsing in Quicksilver
 		NSMutableArray *formatStrings = [NSMutableArray arrayWithCapacity:1];
-		NSDictionary *browseDict;
-		NSDictionary *criteriaDict;
-		NSString *formatString;
+		NSDictionary *browseDict = nil;
+		NSDictionary *criteriaDict = nil;
+		NSString *formatString = nil;
 		NSMutableArray *criteria = [NSMutableArray arrayWithCapacity:2];
-		BOOL first;
+		BOOL first = YES;
 		for (QSObject *browseResult in [tracks splitObjects]) {
 			browseDict = [browseResult objectForType:QSiTunesBrowserPboardType];
 			criteriaDict = [browseDict objectForKey:@"Criteria"];
