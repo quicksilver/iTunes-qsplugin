@@ -84,11 +84,11 @@
 - (NSArray *)tracksMatchingCriteria:(NSDictionary *)criteria {
 	if (![criteria count]) return [[[self iTunesMusicLibrary] objectForKey:@"Tracks"] allValues];
 	NSMutableSet *items = nil;
-	NSMutableSet *thisSet;
+	NSMutableSet *thisSet = nil;
 	//NSLog(@"criteria %@", criteria);
 	for (NSString *key in criteria) {
-		NSDictionary *typeDicts;
-		NSArray *valueArray;
+		NSDictionary *typeDicts = nil;
+		NSArray *valueArray = nil;
 		// if Artist is a criteria, check (Artist == X OR Album Artist == X)
 		if ([key isEqualToString:@"Artist"]) {
 			typeDicts = [[self tagDictionaries] objectForKey:key];
@@ -121,11 +121,11 @@
 	}
 	
 	NSDictionary *tracks = [[self iTunesMusicLibrary] objectForKey:@"Tracks"];
-	NSDictionary *trackInfo;
+	NSDictionary *trackInfo = nil;
 	
-	NSMutableDictionary *tagDict;
-	NSMutableArray *valueArray;
-	NSString *thisValue;
+	NSMutableDictionary *tagDict = [NSMutableDictionary dictionary];
+	NSMutableArray *valueArray = [NSMutableArray array];
+	NSString *thisValue = nil;
 	BOOL groupCompilations = [[NSUserDefaults standardUserDefaults] boolForKey:@"QSiTunesGroupCompilations"];
 	BOOL showPodcasts = NO; //[[NSUserDefaults standardUserDefaults] boolForKey:@"QSiTunesShowPodcasts"];
   

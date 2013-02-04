@@ -158,7 +158,7 @@
 	} else if ([proxy isEqualToString:@"QSCurrentSelectionProxy"]) {
 		NSMutableArray *objects = [NSMutableArray array];
 		NSArray *tracks = [[iTunes selection] get];
-		NSString *trackID;
+		NSString *trackID = nil;
 		// you have to iterate through this - valueForKey/arrayByPerformingSelector won't work
 		for (iTunesFileTrack *track in tracks) {
 			trackID = [NSString stringWithFormat:@"%ld", (long)[track databaseID]];
@@ -367,7 +367,7 @@
 	NSMutableArray *objects = [NSMutableArray arrayWithCapacity:1];
 	
 	//Tracks
-	QSObject *newObject;
+	QSObject *newObject = nil;
 	
 	
 	/*
@@ -408,7 +408,7 @@
 	//NSLog(@"Loading %d Playlists", [playlists count]);
 	//	if (![playlists count])   NSLog(@"Library Dump: %@", [self iTunesMusicLibrary]);
 	
-	NSString *label;
+	NSString *label = nil;
 	for (NSDictionary *thisPlaylist in playlists) {
 		label = [thisPlaylist objectForKey:@"Name"];
 		if ([[thisPlaylist objectForKey:@"Master"] boolValue] && [label isEqualToString:@"Library"]) {
@@ -592,7 +592,7 @@
 }
 
 - (NSString *)detailsOfObject:(QSObject *)object {
-	NSString *details;
+	NSString *details = nil;
 	if ([[object primaryType] isEqualToString:QSiTunesPlaylistIDPboardType]) {
 		// Playlist details
 		NSDictionary *info = [library playlistInfoForID:[object objectForType:QSiTunesPlaylistIDPboardType]];
@@ -695,7 +695,7 @@
 }
 
 - (QSObject *)browserObjectForTrack:(NSDictionary *)trackDict andCriteria:(NSString *)rootType {
-	NSString *value;
+	NSString *value = nil;
 	if ([rootType isEqualToString:@"Artist"] && [trackDict objectForKey:@"Album Artist"]) {
 		value = [trackDict objectForKey:@"Album Artist"];
 	} else {
@@ -721,7 +721,7 @@
 		
 		
 		NSMutableArray *objects = [NSMutableArray arrayWithCapacity:1];
-		QSObject *newObject;
+		QSObject *newObject = nil;
 		for (NSString *rootType in sortTags) {
 			newObject = [self browserObjectForTrack:trackDict andCriteria:rootType];
 			if (newObject)
@@ -799,7 +799,7 @@
 			NSMutableArray *objects = [NSMutableArray arrayWithCapacity:1];
 			NSMutableArray *usedKeys = [NSMutableArray arrayWithCapacity:1];
 			
-			QSObject *newObject;
+			QSObject *newObject = nil;
 			NSString *childSort = [nextSort objectForKey:displayType];
 			if (!childSort)
 				childSort = @"Track";
@@ -855,7 +855,7 @@
 - (NSArray *)browseMasters {
 	NSArray *sortTags = [NSArray arrayWithObjects:@"Genre", @"Artist", @"Composer", @"Album", @"Track", nil]; 	
 	NSMutableArray *objects = [NSMutableArray arrayWithCapacity:1];
-	QSObject *newObject;
+	QSObject *newObject = nil;
 	for (NSString *rootType in sortTags) {
 		NSMutableDictionary *childCriteria = [NSMutableDictionary dictionaryWithObjectsAndKeys:rootType, @"Result", rootType, @"Type", nil];
 		newObject = [QSObject objectWithName:[NSString stringWithFormat:@"Browse %@s", rootType]];
@@ -893,11 +893,11 @@
 - (NSArray *)objectsForEntry:(NSDictionary *)theEntry
 {
 	NSMutableArray *controlObjects = [NSMutableArray arrayWithCapacity:1];
-	QSCommand *command;
-	NSDictionary *commandDict;
-	QSAction *newObject;
-	NSString *actionID;
-	NSDictionary *actionDict;
+	QSCommand *command = nil;
+	NSDictionary *commandDict = nil;
+	QSAction *newObject = nil;
+	NSString *actionID = nil;
+	NSDictionary *actionDict = nil;
 	// create catalog objects using info specified in the plist (under QSCommands)
 	NSArray *controls = [NSArray arrayWithObjects:@"QSiTunesShowTrackNotification", @"QSiTunesPlayPauseCommand", @"QSiTunesPlayCommand", @"QSiTunesPauseCommand", @"QSiTunesStopCommand", @"QSiTunesIncreaseVolume", @"QSiTunesDecreaseVolume", @"QSiTunesMute", @"QSiTunesPreviousSongCommand", @"QSiTunesNextSongCommand", @"QSiTunesIncreaseRating", @"QSiTunesDecreaseRating", @"QSiTunesSetRating0", @"QSiTunesSetRating1", @"QSiTunesSetRating2", @"QSiTunesSetRating3", @"QSiTunesSetRating4", @"QSiTunesSetRating5", @"QSiTunesEQToggleCommand", nil];
 	for (NSString *control in controls) {
