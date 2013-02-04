@@ -78,10 +78,10 @@
 		// if Artist is a criteria, check (Artist == X OR Album Artist == X)
 		if ([key isEqualToString:@"Artist"]) {
 			typeDicts = [[self tagDictionaries] objectForKey:key];
-			NSMutableArray *artistArray = [typeDicts objectForKey:[[criteria objectForKey:key] lowercaseString]];
-			typeDicts = [[self tagDictionaries] objectForKey:@"Album Artist"];
-			[artistArray addObjectsFromArray:[typeDicts objectForKey:[[criteria objectForKey:key] lowercaseString]]];
-			valueArray = artistArray;
+            NSArray *artists = [typeDicts objectForKey:[[criteria objectForKey:key] lowercaseString]];
+            typeDicts = [[self tagDictionaries] objectForKey:@"Album Artist"];
+            NSArray *albumArtists = [typeDicts objectForKey:[[criteria objectForKey:key] lowercaseString]];
+            valueArray = [artists arrayByAddingObjectsFromArray:albumArtists];
 		} else {
 			typeDicts = [[self tagDictionaries] objectForKey:key];
 			valueArray = [typeDicts objectForKey:[[criteria objectForKey:key] lowercaseString]];
