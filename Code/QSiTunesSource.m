@@ -518,7 +518,7 @@
 - (NSImage *)imageForTrack:(NSDictionary *)trackDict
 {
 	NSImage *icon = nil;
-	NSSize iconSize = NSMakeSize(128, 128);
+	NSSize iconSize = QSMaxIconSize;
 	if ([trackDict objectForKey:@"Location"]) {
 		NSString *URLString = [trackDict objectForKey:@"Location"];
 		if (!URLString) return nil;
@@ -535,7 +535,6 @@
 	}
 	if (icon) {
 		[icon createIconRepresentations];
-		//[icon createRepresentationOfSize:iconSize];
 	}
 	return icon;
 }
