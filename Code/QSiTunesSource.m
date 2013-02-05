@@ -501,7 +501,7 @@
                 }
                 // if they were all videos, just use the first one
                 NSDictionary *iconTrack = [valueArray objectAtIndex:0];
-                [object updateIcon:[self imageForTrack:iconTrack]];
+                [object setIcon:[self imageForTrack:iconTrack]];
                 return YES;
             }
 		}
