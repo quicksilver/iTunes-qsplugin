@@ -11,7 +11,6 @@
 	for (NSString *name in images) {
 		image = [[NSImage alloc] initWithContentsOfFile:[bundle pathForImageResource:name]];
 		[image setName:name];
-		[image createIconRepresentations];
 	}
 }
 - (void)dealloc {
@@ -532,9 +531,6 @@
             icon = [[NSImage alloc] initWithContentsOfURL:artworkURL];
             [icon autorelease];
         }
-	}
-	if (icon) {
-		[icon createIconRepresentations];
 	}
 	return icon;
 }
