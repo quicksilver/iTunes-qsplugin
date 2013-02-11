@@ -49,6 +49,7 @@
 			//	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(quitMonitor:) name:NSApplicationWillTerminateNotification object:nil];
 		}
 		iTunes = [QSiTunes() retain];
+        [iTunes setDelegate:self];
 	}
 	return self;
 }
@@ -834,6 +835,14 @@
 - (void)setShowArtwork:(BOOL)shouldShow {
 	//	NSLog(@"%d", shouldShow);
 	showArtwork = shouldShow;
+}
+
+#pragma mark Scripting Bridge delegate
+
+- (id)eventDidFail:(const AppleEvent *)event withError:(NSError *)error
+{
+    NSLog(@"iTunes Communication Error: %@", [error localizedDescription]);
+    return nil;
 }
 
 @end

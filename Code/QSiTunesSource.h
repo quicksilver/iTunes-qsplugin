@@ -1,7 +1,7 @@
 #import "QSiTunesDefines.h"
 #import "QSiTunesDatabase.h"
 
-@interface QSiTunesObjectSource : QSObjectSource {
+@interface QSiTunesObjectSource : QSObjectSource <SBApplicationDelegate> {
      NSMutableArray *recentTracks;
 	BOOL showArtwork;
 	QSiTunesDatabase *library;
