@@ -11,7 +11,6 @@
 	for (NSString *name in images) {
 		image = [[NSImage alloc] initWithContentsOfFile:[bundle pathForImageResource:name]];
 		[image setName:name];
-		[image createIconRepresentations];
 	}
 }
 - (void)dealloc {
@@ -50,6 +49,7 @@
 			//	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(quitMonitor:) name:NSApplicationWillTerminateNotification object:nil];
 		}
 		iTunes = [QSiTunes() retain];
+        [iTunes setDelegate:self];
 	}
 	return self;
 }
@@ -158,7 +158,7 @@
 	} else if ([proxy isEqualToString:@"QSCurrentSelectionProxy"]) {
 		NSMutableArray *objects = [NSMutableArray array];
 		NSArray *tracks = [[iTunes selection] get];
-		NSString *trackID;
+		NSString *trackID = nil;
 		// you have to iterate through this - valueForKey/arrayByPerformingSelector won't work
 		for (iTunesFileTrack *track in tracks) {
 			trackID = [NSString stringWithFormat:@"%ld", (long)[track databaseID]];
@@ -312,7 +312,8 @@
 	if (rating == 0) return nil;
 	NSString *string = @"";
 	for (NSUInteger i = 0; i < rating; i += 20) {
-		string = [string stringByAppendingFormat:@"%C", (rating - i == 10)?0xbd:0x2605];
+        unsigned short starOrHalf = (rating - i == 10)?0xbd:0x2605;
+		string = [string stringByAppendingFormat:@"%C", starOrHalf];
 	}
 	return [[[NSAttributedString alloc] initWithString:string attributes:[NSDictionary dictionaryWithObject:[NSFont fontWithName:@"AppleGothic" size:20] forKey:NSFontNameAttribute]] autorelease];
 }
@@ -362,7 +363,7 @@
 	NSMutableArray *objects = [NSMutableArray arrayWithCapacity:1];
 	
 	//Tracks
-	QSObject *newObject;
+	QSObject *newObject = nil;
 	
 	
 	/*
@@ -403,7 +404,7 @@
 	//NSLog(@"Loading %d Playlists", [playlists count]);
 	//	if (![playlists count])   NSLog(@"Library Dump: %@", [self iTunesMusicLibrary]);
 	
-	NSString *label;
+	NSString *label = nil;
 	for (NSDictionary *thisPlaylist in playlists) {
 		label = [thisPlaylist objectForKey:@"Name"];
 		if ([[thisPlaylist objectForKey:@"Master"] boolValue] && [label isEqualToString:@"Library"]) {
@@ -472,6 +473,9 @@
 }
 
 - (BOOL)loadIconForObject:(QSObject *)object {
+    if (![[NSUserDefaults standardUserDefaults] boolForKey:@"QSiTunesShowArtwork"]) {
+        return NO;
+    }
 	if ([[object primaryType] isEqualToString:QSiTunesBrowserPboardType]) {
 		NSDictionary *browseDict = [object objectForType:QSiTunesBrowserPboardType];
 		NSString *displayType = [browseDict objectForKey:@"Type"];
@@ -485,25 +489,24 @@
 		//				return YES;
 		//			}
 		//		}
-		if ([displayType isEqualToString:@"Album"] && album && ([[NSUserDefaults standardUserDefaults] boolForKey:@"QSiTunesShowArtwork"]) ) {
+		if ([displayType isEqualToString:@"Album"] && album) {
 			NSArray *valueArray = [library tracksMatchingCriteria:criteriaDict];
-            // get the icon from the first non-video track
-            for (NSDictionary *track in valueArray) {
-                if (![[track objectForKey:@"Has Video"] boolValue]) {
-                    [object setIcon:[self imageForTrack:track]];
-                    return YES;
+            if ([valueArray count]) {
+                // get the icon from the first non-video track
+                for (NSDictionary *track in valueArray) {
+                    if (![[track objectForKey:@"Has Video"] boolValue]) {
+                        [object setIcon:[self imageForTrack:track]];
+                        return YES;
+                    }
                 }
+                // if they were all videos, just use the first one
+                NSDictionary *iconTrack = [valueArray objectAtIndex:0];
+                [object setIcon:[self imageForTrack:iconTrack]];
+                return YES;
             }
-            // if they were all videos, just use the first one
-			NSDictionary *iconTrack = [valueArray objectAtIndex:0];
-			[object updateIcon:[self imageForTrack:iconTrack]];
-			return YES;
 		}
 	} else if ([[object primaryType] isEqualToString:QSiTunesTrackIDPboardType]) {
-		NSImage *icon = nil;
-		if ([[NSUserDefaults standardUserDefaults] boolForKey:@"QSiTunesShowArtwork"]) {
-			icon = [self imageForTrack:[object objectForType:QSiTunesTrackIDPboardType]];
-		}
+		NSImage *icon = [self imageForTrack:[object objectForType:QSiTunesTrackIDPboardType]];
 		if (icon) {
 			[object setIcon:icon];
 			return YES;
@@ -515,7 +518,7 @@
 - (NSImage *)imageForTrack:(NSDictionary *)trackDict
 {
 	NSImage *icon = nil;
-	NSSize iconSize = NSMakeSize(128, 128);
+	NSSize iconSize = QSMaxIconSize;
 	if ([trackDict objectForKey:@"Location"]) {
 		NSString *URLString = [trackDict objectForKey:@"Location"];
 		if (!URLString) return nil;
@@ -529,10 +532,6 @@
             icon = [[NSImage alloc] initWithContentsOfURL:artworkURL];
             [icon autorelease];
         }
-	}
-	if (icon) {
-		[icon createIconRepresentations];
-		//[icon createRepresentationOfSize:iconSize];
 	}
 	return icon;
 }
@@ -555,7 +554,7 @@
 }
 
 - (NSString *)detailsOfObject:(QSObject *)object {
-	NSString *details;
+	NSString *details = nil;
 	if ([[object primaryType] isEqualToString:QSiTunesPlaylistIDPboardType]) {
 		// Playlist details
 		NSDictionary *info = [library playlistInfoForID:[object objectForType:QSiTunesPlaylistIDPboardType]];
@@ -566,7 +565,7 @@
 		}
 	} else if ([[object primaryType] isEqualToString:QSiTunesBrowserPboardType]) {
 		// Browser item details
-		details = [[[[object objectForType:QSiTunesBrowserPboardType] objectForKey:@"Criteria"] allValues] componentsJoinedByString:[NSString stringWithFormat:@" %C ", 0x25B8]];
+		details = [[[[object objectForType:QSiTunesBrowserPboardType] objectForKey:@"Criteria"] allValues] componentsJoinedByString:[NSString stringWithFormat:@" %C ", (unsigned short)0x25B8]];
 		if (![details isEqualToString:[object displayName]]) {
 			return details;
 		}
@@ -658,7 +657,7 @@
 }
 
 - (QSObject *)browserObjectForTrack:(NSDictionary *)trackDict andCriteria:(NSString *)rootType {
-	NSString *value;
+	NSString *value = nil;
 	if ([rootType isEqualToString:@"Artist"] && [trackDict objectForKey:@"Album Artist"]) {
 		value = [trackDict objectForKey:@"Album Artist"];
 	} else {
@@ -684,7 +683,7 @@
 		
 		
 		NSMutableArray *objects = [NSMutableArray arrayWithCapacity:1];
-		QSObject *newObject;
+		QSObject *newObject = nil;
 		for (NSString *rootType in sortTags) {
 			newObject = [self browserObjectForTrack:trackDict andCriteria:rootType];
 			if (newObject)
@@ -762,7 +761,7 @@
 			NSMutableArray *objects = [NSMutableArray arrayWithCapacity:1];
 			NSMutableArray *usedKeys = [NSMutableArray arrayWithCapacity:1];
 			
-			QSObject *newObject;
+			QSObject *newObject = nil;
 			NSString *childSort = [nextSort objectForKey:displayType];
 			if (!childSort)
 				childSort = @"Track";
@@ -774,7 +773,7 @@
 				[childBrowseDict setObject:childSort forKey:@"Result"];
 				[childBrowseDict setObject:displayType forKey:@"Type"];
 				
-				NSString *details = [[[childBrowseDict objectForKey:@"Criteria"] allValues] componentsJoinedByString:[NSString stringWithFormat:@" %C ", 0x25B8]];
+				NSString *details = [[[childBrowseDict objectForKey:@"Criteria"] allValues] componentsJoinedByString:[NSString stringWithFormat:@" %C ", (unsigned short)0x25B8]];
 				NSString *name = [NSString stringWithFormat:@"All %@s", displayType];
 				
 				if (details) name = [name stringByAppendingFormat:@" (%@) ", details];
@@ -818,7 +817,7 @@
 - (NSArray *)browseMasters {
 	NSArray *sortTags = [NSArray arrayWithObjects:@"Genre", @"Artist", @"Composer", @"Album", @"Track", nil]; 	
 	NSMutableArray *objects = [NSMutableArray arrayWithCapacity:1];
-	QSObject *newObject;
+	QSObject *newObject = nil;
 	for (NSString *rootType in sortTags) {
 		NSMutableDictionary *childCriteria = [NSMutableDictionary dictionaryWithObjectsAndKeys:rootType, @"Result", rootType, @"Type", nil];
 		newObject = [QSObject objectWithName:[NSString stringWithFormat:@"Browse %@s", rootType]];
@@ -836,6 +835,14 @@
 - (void)setShowArtwork:(BOOL)shouldShow {
 	//	NSLog(@"%d", shouldShow);
 	showArtwork = shouldShow;
+}
+
+#pragma mark Scripting Bridge delegate
+
+- (id)eventDidFail:(const AppleEvent *)event withError:(NSError *)error
+{
+    NSLog(@"iTunes Communication Error: %@", [error localizedDescription]);
+    return nil;
 }
 
 @end
@@ -856,11 +863,11 @@
 - (NSArray *)objectsForEntry:(NSDictionary *)theEntry
 {
 	NSMutableArray *controlObjects = [NSMutableArray arrayWithCapacity:1];
-	QSCommand *command;
-	NSDictionary *commandDict;
-	QSAction *newObject;
-	NSString *actionID;
-	NSDictionary *actionDict;
+	QSCommand *command = nil;
+	NSDictionary *commandDict = nil;
+	QSAction *newObject = nil;
+	NSString *actionID = nil;
+	NSDictionary *actionDict = nil;
 	// create catalog objects using info specified in the plist (under QSCommands)
 	NSArray *controls = [NSArray arrayWithObjects:@"QSiTunesShowTrackNotification", @"QSiTunesPlayPauseCommand", @"QSiTunesPlayCommand", @"QSiTunesPauseCommand", @"QSiTunesStopCommand", @"QSiTunesIncreaseVolume", @"QSiTunesDecreaseVolume", @"QSiTunesMute", @"QSiTunesPreviousSongCommand", @"QSiTunesNextSongCommand", @"QSiTunesIncreaseRating", @"QSiTunesDecreaseRating", @"QSiTunesSetRating0", @"QSiTunesSetRating1", @"QSiTunesSetRating2", @"QSiTunesSetRating3", @"QSiTunesSetRating4", @"QSiTunesSetRating5", @"QSiTunesEQToggleCommand", nil];
 	for (NSString *control in controls) {

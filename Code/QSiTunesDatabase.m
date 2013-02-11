@@ -70,18 +70,18 @@
 - (NSArray *)tracksMatchingCriteria:(NSDictionary *)criteria {
 	if (![criteria count]) return [[[self iTunesMusicLibrary] objectForKey:@"Tracks"] allValues];
 	NSMutableSet *items = nil;
-	NSMutableSet *thisSet;
+	NSMutableSet *thisSet = nil;
 	//NSLog(@"criteria %@", criteria);
 	for (NSString *key in criteria) {
-		NSDictionary *typeDicts;
-		NSArray *valueArray;
+		NSDictionary *typeDicts = nil;
+		NSArray *valueArray = nil;
 		// if Artist is a criteria, check (Artist == X OR Album Artist == X)
 		if ([key isEqualToString:@"Artist"]) {
 			typeDicts = [[self tagDictionaries] objectForKey:key];
-			NSMutableArray *artistArray = [typeDicts objectForKey:[[criteria objectForKey:key] lowercaseString]];
-			typeDicts = [[self tagDictionaries] objectForKey:@"Album Artist"];
-			[artistArray addObjectsFromArray:[typeDicts objectForKey:[[criteria objectForKey:key] lowercaseString]]];
-			valueArray = artistArray;
+            NSArray *artists = [typeDicts objectForKey:[[criteria objectForKey:key] lowercaseString]];
+            typeDicts = [[self tagDictionaries] objectForKey:@"Album Artist"];
+            NSArray *albumArtists = [typeDicts objectForKey:[[criteria objectForKey:key] lowercaseString]];
+            valueArray = [artists arrayByAddingObjectsFromArray:albumArtists];
 		} else {
 			typeDicts = [[self tagDictionaries] objectForKey:key];
 			valueArray = [typeDicts objectForKey:[[criteria objectForKey:key] lowercaseString]];
@@ -107,11 +107,11 @@
 	}
 	
 	NSDictionary *tracks = [[self iTunesMusicLibrary] objectForKey:@"Tracks"];
-	NSDictionary *trackInfo;
+	NSDictionary *trackInfo = nil;
 	
-	NSMutableDictionary *tagDict;
-	NSMutableArray *valueArray;
-	NSString *thisValue;
+	NSMutableDictionary *tagDict = [NSMutableDictionary dictionary];
+	NSMutableArray *valueArray = [NSMutableArray array];
+	NSString *thisValue = nil;
 	BOOL groupCompilations = [[NSUserDefaults standardUserDefaults] boolForKey:@"QSiTunesGroupCompilations"];
 	BOOL showPodcasts = NO; //[[NSUserDefaults standardUserDefaults] boolForKey:@"QSiTunesShowPodcasts"];
   
