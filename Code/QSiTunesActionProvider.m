@@ -257,6 +257,14 @@
 		NSDictionary *criteriaDict = nil;
 		NSString *formatString = nil;
 		NSMutableArray *criteria = [NSMutableArray arrayWithCapacity:2];
+        // the location property is missing unless you call `get` on the result
+        // calling `get` on an array this size is very wasteful, so use fileTracks instead
+		SBElementArray *allTracks = [QSiTunesMusic() fileTracks];
+		// pre-fetch artist info
+		NSArray *artists = [allTracks valueForKey:@"artist"];
+		NSArray *albumArtists = [allTracks valueForKey:@"albumArtist"];
+		NSMutableIndexSet *indexes = [NSMutableIndexSet indexSet];
+		BOOL (^artistFilter)(id obj, NSUInteger index, BOOL *stop);
 		BOOL first = YES;
 		for (QSObject *browseResult in [tracks splitObjects]) {
 			browseDict = [browseResult objectForType:QSiTunesBrowserPboardType];
@@ -270,6 +278,21 @@
 					// don't use "Compilations" as a criteria
 					continue;
 				}
+                if ([criteriaKey isEqualToString:@"Artist"]) {
+					// using albumArtist in a predicate is way too slow, so instead…
+					// get indexes for tracks with a matching album artist or artist and move on
+                    NSIndexSet *matches = nil;
+                    NSString *artist = [criteriaDict objectForKey:criteriaKey];
+					artistFilter = ^BOOL(id obj, NSUInteger index, BOOL *stop){
+						return [obj isEqualToString:artist];
+					};
+					matches = [artists indexesOfObjectsWithOptions:NSEnumerationConcurrent passingTest:artistFilter];
+					[indexes addIndexes:matches];
+					matches = [albumArtists indexesOfObjectsWithOptions:NSEnumerationConcurrent passingTest:artistFilter];
+					[indexes addIndexes:matches];
+                    // don't do anything else for artist criteria
+					continue;
+                }
 				if ([criteriaDict objectForKey:criteriaKey]) {
 					[criteria addObject:[criteriaKey lowercaseString]];
 					[criteria addObject:[criteriaDict objectForKey:criteriaKey]];
@@ -278,14 +301,7 @@
 					} else {
 						formatString = [formatString stringByAppendingString:@" AND "];
 					}
-					if ([criteriaKey isEqualToString:@"Artist"]) {
-						// check album artist as well as artist
-						[criteria addObject:@"albumArtist"];
-						[criteria addObject:[criteriaDict objectForKey:criteriaKey]];
-						formatString = [formatString stringByAppendingString:@"(%K == %@ OR %K == %@)"];
-					} else {
-						formatString = [formatString stringByAppendingString:@"%K == %@"];
-					}
+                    formatString = [formatString stringByAppendingString:@"%K == %@"];
 				}
 			}
 			formatString = [formatString stringByAppendingString:@")"];
@@ -294,11 +310,17 @@
 		formatString = [formatStrings componentsJoinedByString:@" OR "];
 		NSPredicate *trackFilter = [NSPredicate predicateWithFormat:formatString argumentArray:criteria];
 		//NSLog(@"playlist filter: %@", [trackFilter predicateFormat]);
-		iTunesLibraryPlaylist *libraryPlaylist = QSiTunesMusic();
 		// TODO see if we can get the results to be in the same order as the objects passed in
-		// every message to this filtered array will be slow
-		// calling `get` here limits the slowness to one operation
-		trackResult = [(SBElementArray *)[[libraryPlaylist tracks] filteredArrayUsingPredicate:trackFilter] get];
+        if ([indexes count]) {
+            // artist was one of the criteria
+            // only filter tracks that had matching artist or album artist
+            trackResult = [[allTracks objectsAtIndexes:indexes] filteredArrayUsingPredicate:trackFilter];
+        } else {
+            // filter all tracks
+            // every message to this filtered array will be slow
+            // calling `get` here limits the slowness to one operation
+            trackResult = [(SBElementArray *)[allTracks filteredArrayUsingPredicate:trackFilter] get];
+        }
 	} else if ([tracks containsType:QSiTunesTrackIDPboardType]) {
 		// from individual track objects
 		NSString *searchFilter = @"persistentID == %@";
