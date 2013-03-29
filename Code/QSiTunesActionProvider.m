@@ -264,7 +264,7 @@
 		NSArray *artists = [allTracks valueForKey:@"artist"];
 		NSArray *albumArtists = [allTracks valueForKey:@"albumArtist"];
 		NSMutableIndexSet *indexes = [NSMutableIndexSet indexSet];
-		BOOL (^artistFilter)(id obj, NSUInteger index, BOOL *stop);
+		BOOL (^artistFilter)(NSString *, NSUInteger, BOOL *);
 		BOOL first = YES;
 		for (QSObject *browseResult in [tracks splitObjects]) {
 			browseDict = [browseResult objectForType:QSiTunesBrowserPboardType];
@@ -283,8 +283,8 @@
 					// get indexes for tracks with a matching album artist or artist and move on
                     NSIndexSet *matches = nil;
                     NSString *artist = [criteriaDict objectForKey:criteriaKey];
-					artistFilter = ^BOOL(id obj, NSUInteger index, BOOL *stop){
-						return [obj isEqualToString:artist];
+					artistFilter = ^BOOL(NSString *thisArtist, NSUInteger index, BOOL *stop){
+						return [thisArtist isEqualToString:artist];
 					};
 					matches = [artists indexesOfObjectsWithOptions:NSEnumerationConcurrent passingTest:artistFilter];
 					[indexes addIndexes:matches];
