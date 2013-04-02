@@ -19,9 +19,9 @@
 	<key>CFBundlePackageType</key>
 	<string>BNDL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>2.3.1</string>
+	<string>2.3.2</string>
 	<key>CFBundleVersion</key>
-	<string>34D</string>
+	<string>34E</string>
 	<key>NSPrincipalClass</key>
 	<string>QSiTunesObjectSource</string>
 	<key>QSActions</key>
@@ -1216,17 +1216,6 @@
 	</dict>
 	<key>QSRequirements</key>
 	<dict>
-		<key>bundles</key>
-		<array>
-			<dict>
-				<key>id</key>
-				<string>com.apple.iTunes</string>
-				<key>name</key>
-				<string>iTunes</string>
-				<key>version</key>
-				<string>11.0</string>
-			</dict>
-		</array>
 		<key>obsoletes</key>
 		<array>
 			<string>com.blacktree.Quicksilver.QSMusicSupport</string>
