@@ -307,19 +307,24 @@
 			formatString = [formatString stringByAppendingString:@")"];
 			[formatStrings addObject:formatString];
 		}
-		formatString = [formatStrings componentsJoinedByString:@" OR "];
-		NSPredicate *trackFilter = [NSPredicate predicateWithFormat:formatString argumentArray:criteria];
-		//NSLog(@"playlist filter: %@", [trackFilter predicateFormat]);
-		// TODO see if we can get the results to be in the same order as the objects passed in
-        if ([indexes count]) {
-            // artist was one of the criteria
-            // only filter tracks that had matching artist or album artist
-            trackResult = [[allTracks objectsAtIndexes:indexes] filteredArrayUsingPredicate:trackFilter];
+        if ([criteria count]) {
+            formatString = [formatStrings componentsJoinedByString:@" OR "];
+            NSPredicate *trackFilter = [NSPredicate predicateWithFormat:formatString argumentArray:criteria];
+            //NSLog(@"playlist filter: %@", [trackFilter predicateFormat]);
+            // TODO see if we can get the results to be in the same order as the objects passed in
+            if ([indexes count]) {
+                // artist was one of the criteria
+                // only filter tracks that had matching artist or album artist
+                trackResult = [[allTracks objectsAtIndexes:indexes] filteredArrayUsingPredicate:trackFilter];
+            } else {
+                // filter all tracks
+                // every message to this filtered array will be slow
+                // calling `get` here limits the slowness to one operation
+                trackResult = [(SBElementArray *)[allTracks filteredArrayUsingPredicate:trackFilter] get];
+            }
         } else {
-            // filter all tracks
-            // every message to this filtered array will be slow
-            // calling `get` here limits the slowness to one operation
-            trackResult = [(SBElementArray *)[allTracks filteredArrayUsingPredicate:trackFilter] get];
+            // artist was the only criteria - no further filtering
+            trackResult = [allTracks objectsAtIndexes:indexes];
         }
 	} else if ([tracks containsType:QSiTunesTrackIDPboardType]) {
 		// from individual track objects
