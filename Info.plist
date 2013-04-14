@@ -19,9 +19,9 @@
 	<key>CFBundlePackageType</key>
 	<string>BNDL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>2.3.2</string>
+	<string>2.3.3</string>
 	<key>CFBundleVersion</key>
-	<string>34E</string>
+	<string>34F</string>
 	<key>NSPrincipalClass</key>
 	<string>QSiTunesObjectSource</string>
 	<key>QSActions</key>
