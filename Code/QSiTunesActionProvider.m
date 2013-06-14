@@ -110,9 +110,9 @@
             return;
         }
 	}
-	// filter out PDFs and (optionally) videos
+	// filter out booklets, iTunes LP, and (optionally) videos
 	BOOL skipVideos = ![[NSUserDefaults standardUserDefaults] boolForKey:@"QSiTunesIncludeVideos"];
-	NSString *filterString = [NSString stringWithFormat:@"kind != '%@'", QSiTunesBookletKind];
+	NSString *filterString = [NSString stringWithFormat:@"kind != '%@' AND kind != '%@'", QSiTunesBookletKind, QSiTunesLPKind];
 	if (skipVideos) {
 		filterString = [filterString stringByAppendingFormat:@" AND videoKind == %i", iTunesEVdKNone];
 	}
