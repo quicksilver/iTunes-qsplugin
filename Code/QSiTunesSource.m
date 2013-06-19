@@ -860,6 +860,12 @@
 	}
 }
 
+- (BOOL)entryCanBeIndexed:(NSDictionary *)theEntry
+{
+    // make sure controls are rescanned on every launch, not read from disk
+    return NO;
+}
+
 - (NSArray *)objectsForEntry:(NSDictionary *)theEntry
 {
 	NSMutableArray *controlObjects = [NSMutableArray arrayWithCapacity:1];
