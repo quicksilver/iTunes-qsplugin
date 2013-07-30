@@ -15,6 +15,7 @@
 }
 - (void)dealloc {
 	[iTunes release];
+    [library release];
 	[super dealloc];
 }
 - (id)init {
@@ -32,7 +33,7 @@
 		
 		//      [(QSObjectCell *)theCell setImagePosition:NSImageBelow];
 		
-		library = [[QSiTunesDatabase alloc] init];
+		library = [[QSiTunesDatabase sharedInstance] retain];
 		
 		recentTracks = nil;
 		if ([[NSUserDefaults standardUserDefaults] boolForKey:@"QSiTunesMonitorTracks"]) {

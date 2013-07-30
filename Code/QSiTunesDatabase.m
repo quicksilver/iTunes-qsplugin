@@ -13,6 +13,13 @@
 
 @implementation QSiTunesDatabase
 
++ (id)sharedInstance
+{
+    static id _sharedInstance;
+    if (!_sharedInstance) _sharedInstance = [[self allocWithZone:[self zone]] init];
+    return _sharedInstance;
+}
+
 - (id)init {
 	if (self = [super init]) {
 		//[[QSVoyeur sharedInstance] addPathToQueue:[self libraryLocation]];
