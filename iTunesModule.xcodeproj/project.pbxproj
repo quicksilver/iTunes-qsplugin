@@ -11,6 +11,7 @@
 		D404BE081472C83200B570AF /* ScriptingBridge.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D404BE071472C83200B570AF /* ScriptingBridge.framework */; settings = {ATTRIBUTES = (Required, ); }; };
 		D41DBC4F1520C11600AB06B1 /* EqualizerIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = D41DBC4E1520C11600AB06B1 /* EqualizerIcon.png */; };
 		D4239676148564800072DE1F /* QSiTunesPrefPane.xib in Resources */ = {isa = PBXBuildFile; fileRef = D4239675148564800072DE1F /* QSiTunesPrefPane.xib */; };
+		D431C59B17A7F9D60005D5F8 /* QSiTunesSelectionSource.m in Sources */ = {isa = PBXBuildFile; fileRef = D431C59A17A7F9D60005D5F8 /* QSiTunesSelectionSource.m */; };
 		D43DDF4F1472E35D00EB2E9D /* iTunes.app in Resources */ = {isa = PBXBuildFile; fileRef = D43DDF4E1472E35D00EB2E9D /* iTunes.app */; };
 		D43DDF551472E60600EB2E9D /* iTunes.app in Sources */ = {isa = PBXBuildFile; fileRef = D43DDF4E1472E35D00EB2E9D /* iTunes.app */; };
 		D4CE66871489618C009D2494 /* iTunesStop.icns in Resources */ = {isa = PBXBuildFile; fileRef = D4CE66811489618C009D2494 /* iTunesStop.icns */; };
@@ -65,6 +66,8 @@
 		D404BE071472C83200B570AF /* ScriptingBridge.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ScriptingBridge.framework; path = System/Library/Frameworks/ScriptingBridge.framework; sourceTree = SDKROOT; };
 		D41DBC4E1520C11600AB06B1 /* EqualizerIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = EqualizerIcon.png; sourceTree = "<group>"; };
 		D4239675148564800072DE1F /* QSiTunesPrefPane.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QSiTunesPrefPane.xib; sourceTree = "<group>"; };
+		D431C59917A7F9D60005D5F8 /* QSiTunesSelectionSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QSiTunesSelectionSource.h; sourceTree = "<group>"; };
+		D431C59A17A7F9D60005D5F8 /* QSiTunesSelectionSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QSiTunesSelectionSource.m; sourceTree = "<group>"; };
 		D43DDF4E1472E35D00EB2E9D /* iTunes.app */ = {isa = PBXFileReference; lastKnownFileType = wrapper.application; name = iTunes.app; path = /Applications/iTunes.app; sourceTree = "<absolute>"; };
 		D4A4664F15A1E99B001A5A4E /* Common.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Common.xcconfig; sourceTree = "<group>"; };
 		D4A4665015A1E99B001A5A4E /* Debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Debug.xcconfig; sourceTree = "<group>"; };
@@ -185,6 +188,8 @@
 				E1DAFAD507007BA400FAFE2A /* QSiTunesPrefPane.m */,
 				E1DAFAD607007BA400FAFE2A /* QSiTunesSource.h */,
 				E1DAFAD707007BA400FAFE2A /* QSiTunesSource.m */,
+				D431C59917A7F9D60005D5F8 /* QSiTunesSelectionSource.h */,
+				D431C59A17A7F9D60005D5F8 /* QSiTunesSelectionSource.m */,
 			);
 			path = Code;
 			sourceTree = "<group>";
@@ -334,6 +339,7 @@
 				D43DDF551472E60600EB2E9D /* iTunes.app in Sources */,
 				E1DAFAF707007BA400FAFE2A /* QSiTunesPrefPane.m in Sources */,
 				E1DAFAF907007BA400FAFE2A /* QSiTunesSource.m in Sources */,
+				D431C59B17A7F9D60005D5F8 /* QSiTunesSelectionSource.m in Sources */,
 				E1B9F7EA07A2B18600B4017B /* QSiTunesDatabase.m in Sources */,
 				E1B9F7F007A2B21A00B4017B /* QSiTunesActionProvider.m in Sources */,
 				E1B9FA1207A2C76300B4017B /* QSiTunesBridge.m in Sources */,

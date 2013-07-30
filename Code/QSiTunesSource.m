@@ -146,28 +146,6 @@
 		[newObject setIdentifier:[thisPlaylist objectForKey:@"Playlist Persistent ID"]];
 		[newObject setPrimaryType:QSiTunesPlaylistIDPboardType];
 		return newObject;
-	} else if ([proxy isEqualToString:@"QSSelectedPlaylistProxy"]) {
-		iTunesBrowserWindow *window = [[iTunes browserWindows] objectAtIndex:0];
-		NSString *name = [[window view] name];
-		NSDictionary *thisPlaylist = [library playlistInfoForName:name];
-		
-		QSObject *newObject = [QSObject objectWithName:name];
-		[newObject setObject:[thisPlaylist objectForKey:@"Playlist ID"] forType:QSiTunesPlaylistIDPboardType];
-		[newObject setIdentifier:[thisPlaylist objectForKey:@"Playlist Persistent ID"]];
-		[newObject setPrimaryType:QSiTunesPlaylistIDPboardType];
-		return newObject;
-	} else if ([proxy isEqualToString:@"QSCurrentSelectionProxy"]) {
-		NSMutableArray *objects = [NSMutableArray array];
-		NSArray *tracks = [[iTunes selection] get];
-		NSString *trackID = nil;
-		// you have to iterate through this - valueForKey/arrayByPerformingSelector won't work
-		for (iTunesFileTrack *track in tracks) {
-			trackID = [NSString stringWithFormat:@"%ld", (long)[track databaseID]];
-			[objects addObject:[library trackObjectForInfo:[self trackInfoForID:trackID] inPlaylist:nil]];
-		}
-		if ([objects count]) {
-			return [QSObject objectByMergingObjects:objects];
-		}
 	}
 	return nil;
 }
