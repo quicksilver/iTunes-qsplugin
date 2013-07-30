@@ -8,7 +8,6 @@
 	iTunesApplication *iTunes;
 }
 - (NSAttributedString *)starsForRating:(NSUInteger)rating;
-- (QSObject *)trackObjectForInfo:(NSDictionary *)trackInfo inPlaylist:(NSString *)playlist;
 - (NSImage *)imageForTrack:(NSDictionary *)trackDict;
 - (NSArray *)childrenForObject:(QSObject *)object;
 - (NSArray *)childrenForBrowseCriteria:(NSDictionary *)browseDict;

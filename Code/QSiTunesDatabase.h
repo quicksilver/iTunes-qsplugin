@@ -36,4 +36,5 @@
 
 -(BOOL)isLoaded;
 - (NSString *)nextSortForCriteria:(NSString *)sortTag;
+- (QSObject *)trackObjectForInfo:(NSDictionary *)trackInfo inPlaylist:(NSString *)playlist;
 @end

@@ -118,7 +118,7 @@
 		if (upper >= 1) {
 			NSUInteger trackIndex = random() % upper;
 			NSDictionary *randomTrack = [allTracks objectAtIndex:trackIndex];
-			return [self trackObjectForInfo:randomTrack inPlaylist:nil];
+			return [library trackObjectForInfo:randomTrack inPlaylist:nil];
 		}
 	}
 	// the rest of these require iTunes to be running
@@ -126,7 +126,7 @@
 		return nil;
 	}
 	if ([proxy isEqualToString:@"QSCurrentTrackProxy"]) {
-		id object = [self trackObjectForInfo:[self currentTrackInfo]
+		id object = [library trackObjectForInfo:[self currentTrackInfo]
 								inPlaylist:nil];
 		//NSLog(@"object %@", object);
 		return object;
@@ -163,7 +163,7 @@
 		// you have to iterate through this - valueForKey/arrayByPerformingSelector won't work
 		for (iTunesFileTrack *track in tracks) {
 			trackID = [NSString stringWithFormat:@"%ld", (long)[track databaseID]];
-			[objects addObject:[self trackObjectForInfo:[self trackInfoForID:trackID] inPlaylist:nil]];
+			[objects addObject:[library trackObjectForInfo:[self trackInfoForID:trackID] inPlaylist:nil]];
 		}
 		if ([objects count]) {
 			return [QSObject objectByMergingObjects:objects];
@@ -249,7 +249,7 @@
 		}
 	}
 	
-	QSObject *track = [self trackObjectForInfo:trackInfo inPlaylist:nil];
+	QSObject *track = [library trackObjectForInfo:trackInfo inPlaylist:nil];
 	
 	[[NSNotificationCenter defaultCenter] postNotificationName:@"QSEventNotification" object:@"QSiTunesTrackChangedEvent" userInfo:[NSDictionary dictionaryWithObject:track forKey:@"object"]];
 	
@@ -326,7 +326,7 @@
 	for (NSDictionary *trackInfo in recentTracks) {
 //		currentTrack = [self trackInfoForID:trackID];
 		if (trackInfo)
-			[objects addObject:[self trackObjectForInfo:trackInfo inPlaylist:nil]];
+			[objects addObject:[library trackObjectForInfo:trackInfo inPlaylist:nil]];
 	}
 	return objects; 	
 }
@@ -588,31 +588,6 @@
 	return nil;  
 }
 
-- (QSObject *)trackObjectForInfo:(NSDictionary *)trackInfo inPlaylist:(NSString *)playlist {
-	if (!trackInfo) return nil;
-	QSObject *newObject = [QSObject makeObjectWithIdentifier:[trackInfo objectForKey:@"Persistent ID"]];
-	[newObject setName:[trackInfo objectForKey:@"Name"]];
-	if ([trackInfo valueForKey:@"Has Video"]) {
-		// set a default label
-		[newObject setLabel:[NSString stringWithFormat:@"%@ (Video)", [newObject name]]];
-		// override with more specific info (if found)
-		NSArray *videoKinds = [NSArray arrayWithObjects:@"Music Video", @"Movie", @"TV Show", nil];
-		for (NSString *vkind in videoKinds) {
-			if ([trackInfo valueForKey:vkind]) {
-				[newObject setLabel:[NSString stringWithFormat:@"%@ (%@)", [newObject name], vkind]];
-			}
-		}
-	}
-	[newObject setObject:trackInfo forType:QSiTunesTrackIDPboardType];
-	if (playlist) [newObject setObject:playlist forMeta:@"QSiTunesSourcePlaylist"];
-	
-	NSString *path = [trackInfo objectForKey:@"Location"];
-	if (path) path = [[NSURL URLWithString:path] path];
-	if (path) [newObject setObject:[NSArray arrayWithObject:path] forType:NSFilenamesPboardType];
-	[newObject setPrimaryType:QSiTunesTrackIDPboardType];
-	return newObject;
-}
-
 - (NSArray *)iTunesGetChildren
 {
 	// this repeats the list created in objectsForEntry, but executes MUCH faster than re-running that method
@@ -701,7 +676,7 @@
 		
 		NSArray *tracks = [library trackInfoForIDs:trackIDs];
 		for (NSDictionary *currentTrack in tracks) {
-			id object = [self trackObjectForInfo:currentTrack inPlaylist:[playlistDict objectForKey:@"Playlist Persistent ID"]];
+			id object = [library trackObjectForInfo:currentTrack inPlaylist:[playlistDict objectForKey:@"Playlist Persistent ID"]];
 			if (object) [objects addObject:object];
 			else NSLog(@"Ignoring Track %@", currentTrack);
 		}
@@ -751,7 +726,7 @@
 			}
 			NSArray *sortedTracks = [trackArray sortedArrayUsingDescriptors:descriptors];
 			for (NSDictionary *trackInfo in sortedTracks) {
-				[objects addObject:[self trackObjectForInfo:trackInfo inPlaylist:nil]];
+				[objects addObject:[library trackObjectForInfo:trackInfo inPlaylist:nil]];
 			}
 			
 			return objects;
