@@ -9,10 +9,5 @@
 @class iTunesApplication;
 
 @interface QSiTunesSelectionSource : QSObjectSource
-{
-    iTunesApplication *iTunes;
-}
-
 @end
 // TODO add support for AirPlay devices
-// TODO improve "Current Selection" - have it grab the playlist if no track is selected

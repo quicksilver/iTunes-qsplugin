@@ -9,17 +9,6 @@
 #import "QSiTunesActionProvider.h"
 
 @implementation QSiTunesActionProvider
-- (id)init {
-	if (self = [super init]) {
-		iTunes = [QSiTunes() retain];
-	}
-	return self;
-}
-
-- (void)dealloc {
-    [iTunes release];
-    [super dealloc];
-}
 
 /*
  - (QSObject *)appendItem:(QSObject *)dObject { 
@@ -59,7 +48,7 @@
 	
 	if (append) {
 		iTunesPlaylist *qs = [[QSiTunesLibrary() userPlaylists] objectWithName:QSiTunesDynamicPlaylist];
-		[iTunes add:newTracks to:qs];
+		[QSiTunes() add:newTracks to:qs];
 	} else {
 		NSString *playlist = [dObject objectForMeta:@"QSiTunesSourcePlaylist"];
 		if (playlist) {
@@ -79,7 +68,7 @@
 				// for a single track, just play
 				if ([[trackResult lastObject] videoKind] != iTunesEVdKNone) {
 					// give iTunes focus when playing a video
-					[iTunes activate];
+					[QSiTunes() activate];
 				}
 				[[trackResult lastObject] playOnce:YES];
 			} else {
@@ -101,7 +90,7 @@
 	} else {
 		// create the dynamic playlist
         @try {
-            qs = [[[iTunes classForScriptingClass:@"playlist"] alloc] init];
+            qs = [[[QSiTunes() classForScriptingClass:@"playlist"] alloc] init];
             [[library userPlaylists] insertObject:qs atIndex:0];
             [qs setName:QSiTunesDynamicPlaylist];
         }
@@ -129,7 +118,7 @@
 		}
 	}
 	// play the resulting tracks
-	[iTunes add:[songsOnly valueForKey:@"location"] to:qs];
+	[QSiTunes() add:[songsOnly valueForKey:@"location"] to:qs];
 	[qs playOnce:YES];
 }
 
@@ -149,14 +138,14 @@
 	// get the playlist
 	NSArray *playlistResult = [[QSiTunesLibrary() playlists] filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"persistentID == %@", [iObject identifier]]];
 	if ([playlistResult count] > 0) {
-		[iTunes add:newTracks to:[playlistResult lastObject]];
+		[QSiTunes() add:newTracks to:[playlistResult lastObject]];
 	}
 	return nil;
 }
 
 - (QSObject *)revealItem:(QSObject *)dObject
 {
-	[iTunes activate];
+	[QSiTunes() activate];
 	if ([dObject containsType:QSiTunesPlaylistIDPboardType]) {
 		[[self playlistObjectFromQSObject:dObject] reveal];
 	} else if ([dObject containsType:QSiTunesTrackIDPboardType]) {
@@ -214,9 +203,9 @@
 - (QSObject *)selectEQPreset:(QSObject *)dObject
 {
 	iTunesEQPreset *eq = [dObject objectForType:QSiTunesEQPresetType];
-	if ([iTunes isRunning] && ![[iTunes currentEQPreset] isEqual:eq]) {
-        [iTunes setEQEnabled:YES];
-		[iTunes setCurrentEQPreset:eq];
+	if ([QSiTunes() isRunning] && ![[QSiTunes() currentEQPreset] isEqual:eq]) {
+        [QSiTunes() setEQEnabled:YES];
+		[QSiTunes() setCurrentEQPreset:eq];
 	}
 	return nil;
 }
@@ -364,70 +353,58 @@
 
 @implementation QSiTunesControlProvider
 
-- (id)init {
-	if (self = [super init]) {
-		iTunes = [QSiTunes() retain];
-	}
-	return self;
-}
-
-- (void)dealloc {
-    [iTunes release];
-    [super dealloc];
-}
-
 - (void)play
 {
-    if ([iTunes respondsToSelector:@selector(playOnce:)]) {
-        [iTunes playOnce:YES];
-    } else if ([iTunes playerState] != iTunesEPlSPlaying) {
-        [iTunes playpause];
+    if ([QSiTunes() respondsToSelector:@selector(playOnce:)]) {
+        [QSiTunes() playOnce:YES];
+    } else if ([QSiTunes() playerState] != iTunesEPlSPlaying) {
+        [QSiTunes() playpause];
     }
 }
 
 - (void)pause
 {
-	[iTunes pause];
+	[QSiTunes() pause];
 }
 
 - (void)togglePlayPause
 {
-	[iTunes playpause];
+	[QSiTunes() playpause];
 }
 
 - (void)stop
 {
-	[iTunes stop];
+	[QSiTunes() stop];
 }
 
 - (void)next
 {
-	[iTunes nextTrack];
+	[QSiTunes() nextTrack];
 }
 
 - (void)previous
 {
-	[iTunes backTrack];
+	[QSiTunes() backTrack];
 }
 
 - (void)volumeIncrease
 {
-	[iTunes setSoundVolume:[iTunes soundVolume] + 5];
+	[QSiTunes() setSoundVolume:[QSiTunes() soundVolume] + 5];
 }
 
 - (void)volumeDecrease
 {
-	[iTunes setSoundVolume:[iTunes soundVolume] - 5];
+	[QSiTunes() setSoundVolume:[QSiTunes() soundVolume] - 5];
 }
 
 - (void)volumeMute
 {
-	[iTunes setMute:![iTunes mute]];
+	[QSiTunes() setMute:![QSiTunes() mute]];
 }
 
 - (void)ratingIncrease
 {
-	iTunesTrack *track = [iTunes currentTrack];
+	iTunesTrack *track = [QSiTunes() currentTrack];
 	if ([track rating] < 100) {
 		[track setRating:[track rating] + 20];
 	}
@@ -435,7 +412,7 @@
 
 - (void)ratingDecrease
 {
-	iTunesTrack *track = [iTunes currentTrack];
+	iTunesTrack *track = [QSiTunes() currentTrack];
 	if ([track rating] > 0) {
 		[track setRating:[track rating] - 20];
 	}
@@ -443,37 +420,37 @@
 
 - (void)rating0
 {
-	[[iTunes currentTrack] setRating:0];
+	[[QSiTunes() currentTrack] setRating:0];
 }
 
 - (void)rating1
 {
-	[[iTunes currentTrack] setRating:20];
+	[[QSiTunes() currentTrack] setRating:20];
 }
 
 - (void)rating2
 {
-	[[iTunes currentTrack] setRating:40];
+	[[QSiTunes() currentTrack] setRating:40];
 }
 
 - (void)rating3
 {
-	[[iTunes currentTrack] setRating:60];
+	[[QSiTunes() currentTrack] setRating:60];
 }
 
 - (void)rating4
 {
-	[[iTunes currentTrack] setRating:80];
+	[[QSiTunes() currentTrack] setRating:80];
 }
 
 - (void)rating5
 {
-	[[iTunes currentTrack] setRating:100];
+	[[QSiTunes() currentTrack] setRating:100];
 }
 
 - (void)equalizerToggle
 {
-    [iTunes setEQEnabled:![iTunes EQEnabled]];
+    [QSiTunes() setEQEnabled:![QSiTunes() EQEnabled]];
 }
 
 @end

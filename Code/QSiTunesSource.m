@@ -14,10 +14,7 @@
 		[image setName:name];
 	}
 }
-- (void)dealloc {
-	[iTunes release];
-	[super dealloc];
-}
+
 - (id)init {
 	if (self = [super init]) {
 		//[[QSVoyeur sharedInstance] addPathToQueue:[self libraryLocation]];
@@ -47,8 +44,7 @@
 			[[NSDistributedNotificationCenter defaultCenter] addObserver:self selector:@selector(iTunesStateChanged:) name:@"com.apple.iTunes.playerInfo" object:nil];
 			//	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(quitMonitor:) name:NSApplicationWillTerminateNotification object:nil];
 		}
-		iTunes = [QSiTunes() retain];
-        [iTunes setDelegate:self];
+        [QSiTunes() setDelegate:self];
 	}
 	return self;
 }
@@ -120,7 +116,7 @@
 		}
 	}
 	// the rest of these require iTunes to be running
-	if (![iTunes isRunning]) {
+	if (![QSiTunes() isRunning]) {
 		return nil;
 	}
 	if ([proxy isEqualToString:@"QSCurrentTrackProxy"]) {
@@ -136,7 +132,7 @@
 		id newObject = [self browserObjectForTrack:[self currentTrackInfo] andCriteria:@"Artist"];
 		return newObject;
 	} else if ([proxy isEqualToString:@"QSCurrentPlaylistProxy"]) {
-		NSString *name = [[iTunes currentPlaylist] name];
+		NSString *name = [[QSiTunes() currentPlaylist] name];
 		NSDictionary *thisPlaylist = [[QSiTunesDatabase sharedInstance] playlistInfoForName:name];
 		
 		QSObject *newObject = [QSObject objectWithName:name];
@@ -167,7 +163,7 @@
 	}
 	if (!trackInfo) {
 		// fall back to querying iTunes (if it's running)
-		if ([iTunes isRunning]) {
+		if ([QSiTunes() isRunning]) {
 			iTunesLibraryPlaylist *libraryPlaylist = QSiTunesMusic();
 			NSArray *trackResult = [[libraryPlaylist tracks] filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"databaseID == %@", trackID]];
 			if ([trackResult count] > 0) {
@@ -201,14 +197,14 @@
 }
 
 - (NSString *)currentTrackID {
-	return [NSString stringWithFormat:@"%ld", (long)[[iTunes currentTrack] databaseID]];
+	return [NSString stringWithFormat:@"%ld", (long)[[QSiTunes() currentTrack] databaseID]];
 }
 
 - (void)showCurrentTrackNotification {
-	if ([iTunes isRunning]) {
+	if ([QSiTunes() isRunning]) {
         NSMutableDictionary *trackInfo = [self currentTrackInfo];
         // if rating has changed recently, it might not be in the database yet
-        NSNumber *rating = [NSNumber numberWithInteger:[[iTunes currentTrack] rating]];
+        NSNumber *rating = [NSNumber numberWithInteger:[[QSiTunes() currentTrack] rating]];
         [trackInfo setObject:rating forKey:@"Rating"];
 		[self showNotificationForTrack:0 info:trackInfo];
 	} else {
@@ -241,7 +237,7 @@
 		
 		//NSLog(@"%@ %@ %@", name, artist, album);
 		if ([trackInfo objectForKey:@"Total Time"] == nil && !album && !artist && [location hasPrefix:@"http"]) {
-			NSString *streamTitle = [iTunes currentStreamTitle];
+			NSString *streamTitle = [QSiTunes() currentStreamTitle];
 			
 			if (streamTitle) {
 				artist = name;
@@ -266,7 +262,7 @@
 		icon = [self imageForTrack:trackInfo];
 		//NSLog(@"info : %@", trackInfo);
 		if (!icon && ![trackInfo objectForKey:@"Location"]) {
-			iTunesTrack *currentTrack = [iTunes currentTrack];
+			iTunesTrack *currentTrack = [QSiTunes() currentTrack];
 			NSData *data = [[[currentTrack artworks] objectAtIndex:0] rawData];
 			icon = [[[NSImage alloc] initWithData:data] autorelease];
 		}
@@ -504,8 +500,8 @@
             NSString *path = [locationURL path];
             BOOL shadowsAndGloss = ![[NSUserDefaults standardUserDefaults] boolForKey:@"QSiTunesPlainArtwork"];
             icon = [NSImage imageWithPreviewOfFileAtPath:path ofSize:iconSize asIcon:shadowsAndGloss];
-        } else if ([iTunes isRunning] && [iTunes currentStreamURL]) {
-            NSURL *artworkURL = [NSURL URLWithString:[iTunes currentStreamURL]];
+        } else if ([QSiTunes() isRunning] && [QSiTunes() currentStreamURL]) {
+            NSURL *artworkURL = [NSURL URLWithString:[QSiTunes() currentStreamURL]];
             icon = [[NSImage alloc] initWithContentsOfURL:artworkURL];
             [icon autorelease];
         }
