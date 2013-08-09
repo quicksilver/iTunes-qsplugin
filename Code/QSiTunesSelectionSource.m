@@ -19,7 +19,6 @@
     self = [super init];
     if (self) {
         iTunes = [QSiTunes() retain];
-        library = [[QSiTunesDatabase sharedInstance] retain];
     }
     return self;
 }
@@ -27,7 +26,6 @@
 - (void)dealloc
 {
     [iTunes release];
-    [library release];
     [super dealloc];
 }
 
@@ -51,10 +49,12 @@
         NSMutableArray *objects = [NSMutableArray array];
         NSArray *tracks = [[iTunes selection] get];
         NSString *trackID = nil;
+        NSDictionary *trackInfo = nil;
         // you have to iterate through this - valueForKey/arrayByPerformingSelector won't work
         for (iTunesFileTrack *track in tracks) {
             trackID = [NSString stringWithFormat:@"%ld", (long)[track databaseID]];
-            [objects addObject:[library trackObjectForInfo:[library trackInfoForID:trackID] inPlaylist:nil]];
+            trackInfo = [[QSiTunesDatabase sharedInstance] trackInfoForID:trackID];
+            [objects addObject:[[QSiTunesDatabase sharedInstance] trackObjectForInfo:trackInfo inPlaylist:nil]];
         }
         if ([objects count]) {
             return [QSObject objectByMergingObjects:objects];
@@ -66,7 +66,7 @@
         // see if the seleciton is a playlist
         iTunesBrowserWindow *window = [[iTunes browserWindows] objectAtIndex:0];
         NSString *name = [[window view] name];
-        NSDictionary *thisPlaylist = [library playlistInfoForName:name];
+        NSDictionary *thisPlaylist = [[QSiTunesDatabase sharedInstance] playlistInfoForName:name];
         if (thisPlaylist) {
             QSObject *newObject = [QSObject objectWithName:name];
             [newObject setObject:[thisPlaylist objectForKey:@"Playlist ID"] forType:QSiTunesPlaylistIDPboardType];

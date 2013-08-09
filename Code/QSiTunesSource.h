@@ -1,10 +1,8 @@
 #import "QSiTunesDefines.h"
-#import "QSiTunesDatabase.h"
 
 @interface QSiTunesObjectSource : QSObjectSource <SBApplicationDelegate> {
      NSMutableArray *recentTracks;
 	BOOL showArtwork;
-	QSiTunesDatabase *library;
 	iTunesApplication *iTunes;
 }
 - (NSAttributedString *)starsForRating:(NSUInteger)rating;

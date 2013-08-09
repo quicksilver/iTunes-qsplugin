@@ -7,12 +7,10 @@
 //
 
 @class iTunesApplication;
-@class QSiTunesDatabase;
 
 @interface QSiTunesSelectionSource : QSObjectSource
 {
     iTunesApplication *iTunes;
-    QSiTunesDatabase *library;
 }
 
 @end
