@@ -13,6 +13,13 @@
 
 @implementation QSiTunesDatabase
 
++ (id)sharedInstance
+{
+    static id _sharedInstance;
+    if (!_sharedInstance) _sharedInstance = [[self allocWithZone:[self zone]] init];
+    return _sharedInstance;
+}
+
 - (id)init {
 	if (self = [super init]) {
 		//[[QSVoyeur sharedInstance] addPathToQueue:[self libraryLocation]];
@@ -281,6 +288,31 @@
 	
 	if (i == NSNotFound) return nil;
 	return [playlists objectAtIndex:i];
+}
+
+- (QSObject *)trackObjectForInfo:(NSDictionary *)trackInfo inPlaylist:(NSString *)playlist {
+	if (!trackInfo) return nil;
+	QSObject *newObject = [QSObject makeObjectWithIdentifier:[trackInfo objectForKey:@"Persistent ID"]];
+	[newObject setName:[trackInfo objectForKey:@"Name"]];
+	if ([trackInfo valueForKey:@"Has Video"]) {
+		// set a default label
+		[newObject setLabel:[NSString stringWithFormat:@"%@ (Video)", [newObject name]]];
+		// override with more specific info (if found)
+		NSArray *videoKinds = [NSArray arrayWithObjects:@"Music Video", @"Movie", @"TV Show", nil];
+		for (NSString *vkind in videoKinds) {
+			if ([trackInfo valueForKey:vkind]) {
+				[newObject setLabel:[NSString stringWithFormat:@"%@ (%@)", [newObject name], vkind]];
+			}
+		}
+	}
+	[newObject setObject:trackInfo forType:QSiTunesTrackIDPboardType];
+	if (playlist) [newObject setObject:playlist forMeta:@"QSiTunesSourcePlaylist"];
+	
+	NSString *path = [trackInfo objectForKey:@"Location"];
+	if (path) path = [[NSURL URLWithString:path] path];
+	if (path) [newObject setObject:[NSArray arrayWithObject:path] forType:NSFilenamesPboardType];
+	[newObject setPrimaryType:QSiTunesTrackIDPboardType];
+	return newObject;
 }
 
 @end

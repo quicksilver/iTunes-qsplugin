@@ -19,9 +19,9 @@
 	<key>CFBundlePackageType</key>
 	<string>BNDL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>2.3.4</string>
+	<string>2.4.0</string>
 	<key>CFBundleVersion</key>
-	<string>350</string>
+	<string>352</string>
 	<key>NSPrincipalClass</key>
 	<string>QSiTunesObjectSource</string>
 	<key>QSActions</key>
@@ -1123,20 +1123,6 @@
 					<string>com.apple.itunes.playlist</string>
 				</array>
 			</dict>
-			<key>QSCurrentSelectionProxy</key>
-			<dict>
-				<key>icon</key>
-				<string>ProxyIcon</string>
-				<key>name</key>
-				<string>Current iTunes Selection</string>
-				<key>providerClass</key>
-				<string>QSiTunesObjectSource</string>
-				<key>types</key>
-				<array>
-					<string>com.apple.itunes.track</string>
-					<string>NSFilenamesPboardType</string>
-				</array>
-			</dict>
 			<key>QSCurrentTrackProxy</key>
 			<dict>
 				<key>icon</key>
@@ -1172,9 +1158,22 @@
 				<key>name</key>
 				<string>Selected Playlist</string>
 				<key>providerClass</key>
-				<string>QSiTunesObjectSource</string>
+				<string>QSiTunesSelectionSource</string>
 				<key>types</key>
 				<array>
+					<string>com.apple.itunes.playlist</string>
+				</array>
+			</dict>
+			<key>com.apple.iTunes</key>
+			<dict>
+				<key>name</key>
+				<string>Current iTunes Selection</string>
+				<key>providerClass</key>
+				<string>QSiTunesSelectionSource</string>
+				<key>types</key>
+				<array>
+					<string>com.apple.itunes.track</string>
+					<string>NSFilenamesPboardType</string>
 					<string>com.apple.itunes.playlist</string>
 				</array>
 			</dict>
