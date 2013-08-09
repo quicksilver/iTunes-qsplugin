@@ -3,6 +3,7 @@
 @interface QSiTunesObjectSource : QSObjectSource <SBApplicationDelegate> {
      NSMutableArray *recentTracks;
 	BOOL showArtwork;
+	iTunesApplication *iTunes;
 }
 - (NSAttributedString *)starsForRating:(NSUInteger)rating;
 - (NSImage *)imageForTrack:(NSDictionary *)trackDict;
