@@ -183,7 +183,9 @@
 				[trackInfo setObject:[NSString stringWithFormat:@"%d", (int)[track albumRating]] forKey:@"Album Rating"];
 				[trackInfo setObject:[track kind] forKey:@"Kind"];
 				[trackInfo setObject:[NSNumber numberWithInteger:1] forKey:@"Artwork Count"];
-				[trackInfo setObject:[track location] forKey:@"Location"];
+                if ([track respondsToSelector:@selector(location)]) {
+                    [trackInfo setObject:[track location] forKey:@"Location"];
+                }
 				[trackInfo setObject:[NSString stringWithFormat:@"%d", (int)[track playedCount]] forKey:@"Play Count"];
 				[trackInfo setObject:[track playedDate] forKey:@"Play Date"];
 				[trackInfo setObject:[NSString stringWithFormat:@"%d", (int)[track skippedCount]] forKey:@"Skip Count"];
