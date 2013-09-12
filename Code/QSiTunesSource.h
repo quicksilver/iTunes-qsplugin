@@ -2,7 +2,6 @@
 
 @interface QSiTunesObjectSource : QSObjectSource <SBApplicationDelegate> {
      NSMutableArray *recentTracks;
-	BOOL showArtwork;
 	iTunesApplication *iTunes;
 }
 - (NSAttributedString *)starsForRating:(NSUInteger)rating;

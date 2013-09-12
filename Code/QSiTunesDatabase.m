@@ -13,7 +13,7 @@
 
 @implementation QSiTunesDatabase
 
-+ (id)sharedInstance
++ (instancetype)sharedInstance
 {
     static id _sharedInstance;
     if (!_sharedInstance) _sharedInstance = [[self allocWithZone:[self zone]] init];

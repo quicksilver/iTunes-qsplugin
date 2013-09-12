@@ -14,7 +14,7 @@
 
 }
 
-+ (id)sharedInstance;
++ (instancetype)sharedInstance;
 -(NSDictionary *)trackInfoForID:(NSString *)theID;
 -(NSArray *)trackInfoForIDs:(NSArray *)theIDs;
 - (NSDictionary *)iTunesMusicLibrary;
