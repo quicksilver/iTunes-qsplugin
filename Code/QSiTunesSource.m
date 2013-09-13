@@ -236,7 +236,7 @@
 		NSMutableArray *array = [NSMutableArray array];
 		if (artist) [array addObject:artist];
 		if (album) [array addObject:album];
-		NSString *text = [array componentsJoinedByString:@"\r"];
+		NSString *text = [array componentsJoinedByString:@"\n"];
 
 		
 		NSImage *icon = nil;
