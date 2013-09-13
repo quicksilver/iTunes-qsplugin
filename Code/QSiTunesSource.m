@@ -525,7 +525,8 @@
 		NSDictionary *info = [[QSiTunesDatabase sharedInstance] playlistInfoForID:[object objectForType:QSiTunesPlaylistIDPboardType]];
 		NSUInteger count = [(NSArray *)[info objectForKey:@"Playlist Items"] count];
 		if (count) {
-			details = [NSString stringWithFormat:@"%d track%@", (int)count, ESS(count)];
+            NSString *ess = (count == 1) ? @"" : @"s";
+			details = [NSString stringWithFormat:@"%d track%@", (int)count, ess];
 			return details;
 		}
 	} else if ([[object primaryType] isEqualToString:QSiTunesBrowserPboardType]) {
