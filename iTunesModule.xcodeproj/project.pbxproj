@@ -388,6 +388,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = D4A4665215A1E99B001A5A4E /* QSPlugIn.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_ARC = YES;
 				PRODUCT_NAME = "iTunes Plugin";
 			};
 			name = Release;
@@ -410,6 +411,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = D4A4665215A1E99B001A5A4E /* QSPlugIn.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_ARC = YES;
 				PRODUCT_NAME = "iTunes Plugin";
 			};
 			name = Debug;

@@ -24,3 +24,7 @@
 @interface QSiTunesEQPresets : QSObjectSource
 
 @end
+
+@interface QSCommand (iTunes)
+- (NSDictionary *)commandDict;
+@end

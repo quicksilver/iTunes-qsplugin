@@ -11,14 +11,9 @@
 @implementation QSiTunesActionProvider
 - (id)init {
 	if (self = [super init]) {
-		iTunes = [QSiTunes() retain];
+		iTunes = QSiTunes();
 	}
 	return self;
-}
-
-- (void)dealloc {
-    [iTunes release];
-    [super dealloc];
 }
 
 /*
@@ -366,14 +361,9 @@
 
 - (id)init {
 	if (self = [super init]) {
-		iTunes = [QSiTunes() retain];
+		iTunes = QSiTunes();
 	}
 	return self;
-}
-
-- (void)dealloc {
-    [iTunes release];
-    [super dealloc];
 }
 
 - (void)play

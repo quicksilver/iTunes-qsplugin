@@ -14,10 +14,7 @@
 		[image setName:name];
 	}
 }
-- (void)dealloc {
-	[iTunes release];
-	[super dealloc];
-}
+
 - (id)init {
 	if (self = [super init]) {
 		//[[QSVoyeur sharedInstance] addPathToQueue:[self libraryLocation]];
@@ -26,7 +23,7 @@
 		
 		recentTracks = nil;
 		if ([[NSUserDefaults standardUserDefaults] boolForKey:@"QSiTunesMonitorTracks"]) {
-			recentTracks = [[NSMutableArray array] retain];
+			recentTracks = [NSMutableArray array];
 			//iTunesMonitorDeactivate();
 			//iTunesMonitorActivate([[NSBundle bundleForClass:[self class]]pathForResource:@"iTunesMonitor" ofType:@""]);
 			
@@ -38,7 +35,7 @@
 			[[NSDistributedNotificationCenter defaultCenter] addObserver:self selector:@selector(iTunesStateChanged:) name:@"com.apple.iTunes.playerInfo" object:nil];
 			//	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(quitMonitor:) name:NSApplicationWillTerminateNotification object:nil];
 		}
-		iTunes = [QSiTunes() retain];
+		iTunes = QSiTunes();
         [iTunes setDelegate:self];
 	}
 	return self;
@@ -75,7 +72,6 @@
 			[additionalTrack setObject:[currentTrackPersistentID stringValue] forKey:@"Persistent ID"];
 			[additionalTrack removeObjectForKey:@"PersistentID"];
 			[[QSiTunesDatabase sharedInstance] registerAdditionalTrack:additionalTrack forID:newTrack];
-            [additionalTrack release];
 		}
 		if ([[NSUserDefaults standardUserDefaults] boolForKey:@"QSiTunesNotifyTracks"]) {
 			[self showNotificationForTrack:newTrack info:trackInfo];
@@ -261,7 +257,7 @@
 		if (!icon && ![trackInfo objectForKey:@"Location"]) {
 			iTunesTrack *currentTrack = [iTunes currentTrack];
 			NSData *data = [[[currentTrack artworks] objectAtIndex:0] rawData];
-			icon = [[[NSImage alloc] initWithData:data] autorelease];
+			icon = [[NSImage alloc] initWithData:data];
 		}
 			
 		if (!icon) icon = [QSResourceManager imageNamed:@"com.apple.iTunes"];
@@ -285,7 +281,7 @@
         unsigned short starOrHalf = (rating - i == 10)?0xbd:0x2605;
 		string = [string stringByAppendingFormat:@"%C", starOrHalf];
 	}
-	return [[[NSAttributedString alloc] initWithString:string attributes:[NSDictionary dictionaryWithObject:[NSFont fontWithName:@"AppleGothic" size:20] forKey:NSFontNameAttribute]] autorelease];
+	return [[NSAttributedString alloc] initWithString:string attributes:[NSDictionary dictionaryWithObject:[NSFont fontWithName:@"AppleGothic" size:20] forKey:NSFontNameAttribute]];
 }
 
 - (NSArray *)recentTrackObjects {
@@ -500,7 +496,6 @@
         } else if ([iTunes isRunning] && [iTunes currentStreamURL]) {
             NSURL *artworkURL = [NSURL URLWithString:[iTunes currentStreamURL]];
             icon = [[NSImage alloc] initWithContentsOfURL:artworkURL];
-            [icon autorelease];
         }
 	}
 	return icon;
@@ -687,11 +682,11 @@
 			NSMutableArray *descriptors = [NSMutableArray array];
 			//NSLog(@"count %d", [trackArray count]);
 			if ([[criteriaDict allKeys] containsObject: @"Artist"] || [[criteriaDict allKeys] containsObject: @"Album"]) {
-				[descriptors addObject:[[[NSSortDescriptor alloc] initWithKey:@"Album" ascending:YES] autorelease]];
-				[descriptors addObject:[[[NSSortDescriptor alloc] initWithKey:@"Disc Number" ascending:YES] autorelease]];
-				[descriptors addObject:[[[NSSortDescriptor alloc] initWithKey:@"Track Number" ascending:YES] autorelease]];
+				[descriptors addObject:[[NSSortDescriptor alloc] initWithKey:@"Album" ascending:YES]];
+				[descriptors addObject:[[NSSortDescriptor alloc] initWithKey:@"Disc Number" ascending:YES]];
+				[descriptors addObject:[[NSSortDescriptor alloc] initWithKey:@"Track Number" ascending:YES]];
 			} else {
-				[descriptors addObject:[[[NSSortDescriptor alloc] initWithKey:@"Name" ascending:YES] autorelease]];
+				[descriptors addObject:[[NSSortDescriptor alloc] initWithKey:@"Name" ascending:YES]];
 			}
 			NSArray *sortedTracks = [trackArray sortedArrayUsingDescriptors:descriptors];
 			for (NSDictionary *trackInfo in sortedTracks) {
@@ -713,7 +708,7 @@
 			
 			NSMutableDictionary *childBrowseDict;
 			 {
-				childBrowseDict = [[browseDict mutableCopy] autorelease];
+				childBrowseDict = [browseDict mutableCopy];
 				if (!childBrowseDict) childBrowseDict = [NSMutableDictionary dictionaryWithCapacity:1];
 				[childBrowseDict setObject:childSort forKey:@"Result"];
 				[childBrowseDict setObject:displayType forKey:@"Type"];
@@ -735,7 +730,7 @@
 				if ([usedKeys containsObject:[thisItem lowercaseString]]) continue;
 				childBrowseDict = [NSMutableDictionary dictionaryWithCapacity:1];
 				
-				NSMutableDictionary *childCriteriaDict = [[criteriaDict mutableCopy] autorelease];
+				NSMutableDictionary *childCriteriaDict = [criteriaDict mutableCopy];
 				if (!childCriteriaDict) childCriteriaDict = [NSMutableDictionary dictionaryWithCapacity:1];
 				[childCriteriaDict setObject:thisItem forKey:displayType];
 				
@@ -819,7 +814,7 @@
 			actionID = [commandDict objectForKey:@"directID"];
 			actionDict = [[[commandDict objectForKey:@"directArchive"] objectForKey:@"data"] objectForKey:QSActionType];
 			if (actionDict) {
-				newObject = [QSAction actionWithDictionary:actionDict identifier:actionID bundle:nil];
+				newObject = [QSAction actionWithDictionary:actionDict identifier:actionID];
 				[controlObjects addObject:newObject];
 			}
 		}

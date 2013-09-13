@@ -18,15 +18,9 @@
 {
     self = [super init];
     if (self) {
-        iTunes = [QSiTunes() retain];
+        iTunes = QSiTunes();
     }
     return self;
-}
-
-- (void)dealloc
-{
-    [iTunes release];
-    [super dealloc];
 }
 
 - (id)resolveProxyObject:(id)proxy

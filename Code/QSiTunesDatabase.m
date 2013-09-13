@@ -16,7 +16,7 @@
 + (instancetype)sharedInstance
 {
     static id _sharedInstance;
-    if (!_sharedInstance) _sharedInstance = [[self allocWithZone:[self zone]] init];
+    if (!_sharedInstance) _sharedInstance = [[self alloc] init];
     return _sharedInstance;
 }
 
@@ -34,17 +34,9 @@
 		if (!libraryLocation) {
 			libraryLocation = ITUNESLIBRARY;
 		}
-		libraryLocation = [[[NSFileManager defaultManager] fullyResolvedPathForPath:libraryLocation] retain];
+		libraryLocation = [[NSFileManager defaultManager] fullyResolvedPathForPath:libraryLocation];
 	}
 	return self;
-}
-
-- (void)dealloc {
-    [extraTracks release];
-	[iTunesMusicLibrary release];
-	[tagDictionaries release];
-	[libraryLocation release];
-    [super dealloc];
 }
 
 - (NSString *)libraryID {
@@ -189,8 +181,7 @@
 }
 
 - (void)setITunesMusicLibrary:(NSDictionary *)newITunesMusicLibrary {
-	[iTunesMusicLibrary release];
-	iTunesMusicLibrary = [newITunesMusicLibrary retain];
+	iTunesMusicLibrary = newITunesMusicLibrary;
 }
 
 - (NSString *)nextSortForCriteria:(NSString *)sortTag {
@@ -228,8 +219,7 @@
 }
 
 - (void)setTagDictionaries:(NSDictionary *)newTagDictionaries {
-	[tagDictionaries release];
-	tagDictionaries = [newTagDictionaries retain];
+	tagDictionaries = newTagDictionaries;
 }
 
 /*
