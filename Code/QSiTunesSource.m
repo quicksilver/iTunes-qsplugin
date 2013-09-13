@@ -22,15 +22,6 @@
 	if (self = [super init]) {
 		//[[QSVoyeur sharedInstance] addPathToQueue:[self libraryLocation]];
 		
-		NS_DURING
-			[self bind:@"showArtwork"
-			  toObject:[NSUserDefaultsController sharedUserDefaultsController]
-		   withKeyPath:@"values.QSiTunesShowArtwork"
-			   options:nil];
-		NS_HANDLER
-			;
-		NS_ENDHANDLER
-		
 		//      [(QSObjectCell *)theCell setImagePosition:NSImageBelow];
 		
 		recentTracks = nil;
@@ -780,15 +771,6 @@
 		[objects addObject:newObject];
 	}
 	return objects;
-}
-
-- (BOOL)showArtwork {
-	return showArtwork;
-}
-
-- (void)setShowArtwork:(BOOL)shouldShow {
-	//	NSLog(@"%d", shouldShow);
-	showArtwork = shouldShow;
 }
 
 #pragma mark Scripting Bridge delegate
