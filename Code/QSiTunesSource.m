@@ -3,18 +3,6 @@
 
 @implementation QSiTunesObjectSource
 
-+ (void)initialize {
-	NSImage *image;
-	NSArray *images = [NSArray arrayWithObjects:@"iTunesLibraryPlaylistIcon", @"iTunesSmartPlaylistIcon",
-		@"iTunesPlaylistIcon", @"iTunesPartyShufflePlaylistIcon", @"iTunesPurchasedMusicPlaylistIcon", @"iTunesQuicksilverPlaylistIcon", @"iTunesAlbumBrowserIcon",
-		@"iTunesArtistBrowserIcon", @"iTunesComposerBrowserIcon", @"iTunesGenreBrowserIcon", nil];
-	NSBundle *bundle = [NSBundle bundleForClass:[QSiTunesObjectSource class]];
-	for (NSString *name in images) {
-		image = [[NSImage alloc] initWithContentsOfFile:[bundle pathForImageResource:name]];
-		[image setName:name];
-	}
-}
-
 - (id)init {
 	if (self = [super init]) {
 		//[[QSVoyeur sharedInstance] addPathToQueue:[self libraryLocation]];
@@ -405,15 +393,13 @@
 	if ([[object primaryType] isEqualToString:QSiTunesPlaylistIDPboardType]) {
 		NSDictionary *playlistDict = [[QSiTunesDatabase sharedInstance] playlistInfoForID:[object objectForType:QSiTunesPlaylistIDPboardType]];
 		if ([playlistDict objectForKey:@"Smart Criteria"])
-			[object setIcon:[NSImage imageNamed:@"iTunesSmartPlaylistIcon"]];
-		else if ([[playlistDict objectForKey:@"Name"] isEqualToString:@"iTunes DJ"])
-			[object setIcon:[NSImage imageNamed:@"iTunesPartyShufflePlaylistIcon"]];
+			[object setIcon:[QSResourceManager imageNamed:@"iTunesSmartPlaylistIcon"]];
 		else if ([[playlistDict objectForKey:@"Name"] isEqualToString:@"Quicksilver"])
-			[object setIcon:[NSImage imageNamed:@"iTunesQuicksilverPlaylistIcon"]];
+			[object setIcon:[QSResourceManager imageNamed:@"iTunesQuicksilverPlaylistIcon"]];
 		else if ([[playlistDict objectForKey:@"Name"] isEqualToString:@"Purchased Music"])
-			[object setIcon:[NSImage imageNamed:@"iTunesPurchasedMusicPlaylistIcon"]];
+			[object setIcon:[QSResourceManager imageNamed:@"iTunesPurchasedMusicPlaylistIcon"]];
 		else 
-			[object setIcon:[NSImage imageNamed:@"iTunesPlaylistIcon"]];
+			[object setIcon:[QSResourceManager imageNamed:@"iTunesPlaylistIcon"]];
 		return;
 	}
 	
@@ -427,7 +413,7 @@
 		//NSDictionary *criteriaDict = [browseDict objectForKey:@"Criteria"];
 		
 		NSString *name = [NSString stringWithFormat:@"iTunes%@BrowserIcon", displayType];
-		icon = [NSImage imageNamed:name];
+		icon = [QSResourceManager imageNamed:name];
 		if (!icon && [name isEqualToString:@"iTunesTrackBrowserIcon"]) icon = [QSResourceManager imageNamed:@"iTunesTrackIcon"];
 		if (!icon) {
 			icon = [QSResourceManager imageNamed:@"iTunesIcon"];
@@ -723,9 +709,6 @@
 				[newObject setPrimaryType:QSiTunesBrowserPboardType];
 				[objects addObject:newObject];  
 			}
-			
-			
-			//  NSImage *icon = [NSImage imageNamed:[NSString stringWithFormat:@"iTunes%@BrowserIcon", displayType]];
 			
 			for (NSString *thisItem in subsets) {
 				if ([usedKeys containsObject:[thisItem lowercaseString]]) continue;
