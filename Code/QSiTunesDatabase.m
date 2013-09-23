@@ -23,18 +23,18 @@
 - (id)init {
 	if (self = [super init]) {
 		//[[QSVoyeur sharedInstance] addPathToQueue:[self libraryLocation]];
-		extraTracks = [[NSMutableDictionary alloc] init];
-		iTunesMusicLibrary = nil;
-		tagDictionaries = nil;
+		_extraTracks = [[NSMutableDictionary alloc] init];
 		// find the Library location
 		NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
 		NSDictionary *userPref = [userDefaults persistentDomainForName:@"com.apple.iApps"];
 		NSArray *recentDatabases = [userPref objectForKey:@"iTunesRecentDatabases"];
-		libraryLocation = [[NSURL URLWithString:[recentDatabases objectAtIndex:0]] path];
-		if (!libraryLocation) {
-			libraryLocation = ITUNESLIBRARY;
+		_libraryLocation = [[NSURL URLWithString:[recentDatabases objectAtIndex:0]] path];
+		if (!_libraryLocation) {
+			_libraryLocation = ITUNESLIBRARY;
 		}
-		libraryLocation = [[NSFileManager defaultManager] fullyResolvedPathForPath:libraryLocation];
+		_libraryLocation = [[NSFileManager defaultManager] fullyResolvedPathForPath:_libraryLocation];
+		[self loadMusicLibrary];
+        [self createTagArrays];
 	}
 	return self;
 }
@@ -45,14 +45,14 @@
 }
 
 - (void)registerAdditionalTrack:(NSDictionary *)info forID:(id)num {
-	[extraTracks setObject:info forKey:num];
+	[[self extraTracks] setObject:info forKey:num];
 }
 - (NSDictionary *)trackInfoForID:(NSString *)theID {
 	NSDictionary *tracks = [[self iTunesMusicLibrary] objectForKey:@"Tracks"];
 	NSDictionary *theTrack = [tracks objectForKey:theID];
 	if (!theTrack) {
 		//NSLog(@"can't find track %@ in %@", theID, [tracks allKeys]);
-		theTrack = [extraTracks objectForKey:theID];
+		theTrack = [[self extraTracks] objectForKey:theID];
 	}
 	return theTrack;
 }
@@ -149,10 +149,6 @@
 	[self setTagDictionaries:newTagDictionaries];
 } 
 
-- (NSString *)libraryLocation {
-	return libraryLocation;
-}
-
 - (BOOL)loadMusicLibrary {
 	//if (VERBOSE) NSLog(@"Loading Music Library from: %@", [self libraryLocation]);
 	
@@ -171,17 +167,6 @@
 	[self createTagArrays];
 	[[QSTaskController sharedInstance] removeTask:@"Load iTunes Library"];
 	return YES;
-}
-
-- (NSDictionary *)iTunesMusicLibrary {
-	if (!iTunesMusicLibrary) {
-		[self loadMusicLibrary];
-	}
-	return iTunesMusicLibrary;  
-}
-
-- (void)setITunesMusicLibrary:(NSDictionary *)newITunesMusicLibrary {
-	iTunesMusicLibrary = newITunesMusicLibrary;
 }
 
 - (NSString *)nextSortForCriteria:(NSString *)sortTag {
@@ -209,17 +194,6 @@
 		if (value) [values addObject:value];
 	}
 	return [[values allObjects] sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)];
-}
-
-- (NSDictionary *)tagDictionaries { 
-	if (!tagDictionaries) {
-		[self createTagArrays];
-	}
-	return tagDictionaries;
-}
-
-- (void)setTagDictionaries:(NSDictionary *)newTagDictionaries {
-	tagDictionaries = newTagDictionaries;
 }
 
 /*
@@ -256,7 +230,7 @@
 }
 
 - (BOOL)isLoaded {
-	return [iTunesMusicLibrary count];
+	return [[self iTunesMusicLibrary] count];
 }
 
 - (NSDictionary *)playlistInfoForID:(NSNumber *)theID {
