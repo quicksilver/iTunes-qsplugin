@@ -1,9 +1,10 @@
 #import "QSiTunesDefines.h"
 
-@interface QSiTunesObjectSource : QSObjectSource <SBApplicationDelegate> {
-     NSMutableArray *recentTracks;
-	iTunesApplication *iTunes;
-}
+@interface QSiTunesObjectSource : QSObjectSource <SBApplicationDelegate>
+
+@property NSMutableArray *recentTracks;
+@property iTunesApplication *iTunes;
+
 - (NSAttributedString *)starsForRating:(NSUInteger)rating;
 - (NSImage *)imageForTrack:(NSDictionary *)trackDict;
 - (NSArray *)childrenForObject:(QSObject *)object;
@@ -23,4 +24,8 @@
 
 @interface QSiTunesEQPresets : QSObjectSource
 
+@end
+
+@interface QSCommand (iTunes)
+- (NSDictionary *)commandDict;
 @end

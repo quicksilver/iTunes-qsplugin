@@ -6,13 +6,12 @@
 //  Copyright 2005 __MyCompanyName__. All rights reserved.
 //
 
-@interface QSiTunesDatabase : NSObject {
-	NSDictionary *iTunesMusicLibrary;
-    NSString *libraryLocation;
-    NSDictionary *tagDictionaries;
-	NSMutableDictionary *extraTracks;
+@interface QSiTunesDatabase : NSObject
 
-}
+@property NSString *libraryLocation;
+@property NSDictionary *iTunesMusicLibrary;
+@property NSDictionary *tagDictionaries;
+@property NSMutableDictionary *extraTracks;
 
 + (instancetype)sharedInstance;
 -(NSDictionary *)trackInfoForID:(NSString *)theID;
@@ -21,10 +20,6 @@
 - (void)setITunesMusicLibrary:(NSDictionary *)newITunesMusicLibrary;
 
 - (NSArray *)tracksMatchingCriteria:(NSDictionary *)criteria;
-- (NSDictionary *)tagDictionaries;
-
-- (void)setTagDictionaries:(NSDictionary *)newTagDictionaries;
-- (NSString *)libraryLocation;
 - (NSString *)libraryID;
 - (BOOL)loadMusicLibrary;
 - (NSArray *)playlists;

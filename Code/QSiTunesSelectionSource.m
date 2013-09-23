@@ -18,20 +18,14 @@
 {
     self = [super init];
     if (self) {
-        iTunes = [QSiTunes() retain];
+        _iTunes = QSiTunes();
     }
     return self;
 }
 
-- (void)dealloc
-{
-    [iTunes release];
-    [super dealloc];
-}
-
 - (id)resolveProxyObject:(id)proxy
 {
-	if (![iTunes isRunning]) {
+	if (![[self iTunes] isRunning]) {
 		return nil;
 	}
 	if (proxy && ![proxy isKindOfClass:[NSString class]]) {
@@ -47,7 +41,7 @@
     if ([proxy isEqualToString:QSCurrentSelectionID]) {
         // see if it's one or more tracks
         NSMutableArray *objects = [NSMutableArray array];
-        NSArray *tracks = [[iTunes selection] get];
+        NSArray *tracks = [[[self iTunes] selection] get];
         NSString *trackID = nil;
         NSDictionary *trackInfo = nil;
         // you have to iterate through this - valueForKey/arrayByPerformingSelector won't work
@@ -64,7 +58,7 @@
     // no tracks selected, or selected playlist was explicitly requested
     if ([proxy isEqualToString:@"QSSelectedPlaylistProxy"] || [proxy isEqualToString:QSCurrentSelectionID]) {
         // see if the seleciton is a playlist
-        iTunesBrowserWindow *window = [[iTunes browserWindows] objectAtIndex:0];
+        iTunesBrowserWindow *window = [[[self iTunes] browserWindows] objectAtIndex:0];
         NSString *name = [[window view] name];
         NSDictionary *thisPlaylist = [[QSiTunesDatabase sharedInstance] playlistInfoForName:name];
         if (thisPlaylist) {
