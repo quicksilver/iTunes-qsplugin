@@ -8,9 +8,10 @@
 
 #import "QSiTunesDefines.h"
 
-@interface QSiTunesActionProvider : QSActionProvider{
-	iTunesApplication *iTunes;
-}
+@interface QSiTunesActionProvider : QSActionProvider
+
+@property iTunesApplication *iTunes;
+
 - (void)playPlaylist:(QSObject *)dObject;
 - (void)playBrowser:(QSObject *)dObject;
 - (void)playTrack:(QSObject *)dObject append:(BOOL)append;
@@ -20,9 +21,9 @@
 @end
 
 @interface QSiTunesControlProvider : QSActionProvider
-{
-	iTunesApplication *iTunes;
-}
+
+@property iTunesApplication *iTunes;
+
 - (void)play;
 - (void)pause;
 - (void)togglePlayPause;
