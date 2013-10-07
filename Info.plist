@@ -19,7 +19,7 @@
 	<key>CFBundlePackageType</key>
 	<string>BNDL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>2.4.1</string>
+	<string>2.4.2</string>
 	<key>CFBundleVersion</key>
 	<string>35F</string>
 	<key>NSPrincipalClass</key>
@@ -1220,16 +1220,51 @@
 			<string>com.blacktree.Quicksilver.QSMusicSupport</string>
 		</array>
 		<key>version</key>
-		<string>3926</string>
+		<string>4001</string>
 	</dict>
 	<key>QSResourceAdditions</key>
 	<dict>
+		<key>iTunesAlbumBrowserIcon</key>
+		<dict>
+			<key>bundle</key>
+			<string>com.blacktree.Quicksilver.QSiTunesPlugIn</string>
+			<key>resource</key>
+			<string>iTunesAlbumBrowserIcon.png</string>
+		</dict>
+		<key>iTunesArtistBrowserIcon</key>
+		<dict>
+			<key>bundle</key>
+			<string>com.blacktree.Quicksilver.QSiTunesPlugIn</string>
+			<key>resource</key>
+			<string>iTunesArtistBrowserIcon.png</string>
+		</dict>
+		<key>iTunesComposerBrowserIcon</key>
+		<dict>
+			<key>bundle</key>
+			<string>com.blacktree.Quicksilver.QSiTunesPlugIn</string>
+			<key>resource</key>
+			<string>iTunesComposerBrowserIcon.png</string>
+		</dict>
 		<key>iTunesEQ</key>
 		<dict>
 			<key>bundle</key>
 			<string>com.blacktree.Quicksilver.QSiTunesPlugIn</string>
 			<key>resource</key>
 			<string>EqualizerIcon.png</string>
+		</dict>
+		<key>iTunesGenreBrowserIcon</key>
+		<dict>
+			<key>bundle</key>
+			<string>com.blacktree.Quicksilver.QSiTunesPlugIn</string>
+			<key>resource</key>
+			<string>iTunesGenreBrowserIcon.png</string>
+		</dict>
+		<key>iTunesLibraryPlaylistIcon</key>
+		<dict>
+			<key>bundle</key>
+			<string>com.blacktree.Quicksilver.QSiTunesPlugIn</string>
+			<key>resource</key>
+			<string>iTunesLibraryPlaylistIcon.icns</string>
 		</dict>
 		<key>iTunesNext</key>
 		<dict>
@@ -1259,12 +1294,40 @@
 			<key>resource</key>
 			<string>iTunesPlay-Pause.icns</string>
 		</dict>
+		<key>iTunesPlaylistIcon</key>
+		<dict>
+			<key>bundle</key>
+			<string>com.blacktree.Quicksilver.QSiTunesPlugIn</string>
+			<key>resource</key>
+			<string>iTunesPlaylistIcon.icns</string>
+		</dict>
 		<key>iTunesPrevious</key>
 		<dict>
 			<key>bundle</key>
 			<string>com.blacktree.Quicksilver.QSiTunesPlugIn</string>
 			<key>resource</key>
 			<string>iTunesPrevious.icns</string>
+		</dict>
+		<key>iTunesPurchasedMusicPlaylistIcon</key>
+		<dict>
+			<key>bundle</key>
+			<string>com.blacktree.Quicksilver.QSiTunesPlugIn</string>
+			<key>resource</key>
+			<string>iTunesPurchasedMusicPlaylistIcon.icns</string>
+		</dict>
+		<key>iTunesQuicksilverPlaylistIcon</key>
+		<dict>
+			<key>bundle</key>
+			<string>com.blacktree.Quicksilver.QSiTunesPlugIn</string>
+			<key>resource</key>
+			<string>iTunesQuicksilverPlaylistIcon.icns</string>
+		</dict>
+		<key>iTunesSmartPlaylistIcon</key>
+		<dict>
+			<key>bundle</key>
+			<string>com.blacktree.Quicksilver.QSiTunesPlugIn</string>
+			<key>resource</key>
+			<string>iTunesSmartPlaylistIcon.icns</string>
 		</dict>
 		<key>iTunesStop</key>
 		<dict>

@@ -37,7 +37,6 @@
 		E1DAFB0307007BA500FAFE2A /* iTunesComposerBrowserIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = E1DAFAE707007BA400FAFE2A /* iTunesComposerBrowserIcon.png */; };
 		E1DAFB0407007BA500FAFE2A /* iTunesGenreBrowserIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = E1DAFAE807007BA400FAFE2A /* iTunesGenreBrowserIcon.png */; };
 		E1DAFB0507007BA500FAFE2A /* iTunesLibraryPlaylistIcon.icns in Resources */ = {isa = PBXBuildFile; fileRef = E1DAFAE907007BA400FAFE2A /* iTunesLibraryPlaylistIcon.icns */; };
-		E1DAFB0707007BA500FAFE2A /* iTunesPartyShufflePlaylistIcon.icns in Resources */ = {isa = PBXBuildFile; fileRef = E1DAFAEB07007BA400FAFE2A /* iTunesPartyShufflePlaylistIcon.icns */; };
 		E1DAFB0807007BA500FAFE2A /* iTunesPlaylistIcon.icns in Resources */ = {isa = PBXBuildFile; fileRef = E1DAFAEC07007BA400FAFE2A /* iTunesPlaylistIcon.icns */; };
 		E1DAFB0907007BA500FAFE2A /* iTunesPurchasedMusicPlaylistIcon.icns in Resources */ = {isa = PBXBuildFile; fileRef = E1DAFAED07007BA400FAFE2A /* iTunesPurchasedMusicPlaylistIcon.icns */; };
 		E1DAFB0A07007BA500FAFE2A /* iTunesQuicksilverPlaylistIcon.icns in Resources */ = {isa = PBXBuildFile; fileRef = E1DAFAEE07007BA400FAFE2A /* iTunesQuicksilverPlaylistIcon.icns */; };
@@ -102,7 +101,6 @@
 		E1DAFAE707007BA400FAFE2A /* iTunesComposerBrowserIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = iTunesComposerBrowserIcon.png; sourceTree = "<group>"; };
 		E1DAFAE807007BA400FAFE2A /* iTunesGenreBrowserIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = iTunesGenreBrowserIcon.png; sourceTree = "<group>"; };
 		E1DAFAE907007BA400FAFE2A /* iTunesLibraryPlaylistIcon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = iTunesLibraryPlaylistIcon.icns; sourceTree = "<group>"; };
-		E1DAFAEB07007BA400FAFE2A /* iTunesPartyShufflePlaylistIcon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = iTunesPartyShufflePlaylistIcon.icns; sourceTree = "<group>"; };
 		E1DAFAEC07007BA400FAFE2A /* iTunesPlaylistIcon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = iTunesPlaylistIcon.icns; sourceTree = "<group>"; };
 		E1DAFAED07007BA400FAFE2A /* iTunesPurchasedMusicPlaylistIcon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = iTunesPurchasedMusicPlaylistIcon.icns; sourceTree = "<group>"; };
 		E1DAFAEE07007BA400FAFE2A /* iTunesQuicksilverPlaylistIcon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = iTunesQuicksilverPlaylistIcon.icns; sourceTree = "<group>"; };
@@ -216,7 +214,6 @@
 				E1DAFAE707007BA400FAFE2A /* iTunesComposerBrowserIcon.png */,
 				E1DAFAE807007BA400FAFE2A /* iTunesGenreBrowserIcon.png */,
 				E1DAFAE907007BA400FAFE2A /* iTunesLibraryPlaylistIcon.icns */,
-				E1DAFAEB07007BA400FAFE2A /* iTunesPartyShufflePlaylistIcon.icns */,
 				E1DAFAEC07007BA400FAFE2A /* iTunesPlaylistIcon.icns */,
 				E1DAFAED07007BA400FAFE2A /* iTunesPurchasedMusicPlaylistIcon.icns */,
 				E1DAFAEE07007BA400FAFE2A /* iTunesQuicksilverPlaylistIcon.icns */,
@@ -291,7 +288,6 @@
 				E1DAFB0307007BA500FAFE2A /* iTunesComposerBrowserIcon.png in Resources */,
 				E1DAFB0407007BA500FAFE2A /* iTunesGenreBrowserIcon.png in Resources */,
 				E1DAFB0507007BA500FAFE2A /* iTunesLibraryPlaylistIcon.icns in Resources */,
-				E1DAFB0707007BA500FAFE2A /* iTunesPartyShufflePlaylistIcon.icns in Resources */,
 				E1DAFB0807007BA500FAFE2A /* iTunesPlaylistIcon.icns in Resources */,
 				E1DAFB0907007BA500FAFE2A /* iTunesPurchasedMusicPlaylistIcon.icns in Resources */,
 				E1DAFB0A07007BA500FAFE2A /* iTunesQuicksilverPlaylistIcon.icns in Resources */,
@@ -388,6 +384,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = D4A4665215A1E99B001A5A4E /* QSPlugIn.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_ARC = YES;
 				PRODUCT_NAME = "iTunes Plugin";
 			};
 			name = Release;
@@ -410,6 +407,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = D4A4665215A1E99B001A5A4E /* QSPlugIn.xcconfig */;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_ARC = YES;
 				PRODUCT_NAME = "iTunes Plugin";
 			};
 			name = Debug;

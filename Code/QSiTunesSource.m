@@ -3,30 +3,15 @@
 
 @implementation QSiTunesObjectSource
 
-+ (void)initialize {
-	NSImage *image;
-	NSArray *images = [NSArray arrayWithObjects:@"iTunesLibraryPlaylistIcon", @"iTunesSmartPlaylistIcon",
-		@"iTunesPlaylistIcon", @"iTunesPartyShufflePlaylistIcon", @"iTunesPurchasedMusicPlaylistIcon", @"iTunesQuicksilverPlaylistIcon", @"iTunesAlbumBrowserIcon",
-		@"iTunesArtistBrowserIcon", @"iTunesComposerBrowserIcon", @"iTunesGenreBrowserIcon", nil];
-	NSBundle *bundle = [NSBundle bundleForClass:[QSiTunesObjectSource class]];
-	for (NSString *name in images) {
-		image = [[NSImage alloc] initWithContentsOfFile:[bundle pathForImageResource:name]];
-		[image setName:name];
-	}
-}
-- (void)dealloc {
-	[iTunes release];
-	[super dealloc];
-}
 - (id)init {
 	if (self = [super init]) {
 		//[[QSVoyeur sharedInstance] addPathToQueue:[self libraryLocation]];
 		
 		//      [(QSObjectCell *)theCell setImagePosition:NSImageBelow];
 		
-		recentTracks = nil;
+		_recentTracks = nil;
 		if ([[NSUserDefaults standardUserDefaults] boolForKey:@"QSiTunesMonitorTracks"]) {
-			recentTracks = [[NSMutableArray array] retain];
+			_recentTracks = [NSMutableArray array];
 			//iTunesMonitorDeactivate();
 			//iTunesMonitorActivate([[NSBundle bundleForClass:[self class]]pathForResource:@"iTunesMonitor" ofType:@""]);
 			
@@ -38,8 +23,8 @@
 			[[NSDistributedNotificationCenter defaultCenter] addObserver:self selector:@selector(iTunesStateChanged:) name:@"com.apple.iTunes.playerInfo" object:nil];
 			//	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(quitMonitor:) name:NSApplicationWillTerminateNotification object:nil];
 		}
-		iTunes = [QSiTunes() retain];
-        [iTunes setDelegate:self];
+		_iTunes = QSiTunes();
+        [_iTunes setDelegate:self];
 	}
 	return self;
 }
@@ -59,14 +44,14 @@
 		}
 		NSNumber *currentTrackPersistentID = [trackInfo objectForKey:@"PersistentID"];
 		NSNumber *lastPersistentID = [NSNumber numberWithInteger:0];
-		if ([recentTracks count]) {
-			lastPersistentID = [[recentTracks objectAtIndex:0] objectForKey:@"PersistentID"];
+		if ([[self recentTracks] count]) {
+			lastPersistentID = [[[self recentTracks] objectAtIndex:0] objectForKey:@"PersistentID"];
 		}
 		// don't add the track again when hitting pause, then play
 		if (currentTrackPersistentID && ![currentTrackPersistentID isEqualToNumber:lastPersistentID]) {
-			[recentTracks insertObject:trackInfo atIndex:0];
+			[[self recentTracks] insertObject:trackInfo atIndex:0];
 		}
-		while ([recentTracks count] > 25) [recentTracks removeLastObject];
+		while ([[self recentTracks] count] > 25) [[self recentTracks] removeLastObject];
 		
 		if (![[QSiTunesDatabase sharedInstance] trackInfoForID:newTrack]) {
 			// playing a track that wasn't in the library on last scan
@@ -75,7 +60,6 @@
 			[additionalTrack setObject:[currentTrackPersistentID stringValue] forKey:@"Persistent ID"];
 			[additionalTrack removeObjectForKey:@"PersistentID"];
 			[[QSiTunesDatabase sharedInstance] registerAdditionalTrack:additionalTrack forID:newTrack];
-            [additionalTrack release];
 		}
 		if ([[NSUserDefaults standardUserDefaults] boolForKey:@"QSiTunesNotifyTracks"]) {
 			[self showNotificationForTrack:newTrack info:trackInfo];
@@ -111,7 +95,7 @@
 		}
 	}
 	// the rest of these require iTunes to be running
-	if (![iTunes isRunning]) {
+	if (![[self iTunes] isRunning]) {
 		return nil;
 	}
 	if ([proxy isEqualToString:@"QSCurrentTrackProxy"]) {
@@ -127,7 +111,7 @@
 		id newObject = [self browserObjectForTrack:[self currentTrackInfo] andCriteria:@"Artist"];
 		return newObject;
 	} else if ([proxy isEqualToString:@"QSCurrentPlaylistProxy"]) {
-		NSString *name = [[iTunes currentPlaylist] name];
+		NSString *name = [[[self iTunes] currentPlaylist] name];
 		NSDictionary *thisPlaylist = [[QSiTunesDatabase sharedInstance] playlistInfoForName:name];
 		
 		QSObject *newObject = [QSObject objectWithName:name];
@@ -158,7 +142,7 @@
 	}
 	if (!trackInfo) {
 		// fall back to querying iTunes (if it's running)
-		if ([iTunes isRunning]) {
+		if ([[self iTunes] isRunning]) {
 			iTunesLibraryPlaylist *libraryPlaylist = QSiTunesMusic();
 			NSArray *trackResult = [[libraryPlaylist tracks] filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"databaseID == %@", trackID]];
 			if ([trackResult count] > 0) {
@@ -194,14 +178,14 @@
 }
 
 - (NSString *)currentTrackID {
-	return [NSString stringWithFormat:@"%ld", (long)[[iTunes currentTrack] databaseID]];
+	return [NSString stringWithFormat:@"%ld", (long)[[[self iTunes] currentTrack] databaseID]];
 }
 
 - (void)showCurrentTrackNotification {
-	if ([iTunes isRunning]) {
+	if ([[self iTunes] isRunning]) {
         NSMutableDictionary *trackInfo = [self currentTrackInfo];
         // if rating has changed recently, it might not be in the database yet
-        NSNumber *rating = [NSNumber numberWithInteger:[[iTunes currentTrack] rating]];
+        NSNumber *rating = [NSNumber numberWithInteger:[[[self iTunes] currentTrack] rating]];
         [trackInfo setObject:rating forKey:@"Rating"];
 		[self showNotificationForTrack:0 info:trackInfo];
 	} else {
@@ -234,7 +218,7 @@
 		
 		//NSLog(@"%@ %@ %@", name, artist, album);
 		if ([trackInfo objectForKey:@"Total Time"] == nil && !album && !artist && [location hasPrefix:@"http"]) {
-			NSString *streamTitle = [iTunes currentStreamTitle];
+			NSString *streamTitle = [[self iTunes] currentStreamTitle];
 			
 			if (streamTitle) {
 				artist = name;
@@ -252,16 +236,16 @@
 		NSMutableArray *array = [NSMutableArray array];
 		if (artist) [array addObject:artist];
 		if (album) [array addObject:album];
-		NSString *text = [array componentsJoinedByString:@"\r"];
+		NSString *text = [array componentsJoinedByString:@"\n"];
 
 		
 		NSImage *icon = nil;
 		icon = [self imageForTrack:trackInfo];
 		//NSLog(@"info : %@", trackInfo);
 		if (!icon && ![trackInfo objectForKey:@"Location"]) {
-			iTunesTrack *currentTrack = [iTunes currentTrack];
+			iTunesTrack *currentTrack = [[self iTunes] currentTrack];
 			NSData *data = [[[currentTrack artworks] objectAtIndex:0] rawData];
-			icon = [[[NSImage alloc] initWithData:data] autorelease];
+			icon = [[NSImage alloc] initWithData:data];
 		}
 			
 		if (!icon) icon = [QSResourceManager imageNamed:@"com.apple.iTunes"];
@@ -285,14 +269,14 @@
         unsigned short starOrHalf = (rating - i == 10)?0xbd:0x2605;
 		string = [string stringByAppendingFormat:@"%C", starOrHalf];
 	}
-	return [[[NSAttributedString alloc] initWithString:string attributes:[NSDictionary dictionaryWithObject:[NSFont fontWithName:@"AppleGothic" size:20] forKey:NSFontNameAttribute]] autorelease];
+	return [[NSAttributedString alloc] initWithString:string attributes:[NSDictionary dictionaryWithObject:[NSFont fontWithName:@"AppleGothic" size:20] forKey:NSFontNameAttribute]];
 }
 
 - (NSArray *)recentTrackObjects {
 	NSMutableArray *objects = [NSMutableArray arrayWithCapacity:1];
 	//NSDictionary *tracks = [[self iTunesMusicLibrary] objectForKey:@"Tracks"];
 	
-	for (NSDictionary *trackInfo in recentTracks) {
+	for (NSDictionary *trackInfo in [self recentTracks]) {
 //		currentTrack = [self trackInfoForID:trackID];
 		if (trackInfo)
 			[objects addObject:[[QSiTunesDatabase sharedInstance] trackObjectForInfo:trackInfo inPlaylist:nil]];
@@ -409,15 +393,13 @@
 	if ([[object primaryType] isEqualToString:QSiTunesPlaylistIDPboardType]) {
 		NSDictionary *playlistDict = [[QSiTunesDatabase sharedInstance] playlistInfoForID:[object objectForType:QSiTunesPlaylistIDPboardType]];
 		if ([playlistDict objectForKey:@"Smart Criteria"])
-			[object setIcon:[NSImage imageNamed:@"iTunesSmartPlaylistIcon"]];
-		else if ([[playlistDict objectForKey:@"Name"] isEqualToString:@"iTunes DJ"])
-			[object setIcon:[NSImage imageNamed:@"iTunesPartyShufflePlaylistIcon"]];
+			[object setIcon:[QSResourceManager imageNamed:@"iTunesSmartPlaylistIcon"]];
 		else if ([[playlistDict objectForKey:@"Name"] isEqualToString:@"Quicksilver"])
-			[object setIcon:[NSImage imageNamed:@"iTunesQuicksilverPlaylistIcon"]];
+			[object setIcon:[QSResourceManager imageNamed:@"iTunesQuicksilverPlaylistIcon"]];
 		else if ([[playlistDict objectForKey:@"Name"] isEqualToString:@"Purchased Music"])
-			[object setIcon:[NSImage imageNamed:@"iTunesPurchasedMusicPlaylistIcon"]];
+			[object setIcon:[QSResourceManager imageNamed:@"iTunesPurchasedMusicPlaylistIcon"]];
 		else 
-			[object setIcon:[NSImage imageNamed:@"iTunesPlaylistIcon"]];
+			[object setIcon:[QSResourceManager imageNamed:@"iTunesPlaylistIcon"]];
 		return;
 	}
 	
@@ -431,7 +413,7 @@
 		//NSDictionary *criteriaDict = [browseDict objectForKey:@"Criteria"];
 		
 		NSString *name = [NSString stringWithFormat:@"iTunes%@BrowserIcon", displayType];
-		icon = [NSImage imageNamed:name];
+		icon = [QSResourceManager imageNamed:name];
 		if (!icon && [name isEqualToString:@"iTunesTrackBrowserIcon"]) icon = [QSResourceManager imageNamed:@"iTunesTrackIcon"];
 		if (!icon) {
 			icon = [QSResourceManager imageNamed:@"iTunesIcon"];
@@ -497,10 +479,9 @@
             NSString *path = [locationURL path];
             BOOL shadowsAndGloss = ![[NSUserDefaults standardUserDefaults] boolForKey:@"QSiTunesPlainArtwork"];
             icon = [NSImage imageWithPreviewOfFileAtPath:path ofSize:iconSize asIcon:shadowsAndGloss];
-        } else if ([iTunes isRunning] && [iTunes currentStreamURL]) {
-            NSURL *artworkURL = [NSURL URLWithString:[iTunes currentStreamURL]];
+        } else if ([[self iTunes] isRunning] && [[self iTunes] currentStreamURL]) {
+            NSURL *artworkURL = [NSURL URLWithString:[[self iTunes] currentStreamURL]];
             icon = [[NSImage alloc] initWithContentsOfURL:artworkURL];
-            [icon autorelease];
         }
 	}
 	return icon;
@@ -530,7 +511,8 @@
 		NSDictionary *info = [[QSiTunesDatabase sharedInstance] playlistInfoForID:[object objectForType:QSiTunesPlaylistIDPboardType]];
 		NSUInteger count = [(NSArray *)[info objectForKey:@"Playlist Items"] count];
 		if (count) {
-			details = [NSString stringWithFormat:@"%d track%@", (int)count, ESS(count)];
+            NSString *ess = (count == 1) ? @"" : @"s";
+			details = [NSString stringWithFormat:@"%d track%@", (int)count, ess];
 			return details;
 		}
 	} else if ([[object primaryType] isEqualToString:QSiTunesBrowserPboardType]) {
@@ -687,11 +669,11 @@
 			NSMutableArray *descriptors = [NSMutableArray array];
 			//NSLog(@"count %d", [trackArray count]);
 			if ([[criteriaDict allKeys] containsObject: @"Artist"] || [[criteriaDict allKeys] containsObject: @"Album"]) {
-				[descriptors addObject:[[[NSSortDescriptor alloc] initWithKey:@"Album" ascending:YES] autorelease]];
-				[descriptors addObject:[[[NSSortDescriptor alloc] initWithKey:@"Disc Number" ascending:YES] autorelease]];
-				[descriptors addObject:[[[NSSortDescriptor alloc] initWithKey:@"Track Number" ascending:YES] autorelease]];
+				[descriptors addObject:[[NSSortDescriptor alloc] initWithKey:@"Album" ascending:YES]];
+				[descriptors addObject:[[NSSortDescriptor alloc] initWithKey:@"Disc Number" ascending:YES]];
+				[descriptors addObject:[[NSSortDescriptor alloc] initWithKey:@"Track Number" ascending:YES]];
 			} else {
-				[descriptors addObject:[[[NSSortDescriptor alloc] initWithKey:@"Name" ascending:YES] autorelease]];
+				[descriptors addObject:[[NSSortDescriptor alloc] initWithKey:@"Name" ascending:YES]];
 			}
 			NSArray *sortedTracks = [trackArray sortedArrayUsingDescriptors:descriptors];
 			for (NSDictionary *trackInfo in sortedTracks) {
@@ -713,7 +695,7 @@
 			
 			NSMutableDictionary *childBrowseDict;
 			 {
-				childBrowseDict = [[browseDict mutableCopy] autorelease];
+				childBrowseDict = [browseDict mutableCopy];
 				if (!childBrowseDict) childBrowseDict = [NSMutableDictionary dictionaryWithCapacity:1];
 				[childBrowseDict setObject:childSort forKey:@"Result"];
 				[childBrowseDict setObject:displayType forKey:@"Type"];
@@ -728,14 +710,11 @@
 				[objects addObject:newObject];  
 			}
 			
-			
-			//  NSImage *icon = [NSImage imageNamed:[NSString stringWithFormat:@"iTunes%@BrowserIcon", displayType]];
-			
 			for (NSString *thisItem in subsets) {
 				if ([usedKeys containsObject:[thisItem lowercaseString]]) continue;
 				childBrowseDict = [NSMutableDictionary dictionaryWithCapacity:1];
 				
-				NSMutableDictionary *childCriteriaDict = [[criteriaDict mutableCopy] autorelease];
+				NSMutableDictionary *childCriteriaDict = [criteriaDict mutableCopy];
 				if (!childCriteriaDict) childCriteriaDict = [NSMutableDictionary dictionaryWithCapacity:1];
 				[childCriteriaDict setObject:thisItem forKey:displayType];
 				
@@ -819,7 +798,7 @@
 			actionID = [commandDict objectForKey:@"directID"];
 			actionDict = [[[commandDict objectForKey:@"directArchive"] objectForKey:@"data"] objectForKey:QSActionType];
 			if (actionDict) {
-				newObject = [QSAction actionWithDictionary:actionDict identifier:actionID bundle:nil];
+				newObject = [QSAction actionWithDictionary:actionDict identifier:actionID];
 				[controlObjects addObject:newObject];
 			}
 		}
