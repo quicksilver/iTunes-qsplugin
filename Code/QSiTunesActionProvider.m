@@ -230,7 +230,7 @@
 - (NSArray *)validIndirectObjectsForAction:(NSString *)action directObject:(QSObject *)dObject
 {
 	if ([action isEqualToString:@"QSiTunesAddToPlaylistAction"]) {
-		return [QSLib arrayForType:QSiTunesPlaylistIDPboardType];
+		return [QSLib scoredArrayForType:QSiTunesPlaylistIDPboardType];
 	}
 	return nil;
 }

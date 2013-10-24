@@ -35,31 +35,31 @@
 
 
 - (void)iTunesStateChanged:(NSNotification *)notif {
-	NSDictionary *trackInfo = [notif userInfo];
+	NSMutableDictionary *trackInfo = [[notif userInfo] mutableCopy];
 	if ([[trackInfo objectForKey:@"Player State"] isEqualToString:@"Playing"]) {
 		
 		NSString *newTrack = [self currentTrackID];
 		if ([newTrack integerValue] <= 0) {
 			return;
 		}
-		NSNumber *currentTrackPersistentID = [trackInfo objectForKey:@"PersistentID"];
-		NSNumber *lastPersistentID = [NSNumber numberWithInteger:0];
+        NSUInteger persistentIDNumber = [[trackInfo objectForKey:@"PersistentID"] integerValue];
+        NSString *currentTrackPersistentID = [NSString stringWithFormat:@"%lX", (unsigned long)persistentIDNumber];
+		NSString *lastPersistentID = @"0";
+        // library entries use "Persistent ID"
+        [trackInfo setObject:currentTrackPersistentID forKey:@"Persistent ID"];
+        [trackInfo removeObjectForKey:@"PersistentID"];
 		if ([[self recentTracks] count]) {
-			lastPersistentID = [[[self recentTracks] objectAtIndex:0] objectForKey:@"PersistentID"];
+			lastPersistentID = [[[self recentTracks] objectAtIndex:0] objectForKey:@"Persistent ID"];
 		}
 		// don't add the track again when hitting pause, then play
-		if (currentTrackPersistentID && ![currentTrackPersistentID isEqualToNumber:lastPersistentID]) {
+		if (currentTrackPersistentID && ![currentTrackPersistentID isEqualToString:lastPersistentID]) {
 			[[self recentTracks] insertObject:trackInfo atIndex:0];
 		}
 		while ([[self recentTracks] count] > 25) [[self recentTracks] removeLastObject];
 		
 		if (![[QSiTunesDatabase sharedInstance] trackInfoForID:newTrack]) {
 			// playing a track that wasn't in the library on last scan
-			// library entries use "Persistent ID"
-			NSMutableDictionary *additionalTrack = [trackInfo mutableCopy];
-			[additionalTrack setObject:[currentTrackPersistentID stringValue] forKey:@"Persistent ID"];
-			[additionalTrack removeObjectForKey:@"PersistentID"];
-			[[QSiTunesDatabase sharedInstance] registerAdditionalTrack:additionalTrack forID:newTrack];
+			[[QSiTunesDatabase sharedInstance] registerAdditionalTrack:trackInfo forID:newTrack];
 		}
 		if ([[NSUserDefaults standardUserDefaults] boolForKey:@"QSiTunesNotifyTracks"]) {
 			[self showNotificationForTrack:newTrack info:trackInfo];
