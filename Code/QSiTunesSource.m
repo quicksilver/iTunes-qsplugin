@@ -42,8 +42,8 @@
 		if ([newTrack integerValue] <= 0) {
 			return;
 		}
-        NSUInteger pidNumber = [[trackInfo objectForKey:@"PersistentID"] integerValue];
-        NSString *currentTrackPersistentID = [NSString stringWithFormat:@"%lX", (unsigned long)pidNumber];
+        NSUInteger persistentIDNumber = [[trackInfo objectForKey:@"PersistentID"] integerValue];
+        NSString *currentTrackPersistentID = [NSString stringWithFormat:@"%lX", (unsigned long)persistentIDNumber];
 		NSString *lastPersistentID = @"0";
         // library entries use "Persistent ID"
         [trackInfo setObject:currentTrackPersistentID forKey:@"Persistent ID"];
