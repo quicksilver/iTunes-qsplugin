@@ -1182,6 +1182,8 @@
 		<dict>
 			<key>QSiTunesTrackChangedEvent</key>
 			<dict>
+				<key>allowMatching</key>
+				<true/>
 				<key>icon</key>
 				<string>iTunesIcon</string>
 				<key>name</key>
