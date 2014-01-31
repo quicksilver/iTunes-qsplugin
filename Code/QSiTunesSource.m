@@ -828,6 +828,11 @@
 	return YES;
 }
 
+- (BOOL)entryCanBeIndexed:(NSDictionary *)theEntry
+{
+    return NO;
+}
+
 - (NSArray *)objectsForEntry:(NSDictionary *)theEntry
 {
 	iTunesApplication *iTunes = QSiTunes();
