@@ -568,7 +568,7 @@
 }
 
 - (BOOL)loadChildrenForObject:(QSObject *)object {
-	if ([[object primaryType] isEqualToString:NSFilenamesPboardType]) {
+	if ([[object primaryType] isEqualToString:QSFilePathType]) {
 		NSArray *children = [self iTunesGetChildren];
 		[object setChildren:children];
 		return YES; 	
