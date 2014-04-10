@@ -1,11 +1,8 @@
 "QSiTunesPlayItemAction" = "Play %@";
-"QSiTunesPSPlayAction" = "Play %@ in iTunes DJ";
-"QSiTunesPSPlayNextAction" = "Play %@ Next in iTunes DJ";
-"QSiTunesPSAddAction" = "Add %@ to End of iTunes DJ";
-"QSiTunesAddToPlaylistAction" = "Add %@ to Playlist…";
+"QSiTunesAddToPlaylistAction" = "Add %@ to Playlist %@";
 "QSiTunesRevealItem" = "Reveal %@ in iTunes";
 "QSiTunesOpenBookletAction" = "Open Booklet(s) for %@";
 "QSiTunesGetLyrics" = "Get Lyrics for %@";
 "QSiTunesToggleShuffle" = "Toggle Shuffle for %@";
 "QSiTunesToggleEnabled" = "Enable/Disable %@";
-"QSiTunesSelectEQPreset" = "Set EQ Preset to %@";
+"QSiTunesSelectEQPreset" = "Set iTunes EQ to %@";

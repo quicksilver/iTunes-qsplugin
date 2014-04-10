@@ -274,7 +274,7 @@
 	
 	NSString *path = [trackInfo objectForKey:@"Location"];
 	if (path) path = [[NSURL URLWithString:path] path];
-	if (path) [newObject setObject:[NSArray arrayWithObject:path] forType:NSFilenamesPboardType];
+	if (path) [newObject setObject:[NSArray arrayWithObject:path] forType:QSFilePathType];
 	[newObject setPrimaryType:QSiTunesTrackIDPboardType];
 	return newObject;
 }

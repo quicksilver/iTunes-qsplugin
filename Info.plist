@@ -19,9 +19,9 @@
 	<key>CFBundlePackageType</key>
 	<string>BNDL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>2.4.3</string>
+	<string>2.5.0</string>
 	<key>CFBundleVersion</key>
-	<string>360</string>
+	<string>361</string>
 	<key>NSPrincipalClass</key>
 	<string>QSiTunesObjectSource</string>
 	<key>QSActions</key>
@@ -1182,6 +1182,8 @@
 		<dict>
 			<key>QSiTunesTrackChangedEvent</key>
 			<dict>
+				<key>allowMatching</key>
+				<true/>
 				<key>icon</key>
 				<string>iTunesIcon</string>
 				<key>name</key>

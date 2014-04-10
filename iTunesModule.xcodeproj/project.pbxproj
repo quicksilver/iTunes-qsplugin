@@ -29,7 +29,7 @@
 		E1B9FA1207A2C76300B4017B /* QSiTunesBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = E1B9FA1007A2C76300B4017B /* QSiTunesBridge.m */; };
 		E1DAFAF707007BA400FAFE2A /* QSiTunesPrefPane.m in Sources */ = {isa = PBXBuildFile; fileRef = E1DAFAD507007BA400FAFE2A /* QSiTunesPrefPane.m */; };
 		E1DAFAF907007BA400FAFE2A /* QSiTunesSource.m in Sources */ = {isa = PBXBuildFile; fileRef = E1DAFAD707007BA400FAFE2A /* QSiTunesSource.m */; };
-		E1DAFAFA07007BA400FAFE2A /* QSAction.commandFormats.strings in Resources */ = {isa = PBXBuildFile; fileRef = E1DAFAD907007BA400FAFE2A /* QSAction.commandFormats.strings */; };
+		E1DAFAFA07007BA400FAFE2A /* QSAction.commandFormat.strings in Resources */ = {isa = PBXBuildFile; fileRef = E1DAFAD907007BA400FAFE2A /* QSAction.commandFormat.strings */; };
 		E1DAFAFB07007BA400FAFE2A /* QSAction.name.strings in Resources */ = {isa = PBXBuildFile; fileRef = E1DAFADB07007BA400FAFE2A /* QSAction.name.strings */; };
 		E1DAFAFC07007BA500FAFE2A /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = E1DAFADD07007BA400FAFE2A /* Localizable.strings */; };
 		E1DAFB0107007BA500FAFE2A /* iTunesAlbumBrowserIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = E1DAFAE507007BA400FAFE2A /* iTunesAlbumBrowserIcon.png */; };
@@ -91,7 +91,7 @@
 		E1DAFAD507007BA400FAFE2A /* QSiTunesPrefPane.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = QSiTunesPrefPane.m; sourceTree = "<group>"; };
 		E1DAFAD607007BA400FAFE2A /* QSiTunesSource.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = QSiTunesSource.h; sourceTree = "<group>"; };
 		E1DAFAD707007BA400FAFE2A /* QSiTunesSource.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = QSiTunesSource.m; sourceTree = "<group>"; };
-		E1DAFADA07007BA400FAFE2A /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = English; path = QSAction.commandFormats.strings; sourceTree = "<group>"; };
+		E1DAFADA07007BA400FAFE2A /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = English; path = QSAction.commandFormat.strings; sourceTree = "<group>"; };
 		E1DAFADC07007BA400FAFE2A /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = English; path = QSAction.name.strings; sourceTree = "<group>"; };
 		E1DAFADE07007BA400FAFE2A /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = English; path = Localizable.strings; sourceTree = "<group>"; };
 		E1DAFAE007007BA400FAFE2A /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = English; path = QSPreset.name.strings; sourceTree = "<group>"; };
@@ -195,7 +195,7 @@
 		E1DAFAD807007BA400FAFE2A /* Localized */ = {
 			isa = PBXGroup;
 			children = (
-				E1DAFAD907007BA400FAFE2A /* QSAction.commandFormats.strings */,
+				E1DAFAD907007BA400FAFE2A /* QSAction.commandFormat.strings */,
 				E1DAFADB07007BA400FAFE2A /* QSAction.name.strings */,
 				E1DAFADD07007BA400FAFE2A /* Localizable.strings */,
 				E1DAFADF07007BA400FAFE2A /* QSPreset.name.strings */,
@@ -280,7 +280,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E1DAFAFA07007BA400FAFE2A /* QSAction.commandFormats.strings in Resources */,
+				E1DAFAFA07007BA400FAFE2A /* QSAction.commandFormat.strings in Resources */,
 				E1DAFAFB07007BA400FAFE2A /* QSAction.name.strings in Resources */,
 				E1DAFAFC07007BA500FAFE2A /* Localizable.strings in Resources */,
 				E1DAFB0107007BA500FAFE2A /* iTunesAlbumBrowserIcon.png in Resources */,
@@ -345,12 +345,12 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		E1DAFAD907007BA400FAFE2A /* QSAction.commandFormats.strings */ = {
+		E1DAFAD907007BA400FAFE2A /* QSAction.commandFormat.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
 				E1DAFADA07007BA400FAFE2A /* English */,
 			);
-			name = QSAction.commandFormats.strings;
+			name = QSAction.commandFormat.strings;
 			sourceTree = "<group>";
 		};
 		E1DAFADB07007BA400FAFE2A /* QSAction.name.strings */ = {
