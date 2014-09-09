@@ -147,6 +147,7 @@
 			NSArray *trackResult = [[libraryPlaylist tracks] filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"databaseID == %@", trackID]];
 			if ([trackResult count] > 0) {
 				iTunesFileTrack *track = [trackResult lastObject];
+                trackInfo = [NSMutableDictionary dictionaryWithCapacity:1];
 				[trackInfo setObject:[track persistentID] forKey:@"Persistent ID"];
 				[trackInfo setObject:[track artist] forKey:@"Artist"];
 				[trackInfo setObject:[track albumArtist] forKey:@"Album Artist"];
