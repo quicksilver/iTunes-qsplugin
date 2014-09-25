@@ -765,6 +765,24 @@
 
 @implementation QSiTunesControlSource
 
+- (instancetype)init
+{
+    self = [super init];
+    if (self) {
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(checkForRelaunch:) name:@"QSProcessMonitorApplicationLaunched" object:nil];
+    }
+    return self;
+}
+
+- (void)checkForRelaunch:(NSNotification *)note {
+    NSString *launchedApp = note.userInfo[@"NSApplicationBundleIdentifier"];
+    if ([launchedApp isEqualToString:@"com.apple.iTunes"]) {
+        // rescan
+        [[NSNotificationCenter defaultCenter] postNotificationName:QSCatalogSourceInvalidated object:@"QSiTunesControlSource"];
+        [[NSNotificationCenter defaultCenter] postNotificationName:QSCatalogSourceInvalidated object:@"QSiTunesEQPresets"];
+    }
+}
+
 - (BOOL)indexIsValidFromDate:(NSDate *)indexDate forEntry:(NSDictionary *)theEntry {
 	// rescan only if the indexDate is prior to the last launch
 	NSDate *launched = [[NSRunningApplication currentApplication] launchDate];
