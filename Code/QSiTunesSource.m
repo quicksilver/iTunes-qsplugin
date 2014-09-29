@@ -270,7 +270,12 @@
         unsigned short starOrHalf = (rating - i == 10)?0xbd:0x2605;
 		string = [string stringByAppendingFormat:@"%C", starOrHalf];
 	}
-	return [[NSAttributedString alloc] initWithString:string attributes:[NSDictionary dictionaryWithObject:[NSFont fontWithName:@"AppleGothic" size:20] forKey:NSFontNameAttribute]];
+    NSFont *starFont = [NSFont fontWithName:@"AppleGothic" size:20];
+    if (!starFont) {
+        starFont = [NSFont systemFontOfSize:20];
+    }
+    NSDictionary *attrs = @{NSFontNameAttribute: starFont};
+	return [[NSAttributedString alloc] initWithString:string attributes:attrs];
 }
 
 - (NSArray *)recentTrackObjects {
