@@ -270,7 +270,12 @@
         unsigned short starOrHalf = (rating - i == 10)?0xbd:0x2605;
 		string = [string stringByAppendingFormat:@"%C", starOrHalf];
 	}
-	return [[NSAttributedString alloc] initWithString:string attributes:[NSDictionary dictionaryWithObject:[NSFont fontWithName:@"AppleGothic" size:20] forKey:NSFontNameAttribute]];
+    NSFont *starFont = [NSFont fontWithName:@"AppleGothic" size:20];
+    if (!starFont) {
+        starFont = [NSFont systemFontOfSize:20];
+    }
+    NSDictionary *attrs = @{NSFontNameAttribute: starFont};
+	return [[NSAttributedString alloc] initWithString:string attributes:attrs];
 }
 
 - (NSArray *)recentTrackObjects {
@@ -764,6 +769,24 @@
 @end
 
 @implementation QSiTunesControlSource
+
+- (instancetype)init
+{
+    self = [super init];
+    if (self) {
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(checkForRelaunch:) name:@"QSProcessMonitorApplicationLaunched" object:nil];
+    }
+    return self;
+}
+
+- (void)checkForRelaunch:(NSNotification *)note {
+    NSString *launchedApp = note.userInfo[@"NSApplicationBundleIdentifier"];
+    if ([launchedApp isEqualToString:@"com.apple.iTunes"]) {
+        // rescan
+        [[NSNotificationCenter defaultCenter] postNotificationName:QSCatalogSourceInvalidated object:@"QSiTunesControlSource"];
+        [[NSNotificationCenter defaultCenter] postNotificationName:QSCatalogSourceInvalidated object:@"QSiTunesEQPresets"];
+    }
+}
 
 - (BOOL)indexIsValidFromDate:(NSDate *)indexDate forEntry:(NSDictionary *)theEntry {
 	// rescan only if the indexDate is prior to the last launch

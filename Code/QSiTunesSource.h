@@ -19,7 +19,7 @@
 @end
 
 @interface QSiTunesControlSource : QSObjectSource
-
+- (void)checkForRelaunch:(NSNotification *)note;
 @end
 
 @interface QSiTunesEQPresets : QSObjectSource
