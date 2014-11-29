@@ -13,7 +13,6 @@
 		D4239676148564800072DE1F /* QSiTunesPrefPane.xib in Resources */ = {isa = PBXBuildFile; fileRef = D4239675148564800072DE1F /* QSiTunesPrefPane.xib */; };
 		D431C59B17A7F9D60005D5F8 /* QSiTunesSelectionSource.m in Sources */ = {isa = PBXBuildFile; fileRef = D431C59A17A7F9D60005D5F8 /* QSiTunesSelectionSource.m */; };
 		D43DDF4F1472E35D00EB2E9D /* iTunes.app in Resources */ = {isa = PBXBuildFile; fileRef = D43DDF4E1472E35D00EB2E9D /* iTunes.app */; };
-		D43DDF551472E60600EB2E9D /* iTunes.app in Sources */ = {isa = PBXBuildFile; fileRef = D43DDF4E1472E35D00EB2E9D /* iTunes.app */; };
 		D4CE66871489618C009D2494 /* iTunesStop.icns in Resources */ = {isa = PBXBuildFile; fileRef = D4CE66811489618C009D2494 /* iTunesStop.icns */; };
 		D4CE66881489618C009D2494 /* iTunesPrevious.icns in Resources */ = {isa = PBXBuildFile; fileRef = D4CE66821489618C009D2494 /* iTunesPrevious.icns */; };
 		D4CE66891489618C009D2494 /* iTunesPlay-Pause.icns in Resources */ = {isa = PBXBuildFile; fileRef = D4CE66831489618C009D2494 /* iTunesPlay-Pause.icns */; };
@@ -332,7 +331,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D43DDF551472E60600EB2E9D /* iTunes.app in Sources */,
 				E1DAFAF707007BA400FAFE2A /* QSiTunesPrefPane.m in Sources */,
 				E1DAFAF907007BA400FAFE2A /* QSiTunesSource.m in Sources */,
 				D431C59B17A7F9D60005D5F8 /* QSiTunesSelectionSource.m in Sources */,
