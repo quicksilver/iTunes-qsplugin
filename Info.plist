@@ -1206,12 +1206,33 @@
 		</dict>
 		<key>QSTypeDefinitions</key>
 		<dict>
+			<key>com.apple.itunes.eqpreset</key>
+			<dict>
+				<key>icon</key>
+				<string>iTunesEQ</string>
+				<key>name</key>
+				<string>iTunes Equalizer Preset</string>
+			</dict>
+			<key>com.apple.itunes.playlist</key>
+			<dict>
+				<key>icon</key>
+				<string>iTunesPlaylistIcon</string>
+				<key>name</key>
+				<string>iTunes Playlist</string>
+			</dict>
+			<key>com.apple.itunes.qsbrowsercriteria</key>
+			<dict>
+				<key>icon</key>
+				<string>iTunesGenreBrowserIcon</string>
+				<key>name</key>
+				<string>iTunes Genre/Artist/Album</string>
+			</dict>
 			<key>com.apple.itunes.track</key>
 			<dict>
 				<key>icon</key>
 				<string>com.apple.iTunes</string>
 				<key>name</key>
-				<string>iTunes Music</string>
+				<string>iTunes Track</string>
 			</dict>
 		</dict>
 	</dict>
