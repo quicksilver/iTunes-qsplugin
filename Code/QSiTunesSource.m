@@ -785,6 +785,7 @@
         // rescan
         [[NSNotificationCenter defaultCenter] postNotificationName:QSCatalogSourceInvalidated object:@"QSiTunesControlSource"];
         [[NSNotificationCenter defaultCenter] postNotificationName:QSCatalogSourceInvalidated object:@"QSiTunesEQPresets"];
+        [[NSNotificationCenter defaultCenter] postNotificationName:QSCatalogSourceInvalidated object:@"QSiTunesAirPlayDevices"];
     }
 }
 
@@ -880,6 +881,48 @@
 - (void)setQuickIconForObject:(QSObject *)object
 {
 	[object setIcon:[QSResourceManager imageNamed:@"iTunesEQ"]];
+}
+
+@end
+
+@implementation QSiTunesAirPlayDevices
+
+- (BOOL)indexIsValidFromDate:(NSDate *)indexDate forEntry:(NSDictionary *)theEntry
+{
+    // rescan only if the indexDate is prior to the last launch
+    NSDate *launched = [[NSRunningApplication currentApplication] launchDate];
+    if (launched) {
+        return ([launched compare:indexDate] == NSOrderedAscending);
+    } else {
+        // Quicksilver wasn't launched by LaunchServices - date unknown - rescan to be safe
+        return NO;
+    }
+}
+
+- (BOOL)entryCanBeIndexed:(NSDictionary *)theEntry
+{
+    // make sure devices are rescanned on every launch, not read from disk
+    return NO;
+}
+
+- (NSArray *)objectsForEntry:(NSDictionary *)theEntry
+{
+    iTunesApplication *iTunes = QSiTunes();
+    if ([iTunes isRunning]) {
+        NSArray *AirPlayDevices = [[iTunes AirPlayDevices] get];
+        QSObject *newObject = nil;
+        NSMutableArray *objects = [NSMutableArray arrayWithCapacity:[AirPlayDevices count]];
+        for (iTunesAirPlayDevice *apd in AirPlayDevices) {
+            NSString *name = [apd name];
+            newObject = [QSObject makeObjectWithIdentifier:[NSString stringWithFormat:@"iTunes AirPlay:%@", name]];
+            [newObject setName:name];
+            [newObject setDetails:@"iTunes AirPlay Device"];
+            [newObject setObject:apd forType:QSiTunesAirPlayDeviceType];
+            [objects addObject:newObject];
+        }
+        return objects;
+    }
+    return nil;
 }
 
 @end
