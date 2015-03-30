@@ -26,6 +26,10 @@
 
 @end
 
+@interface QSiTunesAirPlayDevices : QSObjectSource
+
+@end
+
 @interface QSCommand (iTunes)
 - (NSDictionary *)commandDict;
 @end

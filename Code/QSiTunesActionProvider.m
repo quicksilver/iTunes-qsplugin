@@ -216,6 +216,13 @@
 	return nil;
 }
 
+- (QSObject *)selectAirPlayDevices:(QSObject *)dObject
+{
+    NSArray *devices = [dObject arrayForType:QSiTunesAirPlayDeviceType];
+    [[self iTunes] setCurrentAirPlayDevices:devices];
+    return nil;
+}
+
 #pragma mark - Quicksilver validation
 
 - (NSArray *)validActionsForDirectObject:(QSObject *)dObject indirectObject:(QSObject *)iObject {

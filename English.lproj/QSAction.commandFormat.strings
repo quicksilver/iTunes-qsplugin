@@ -6,3 +6,4 @@
 "QSiTunesToggleShuffle" = "Toggle Shuffle for %@";
 "QSiTunesToggleEnabled" = "Enable/Disable %@";
 "QSiTunesSelectEQPreset" = "Set iTunes EQ to %@";
+"QSiTunesSelectAirPlayDevices" = "Send iTunes output to %@";

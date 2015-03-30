@@ -6,3 +6,4 @@
 "QSiTunesToggleShuffle" = "Shuffle On/Off";
 "QSiTunesToggleEnabled" = "Enable/Disable Track(s)";
 "QSiTunesSelectEQPreset" = "Set EQ Preset";
+"QSiTunesSelectAirPlayDevices" = "Select AirPlay Device(s)";
