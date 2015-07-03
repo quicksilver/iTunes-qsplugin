@@ -1274,6 +1274,8 @@
 				<string>com.apple.iTunes</string>
 				<key>name</key>
 				<string>iTunes Track</string>
+				<key>smartspace</key>
+				<integer>6</integer>
 			</dict>
 		</dict>
 	</dict>
