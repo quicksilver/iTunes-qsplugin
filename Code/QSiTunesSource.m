@@ -452,7 +452,8 @@
             if ([valueArray count]) {
                 // get the icon from the first non-video track
                 for (NSDictionary *track in valueArray) {
-                    if (![[track objectForKey:@"Has Video"] boolValue]) {
+                    if (![[track objectForKey:@"Has Video"] boolValue]
+                        && ![[track objectForKey:@"Kind"] isEqualToString:@"iTunes LP"]) {
                         [object setIcon:[self imageForTrack:track]];
                         return YES;
                     }
