@@ -26,6 +26,14 @@ Some albums might have videos associated with them, but you probably don't want 
 
 If your selection contains *only* videos, they will play regardless of this setting.
 
+#### Disable EQ when selecting AirPlay device ####
+
+With this setting enabled, when you use Quicksilver to select one or more AirPlay devices for output, it will also disable the equalizer. This is probably what you want, as almost every AirPlay device has its own equalizer effects and you don't want to double them up.
+
+If you select the "Computer" device only (effectively turning off AirPlay), the equalizer will be enabled.
+
+NOTE: The equalizer is only disabled/enabled if you select an AirPlay device using Quicksilver. Selecting a device through the iTunes UI, etc. will not change EQ settings.
+
 ## Catalog ##
 
 There are three catalog presets to choose from.

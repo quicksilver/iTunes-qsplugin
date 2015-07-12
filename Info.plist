@@ -165,6 +165,8 @@
 	</dict>
 	<key>QSDefaults</key>
 	<dict>
+		<key>QSDisableEQforAirPlay</key>
+		<true/>
 		<key>QSiTunesGroupCompilations</key>
 		<true/>
 		<key>QSiTunesIncludeVideos</key>
@@ -204,6 +206,10 @@
 &lt;h4&gt;Include Videos when Playing Albums&lt;/h4&gt;
 &lt;p&gt;Some albums might have videos associated with them, but you probably don't want them to play when listening to an album. This allows you to control that behavior. The name is a bit misleading, as it will also apply if you select an artist and play them (which will play everything by that artist).&lt;/p&gt;
 &lt;p&gt;If your selection contains &lt;em&gt;only&lt;/em&gt; videos, they will play regardless of this setting.&lt;/p&gt;
+&lt;h4&gt;Disable EQ when selecting AirPlay device&lt;/h4&gt;
+&lt;p&gt;With this setting enabled, when you use Quicksilver to select one or more AirPlay devices for output, it will also disable the equalizer. This is probably what you want, as almost every AirPlay device has its own equalizer effects and you don't want to double them up.&lt;/p&gt;
+&lt;p&gt;If you select the "Computer" device only (effectively turning off AirPlay), the equalizer will be enabled.&lt;/p&gt;
+&lt;p&gt;NOTE: The equalizer is only disabled/enabled if you select an AirPlay device using Quicksilver. Selecting a device through the iTunes UI, etc. will not change EQ settings.&lt;/p&gt;
 &lt;h2&gt;Catalog&lt;/h2&gt;
 &lt;p&gt;There are three catalog presets to choose from.&lt;/p&gt;
 &lt;h3&gt;iTunes Playlists&lt;/h3&gt;

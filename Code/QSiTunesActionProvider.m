@@ -220,6 +220,22 @@
 {
     NSArray *devices = [dObject arrayForType:QSiTunesAirPlayDeviceType];
     [[self iTunes] setCurrentAirPlayDevices:devices];
+    if ([[NSUserDefaults standardUserDefaults] objectForKey:@"QSDisableEQforAirPlay"]) {
+        // turn off the EQ, unless switching back to "Computer"
+        BOOL playingToComputer = NO;
+        for (iTunesAirPlayDevice *dev in devices) {
+            if ([[dev name] isEqualToString:@"Computer"]) {
+                playingToComputer = YES;
+            }
+        }
+        if (playingToComputer && [devices count] == 1) {
+            // switching back to computer, enable EQ
+            [[self iTunes] setEQEnabled:YES];
+        } else {
+            // at least one remote device, disable EQ
+            [[self iTunes] setEQEnabled:NO];
+        }
+    }
     return nil;
 }
 
