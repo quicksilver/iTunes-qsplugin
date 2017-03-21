@@ -544,8 +544,16 @@
 			details = [details stringByAppendingFormat:@" (%@)", year];
 		}
 		return details;
+	} else if ([[object primaryType] isEqualToString:QSProxyType]) {
+		QSObject *random = [object resolvedObject];
+		if ([[random primaryType] isEqualToString:QSiTunesTrackIDPboardType]) {
+			NSDictionary *info = [random objectForType:QSiTunesTrackIDPboardType];
+			NSString *artist = [info objectForKey:@"Artist"];
+			NSString *title = [info objectForKey:@"Name"];
+			return [NSString stringWithFormat:@"%@, by %@", title, artist];
+		}
 	}
-	return nil;  
+	return nil;
 }
 
 - (NSArray *)iTunesGetChildren
