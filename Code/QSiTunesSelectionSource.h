@@ -13,4 +13,3 @@
 @property iTunesApplication *iTunes;
 
 @end
-// TODO add support for AirPlay devices
