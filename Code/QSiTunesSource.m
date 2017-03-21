@@ -64,7 +64,7 @@
 		if ([[NSUserDefaults standardUserDefaults] boolForKey:@"QSiTunesNotifyTracks"]) {
 			[self showNotificationForTrack:newTrack info:trackInfo];
 		}
-		[[QSObject objectWithIdentifier:QSiTunesRecentTracksBrowser] unloadChildren];
+		[[QSLib objectWithIdentifier:QSiTunesRecentTracksBrowser] unloadChildren];
 	}
 }
 
@@ -551,12 +551,12 @@
 	// this repeats the list created in objectsForEntry, but executes MUCH faster than re-running that method
 	NSMutableArray *children = [NSMutableArray arrayWithCapacity:1];
 	if ([[NSUserDefaults standardUserDefaults] boolForKey:@"QSiTunesMonitorTracks"]) {
-		QSObject *recents = [QSObject objectWithIdentifier:QSiTunesRecentTracksBrowser];
+		QSObject *recents = [QSLib objectWithIdentifier:QSiTunesRecentTracksBrowser];
 		if (recents) {
-			[children addObject:[QSObject objectWithIdentifier:QSiTunesRecentTracksBrowser]];
+			[children addObject:[QSLib objectWithIdentifier:QSiTunesRecentTracksBrowser]];
 		}
 	}
-	QSAction *showCurrentTrack = [QSAction objectWithIdentifier:@"QSiTunesShowCurrentTrack"];
+	QSAction *showCurrentTrack = (QSAction *)[QSLib objectWithIdentifier:@"QSiTunesShowCurrentTrack"];
 	if (showCurrentTrack) {
 		[children addObject:showCurrentTrack];
 	}
