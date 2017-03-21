@@ -163,7 +163,9 @@
                     [trackInfo setObject:[track location] forKey:@"Location"];
                 }
 				[trackInfo setObject:[NSString stringWithFormat:@"%d", (int)[track playedCount]] forKey:@"Play Count"];
-				[trackInfo setObject:[track playedDate] forKey:@"Play Date"];
+				if ([track playedDate]) {
+					[trackInfo setObject:[track playedDate] forKey:@"Play Date"];
+				}
 				[trackInfo setObject:[NSString stringWithFormat:@"%d", (int)[track skippedCount]] forKey:@"Skip Count"];
 				[trackInfo setObject:[track time] forKey:@"Total Time"];
 				[trackInfo setObject:[NSString stringWithFormat:@"%d", (int)[track trackNumber]] forKey:@"Track Number"];
