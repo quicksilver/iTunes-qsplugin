@@ -153,19 +153,22 @@
 	//if (VERBOSE) NSLog(@"Loading Music Library from: %@", [self libraryLocation]);
 	
 	if (![self libraryLocation]) return NO;
-	[[QSTaskController sharedInstance] updateTask:@"Load iTunes Library" status:@"Loading Music Library" progress:-1];
+	QSTask *loadTask = [QSTask taskWithIdentifier:@"Load iTunes Library"];
+	[loadTask setName:@"Loading Music Library"];
+	[loadTask setIcon:[QSResourceManager imageNamed:@"iTunesIcon"]];
+	[loadTask setShowProgress:NO];
 	
 	NSDictionary *loadedLibrary = [NSDictionary dictionaryWithContentsOfFile:[self libraryLocation]];
 	if (!loadedLibrary) {
 		loadedLibrary = [NSDictionary dictionary];
 		//if (VERBOSE) NSLog(@"Music Library not Found");
 		
-		[[QSTaskController sharedInstance] removeTask:@"Load iTunes Library"];
+		[loadTask stop];
 		return NO;
 	} 
 	[self setITunesMusicLibrary:loadedLibrary];  
 	[self createTagArrays];
-	[[QSTaskController sharedInstance] removeTask:@"Load iTunes Library"];
+	[loadTask stop];
 	return YES;
 }
 
