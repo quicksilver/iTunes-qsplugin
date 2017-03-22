@@ -6,9 +6,8 @@
 //  Copyright 2005 __MyCompanyName__. All rights reserved.
 //
 
+#import <QSCore/QSCore.h>
 #import "QSiTunesDatabase.h"
-//#import <QSCore/QSMacros.h>
-
 #import "QSiTunesDefines.h"
 
 @implementation QSiTunesDatabase
@@ -30,6 +29,12 @@
 		NSArray *recentDatabases = [userPref objectForKey:@"iTunesRecentDatabases"];
 		_libraryLocation = [[NSURL URLWithString:[recentDatabases objectAtIndex:0]] path];
 		if (!_libraryLocation) {
+			QSShowNotifierWithAttributes(@{
+				QSNotifierType: @"QSiTunesLibraryMissing",
+				QSNotifierIcon: [QSResourceManager imageNamed:@"iTunesIcon"],
+				QSNotifierTitle: @"iTunes Library Not Found",
+				QSNotifierText: @"Please enable “Share iTunes Library XML with other applications” in iTunes’ Advanced Preferences",
+			});
 			_libraryLocation = ITUNESLIBRARY;
 		}
 		_libraryLocation = [[NSFileManager defaultManager] fullyResolvedPathForPath:_libraryLocation];
