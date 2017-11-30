@@ -50,11 +50,12 @@
 	
 	// get iTunesTrack objects to represent each track
 	NSArray *trackResult = [self trackObjectsFromQSObject:dObject];
-	NSArray *newTracks = [trackResult valueForKey:@"location"];
 	
 	if (append) {
 		iTunesPlaylist *qs = [[QSiTunesLibrary() userPlaylists] objectWithName:QSiTunesDynamicPlaylist];
-		[[self iTunes] add:newTracks to:qs];
+        for (iTunesTrack *track in trackResult) {
+            [track duplicateTo:qs];
+        }
 	} else {
 		NSString *playlist = [dObject objectForMeta:@"QSiTunesSourcePlaylist"];
 		if (playlist) {
@@ -124,7 +125,9 @@
 		}
 	}
 	// play the resulting tracks
-	[[self iTunes] add:[songsOnly valueForKey:@"location"] to:qs];
+    for (iTunesTrack *track in songsOnly) {
+        [track duplicateTo:qs];
+    }
 	[qs playOnce:YES];
 }
 
@@ -140,11 +143,12 @@
 {
 	// get the tracks
 	NSArray *trackResult = [self trackObjectsFromQSObject:dObject];
-	NSArray *newTracks = [trackResult valueForKey:@"location"];
 	// get the playlist
 	NSArray *playlistResult = [[QSiTunesLibrary() playlists] filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"persistentID == %@", [iObject identifier]]];
 	if ([playlistResult count] > 0) {
-		[[self iTunes] add:newTracks to:[playlistResult lastObject]];
+        for (iTunesTrack *track in trackResult) {
+            [track duplicateTo:[playlistResult lastObject]];
+        }
 	}
 	return nil;
 }
@@ -277,7 +281,7 @@
 		NSMutableArray *criteria = [NSMutableArray arrayWithCapacity:2];
         // the location property is missing unless you call `get` on the result
         // calling `get` on an array this size is very wasteful, so use fileTracks instead
-		SBElementArray *allTracks = [QSiTunesMusic() fileTracks];
+		SBElementArray *allTracks = [QSiTunesMusic() tracks];
 		// pre-fetch artist info
 		NSArray *artists = [allTracks valueForKey:@"artist"];
 		NSArray *albumArtists = [allTracks valueForKey:@"albumArtist"];
@@ -357,11 +361,7 @@
 		// the location property is missing unless you call `get` on the result
 		trackResult = [(SBElementArray *)[[libraryPlaylist tracks] filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:searchFilter argumentArray:trackIDs]] get];
 	}
-    // there may be some objects in the results that don't have a location - filter them
-    NSIndexSet *fileTracks = [trackResult indexesOfObjectsWithOptions:NSEnumerationConcurrent passingTest:^BOOL(id track, NSUInteger i, BOOL *stop) {
-        return [track respondsToSelector:@selector(location)];
-    }];
-	return [trackResult objectsAtIndexes:fileTracks];
+    return trackResult;
 }
 
 - (iTunesPlaylist *)playlistObjectFromQSObject:(QSObject *)playlist
