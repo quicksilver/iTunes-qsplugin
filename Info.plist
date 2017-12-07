@@ -636,6 +636,26 @@
 					<string>QSiTunesVolumeIncrease</string>
 				</dict>
 			</dict>
+			<key>QSiTunesLovePlaylistCommand</key>
+			<dict>
+				<key>command</key>
+				<dict>
+					<key>actionID</key>
+					<string>QSiTunesLoveAction</string>
+					<key>directID</key>
+					<string>QSCurrentPlaylistProxy</string>
+				</dict>
+			</dict>
+			<key>QSiTunesLoveTrackCommand</key>
+			<dict>
+				<key>command</key>
+				<dict>
+					<key>actionID</key>
+					<string>QSiTunesLoveAction</string>
+					<key>directID</key>
+					<string>QSCurrentTrackProxy</string>
+				</dict>
+			</dict>
 			<key>QSiTunesMute</key>
 			<dict>
 				<key>command</key>
@@ -1836,6 +1856,36 @@
 			</dict>
 			<key>name</key>
 			<string>Toggle iTunes Equalizer</string>
+			<key>set</key>
+			<string>iTunes</string>
+		</dict>
+		<dict>
+			<key>ID</key>
+			<string>QSiTunesLoveTrackTrigger</string>
+			<key>command</key>
+			<string>QSiTunesLoveTrackCommand</string>
+			<key>defaults</key>
+			<dict>
+				<key>type</key>
+				<string>QSHotKeyTrigger</string>
+			</dict>
+			<key>name</key>
+			<string>Love Current Track</string>
+			<key>set</key>
+			<string>iTunes</string>
+		</dict>
+		<dict>
+			<key>ID</key>
+			<string>QSiTunesLovePlaylistTrigger</string>
+			<key>command</key>
+			<string>QSiTunesLovePlaylistCommand</string>
+			<key>defaults</key>
+			<dict>
+				<key>type</key>
+				<string>QSHotKeyTrigger</string>
+			</dict>
+			<key>name</key>
+			<string>Love Current Playlist</string>
 			<key>set</key>
 			<string>iTunes</string>
 		</dict>
