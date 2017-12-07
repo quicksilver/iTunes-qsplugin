@@ -483,15 +483,29 @@
 	if ([trackDict objectForKey:@"Location"]) {
 		NSString *URLString = [trackDict objectForKey:@"Location"];
 		if (!URLString) return nil;
-        NSURL *locationURL = [NSURL URLWithString:URLString];
-        if ([[locationURL scheme] isEqualToString:@"file"]) {
-            NSString *path = [locationURL path];
-            BOOL shadowsAndGloss = ![[NSUserDefaults standardUserDefaults] boolForKey:@"QSiTunesPlainArtwork"];
-            icon = [NSImage imageWithPreviewOfFileAtPath:path ofSize:iconSize asIcon:shadowsAndGloss];
-        } else if ([[self iTunes] isRunning] && [[self iTunes] currentStreamURL]) {
-            NSURL *artworkURL = [NSURL URLWithString:[[self iTunes] currentStreamURL]];
-            icon = [[NSImage alloc] initWithContentsOfURL:artworkURL];
-        }
+		NSURL *locationURL = [NSURL URLWithString:URLString];
+		if ([[locationURL scheme] isEqualToString:@"file"]) {
+			NSString *path = [locationURL path];
+			BOOL shadowsAndGloss = ![[NSUserDefaults standardUserDefaults] boolForKey:@"QSiTunesPlainArtwork"];
+			icon = [NSImage imageWithPreviewOfFileAtPath:path ofSize:iconSize asIcon:shadowsAndGloss];
+		} else if ([[self iTunes] isRunning] && [[self iTunes] currentStreamURL]) {
+			NSURL *artworkURL = [NSURL URLWithString:[[self iTunes] currentStreamURL]];
+			icon = [[NSImage alloc] initWithContentsOfURL:artworkURL];
+		}
+	} else if ([[self iTunes] isRunning]) {
+		// get image with Scripting Bridge
+		NSString *searchFilter = @"persistentID == %@";
+		NSArray *trackID = trackDict[@"Persistent ID"];
+		SBElementArray *tracks = (SBElementArray *)[[QSiTunesMusic() tracks] filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:searchFilter, trackID]];
+		if ([tracks count]) {
+			iTunesTrack *track = tracks[0];
+			if ([track artworks]) {
+				icon = [[[track artworks] objectAtIndex:0] data];
+				if (![icon isKindOfClass:[NSImage class]]) {
+					icon = nil;
+				}
+			}
+		}
 	}
 	return icon;
 }
