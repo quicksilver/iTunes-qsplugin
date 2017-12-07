@@ -48,6 +48,8 @@
 			<string>QSiTunesActionProvider</string>
 			<key>actionSelector</key>
 			<string>dislike:</string>
+			<key>alternateAction</key>
+			<string>QSiTunesLoveAction</string>
 			<key>directTypes</key>
 			<array>
 				<string>com.apple.itunes.track</string>
@@ -93,6 +95,8 @@
 			<string>QSiTunesActionProvider</string>
 			<key>actionSelector</key>
 			<string>love:</string>
+			<key>alternateAction</key>
+			<string>QSiTunesDislikeAction</string>
 			<key>directTypes</key>
 			<array>
 				<string>com.apple.itunes.track</string>
