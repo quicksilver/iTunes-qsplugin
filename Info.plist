@@ -42,6 +42,21 @@
 			<key>precedence</key>
 			<integer>1</integer>
 		</dict>
+		<key>QSiTunesDislikeAction</key>
+		<dict>
+			<key>actionClass</key>
+			<string>QSiTunesActionProvider</string>
+			<key>actionSelector</key>
+			<string>dislike:</string>
+			<key>directTypes</key>
+			<array>
+				<string>com.apple.itunes.track</string>
+				<string>com.apple.itunes.playlist</string>
+				<string>com.apple.itunes.qsbrowsercriteria</string>
+			</array>
+			<key>icon</key>
+			<string>Unsupported</string>
+		</dict>
 		<key>QSiTunesDownloadAction</key>
 		<dict>
 			<key>actionClass</key>
@@ -71,6 +86,21 @@
 			<true/>
 			<key>icon</key>
 			<string>iTunesIcon</string>
+		</dict>
+		<key>QSiTunesLoveAction</key>
+		<dict>
+			<key>actionClass</key>
+			<string>QSiTunesActionProvider</string>
+			<key>actionSelector</key>
+			<string>love:</string>
+			<key>directTypes</key>
+			<array>
+				<string>com.apple.itunes.track</string>
+				<string>com.apple.itunes.playlist</string>
+				<string>com.apple.itunes.qsbrowsercriteria</string>
+			</array>
+			<key>icon</key>
+			<string>ToolbarFavoritesIcon</string>
 		</dict>
 		<key>QSiTunesOpenBookletAction</key>
 		<dict>

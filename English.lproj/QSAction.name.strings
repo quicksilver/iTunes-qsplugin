@@ -8,3 +8,5 @@
 "QSiTunesSelectEQPreset" = "Set EQ Preset";
 "QSiTunesSelectAirPlayDevices" = "Select AirPlay Device(s)";
 "QSiTunesDownloadAction" = "Download Track(s)";
+"QSiTunesLoveAction" = "Love";
+"QSiTunesDislikeAction" = "Dislike";

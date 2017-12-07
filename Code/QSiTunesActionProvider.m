@@ -218,6 +218,32 @@
 	return nil;
 }
 
+- (QSObject *)love:(QSObject *)dObject
+{
+	if ([dObject containsType:QSiTunesPlaylistIDPboardType]) {
+		iTunesPlaylist *playlist = [self playlistObjectFromQSObject:dObject];
+		[playlist setLoved:YES];
+	} else {
+		for (iTunesTrack *track in [self trackObjectsFromQSObject:dObject]) {
+			[track setLoved:YES];
+		}
+	}
+	return nil;
+}
+
+- (QSObject *)dislike:(QSObject *)dObject
+{
+	if ([dObject containsType:QSiTunesPlaylistIDPboardType]) {
+		iTunesPlaylist *playlist = [self playlistObjectFromQSObject:dObject];
+		[playlist setDisliked:YES];
+	} else {
+		for (iTunesTrack *track in [self trackObjectsFromQSObject:dObject]) {
+			[track setDisliked:YES];
+		}
+	}
+	return nil;
+}
+
 - (QSObject *)selectEQPreset:(QSObject *)dObject
 {
 	iTunesEQPreset *eq = [dObject objectForType:QSiTunesEQPresetType];
