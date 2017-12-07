@@ -166,6 +166,14 @@
 	return nil;
 }
 
+- (QSObject *)download:(QSObject *)dObject
+{
+	for (iTunesTrack *track in [self trackObjectsFromQSObject:dObject]) {
+		[track download];
+	}
+	return nil;
+}
+
 - (QSObject *)openBooklet:(QSObject *)dObject
 {
 	NSArray *itemsToCheck = [self trackObjectsFromQSObject:dObject];

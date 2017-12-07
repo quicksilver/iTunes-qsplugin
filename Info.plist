@@ -42,6 +42,21 @@
 			<key>precedence</key>
 			<integer>1</integer>
 		</dict>
+		<key>QSiTunesDownloadAction</key>
+		<dict>
+			<key>actionClass</key>
+			<string>QSiTunesActionProvider</string>
+			<key>actionSelector</key>
+			<string>download:</string>
+			<key>directTypes</key>
+			<array>
+				<string>com.apple.itunes.track</string>
+				<string>com.apple.itunes.playlist</string>
+				<string>com.apple.itunes.qsbrowsercriteria</string>
+			</array>
+			<key>icon</key>
+			<string>iTunesIcon</string>
+		</dict>
 		<key>QSiTunesGetLyrics</key>
 		<dict>
 			<key>actionClass</key>
