@@ -270,8 +270,7 @@
 	// get iTunesTrack objects to represent each track
 	if ([tracks containsType:QSiTunesPlaylistIDPboardType]) {
 		// from a playlist
-		// the location property is missing unless you call `get` on the result
-		trackResult = [(SBElementArray *)[[self playlistObjectFromQSObject:tracks] tracks] get];
+		trackResult = (SBElementArray *)[[self playlistObjectFromQSObject:tracks] tracks];
 	} else if ([tracks containsType:QSiTunesBrowserPboardType]) {
 		// from browsing in Quicksilver
 		NSMutableArray *formatStrings = [NSMutableArray arrayWithCapacity:1];
@@ -279,8 +278,6 @@
 		NSDictionary *criteriaDict = nil;
 		NSString *formatString = nil;
 		NSMutableArray *criteria = [NSMutableArray arrayWithCapacity:2];
-        // the location property is missing unless you call `get` on the result
-        // calling `get` on an array this size is very wasteful, so use fileTracks instead
 		SBElementArray *allTracks = [QSiTunesMusic() tracks];
 		// pre-fetch artist info
 		NSArray *artists = [allTracks valueForKey:@"artist"];
@@ -358,8 +355,7 @@
 		}
 		searchFilter = [filters componentsJoinedByString:@" OR "];
 		iTunesLibraryPlaylist *libraryPlaylist = QSiTunesMusic();
-		// the location property is missing unless you call `get` on the result
-		trackResult = [(SBElementArray *)[[libraryPlaylist tracks] filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:searchFilter argumentArray:trackIDs]] get];
+		trackResult = (SBElementArray *)[[libraryPlaylist tracks] filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:searchFilter argumentArray:trackIDs]];
 	}
     return trackResult;
 }
