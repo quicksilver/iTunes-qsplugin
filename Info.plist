@@ -42,6 +42,38 @@
 			<key>precedence</key>
 			<integer>1</integer>
 		</dict>
+		<key>QSiTunesDislikeAction</key>
+		<dict>
+			<key>actionClass</key>
+			<string>QSiTunesActionProvider</string>
+			<key>actionSelector</key>
+			<string>dislike:</string>
+			<key>alternateAction</key>
+			<string>QSiTunesLoveAction</string>
+			<key>directTypes</key>
+			<array>
+				<string>com.apple.itunes.track</string>
+				<string>com.apple.itunes.playlist</string>
+				<string>com.apple.itunes.qsbrowsercriteria</string>
+			</array>
+			<key>icon</key>
+			<string>Unsupported</string>
+		</dict>
+		<key>QSiTunesDownloadAction</key>
+		<dict>
+			<key>actionClass</key>
+			<string>QSiTunesActionProvider</string>
+			<key>actionSelector</key>
+			<string>download:</string>
+			<key>directTypes</key>
+			<array>
+				<string>com.apple.itunes.track</string>
+				<string>com.apple.itunes.playlist</string>
+				<string>com.apple.itunes.qsbrowsercriteria</string>
+			</array>
+			<key>icon</key>
+			<string>iTunesIcon</string>
+		</dict>
 		<key>QSiTunesGetLyrics</key>
 		<dict>
 			<key>actionClass</key>
@@ -56,6 +88,23 @@
 			<true/>
 			<key>icon</key>
 			<string>iTunesIcon</string>
+		</dict>
+		<key>QSiTunesLoveAction</key>
+		<dict>
+			<key>actionClass</key>
+			<string>QSiTunesActionProvider</string>
+			<key>actionSelector</key>
+			<string>love:</string>
+			<key>alternateAction</key>
+			<string>QSiTunesDislikeAction</string>
+			<key>directTypes</key>
+			<array>
+				<string>com.apple.itunes.track</string>
+				<string>com.apple.itunes.playlist</string>
+				<string>com.apple.itunes.qsbrowsercriteria</string>
+			</array>
+			<key>icon</key>
+			<string>ToolbarFavoritesIcon</string>
 		</dict>
 		<key>QSiTunesOpenBookletAction</key>
 		<dict>
@@ -585,6 +634,26 @@
 					</dict>
 					<key>directID</key>
 					<string>QSiTunesVolumeIncrease</string>
+				</dict>
+			</dict>
+			<key>QSiTunesLovePlaylistCommand</key>
+			<dict>
+				<key>command</key>
+				<dict>
+					<key>actionID</key>
+					<string>QSiTunesLoveAction</string>
+					<key>directID</key>
+					<string>QSCurrentPlaylistProxy</string>
+				</dict>
+			</dict>
+			<key>QSiTunesLoveTrackCommand</key>
+			<dict>
+				<key>command</key>
+				<dict>
+					<key>actionID</key>
+					<string>QSiTunesLoveAction</string>
+					<key>directID</key>
+					<string>QSCurrentTrackProxy</string>
 				</dict>
 			</dict>
 			<key>QSiTunesMute</key>
@@ -1787,6 +1856,36 @@
 			</dict>
 			<key>name</key>
 			<string>Toggle iTunes Equalizer</string>
+			<key>set</key>
+			<string>iTunes</string>
+		</dict>
+		<dict>
+			<key>ID</key>
+			<string>QSiTunesLoveTrackTrigger</string>
+			<key>command</key>
+			<string>QSiTunesLoveTrackCommand</string>
+			<key>defaults</key>
+			<dict>
+				<key>type</key>
+				<string>QSHotKeyTrigger</string>
+			</dict>
+			<key>name</key>
+			<string>Love Current Track</string>
+			<key>set</key>
+			<string>iTunes</string>
+		</dict>
+		<dict>
+			<key>ID</key>
+			<string>QSiTunesLovePlaylistTrigger</string>
+			<key>command</key>
+			<string>QSiTunesLovePlaylistCommand</string>
+			<key>defaults</key>
+			<dict>
+				<key>type</key>
+				<string>QSHotKeyTrigger</string>
+			</dict>
+			<key>name</key>
+			<string>Love Current Playlist</string>
 			<key>set</key>
 			<string>iTunes</string>
 		</dict>

@@ -7,3 +7,6 @@
 "QSiTunesToggleEnabled" = "Enable/Disable %@";
 "QSiTunesSelectEQPreset" = "Set iTunes EQ to %@";
 "QSiTunesSelectAirPlayDevices" = "Send iTunes output to %@";
+"QSiTunesDownloadAction" = "Download %@";
+"QSiTunesLoveAction" = "I Love %@";
+"QSiTunesDislikeAction" = "I don’t like %@";
