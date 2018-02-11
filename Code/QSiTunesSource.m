@@ -35,8 +35,10 @@
 
 
 - (void)iTunesStateChanged:(NSNotification *)notif {
-	NSMutableDictionary *trackInfo = [[notif userInfo] mutableCopy];
-	if ([[trackInfo objectForKey:@"Player State"] isEqualToString:@"Playing"]) {
+	NSString *trackID = [[notif userInfo] objectForKey:@"Track ID"];
+	// userInfo is missing some data, like Sample Rate - get better info
+	NSMutableDictionary *trackInfo = [[[QSiTunesDatabase sharedInstance] trackInfoForID:trackID] mutableCopy];
+	if ([[[notif userInfo] objectForKey:@"Player State"] isEqualToString:@"Playing"]) {
 		
 		NSString *newTrack = [self currentTrackID];
 		if ([newTrack integerValue] <= 0) {
