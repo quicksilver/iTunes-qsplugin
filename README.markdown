@@ -2,9 +2,11 @@
 
 ## Scripting Bridge ##
 
-The Scripting Bridge code requires `iTunes.h`, which will be generated automatically the first time you build. When it's created, it'll be in `DerivedSources` (not part of your project). The easiest way to open it for reference is to highlight the filename on the import line and hit ⌃⌘J for "Jump to Definition".
+The Scripting Bridge code requires `iTunes.h`. To make the most recent iTunes features available, a fresh copy of this file should be created whenever a new version of iTunes is released. The file can be created by running:
 
-You should [familiarize yourself with Scripting Bridge][sbdoc] a bit before making any changes. Particularly the sections that discuss performance.
+    sdef /Applications/iTunes.app | sdp -fh --basename iTunes
+
+You should [familiarize yourself with Scripting Bridge][sbdoc] a bit before making any changes to this plug-in. Particularly the sections that discuss performance.
 
 In the end though, you just need to test everything out and see what works. Here are some tips specific to iTunes:
 
@@ -22,7 +24,7 @@ In the end though, you just need to test everything out and see what works. Here
   
      Depending on what you search for, everything you do with the result can be very slow. By calling `get` on it right away and using the result of that for everything else, you're essentially limiting the slowness to a single call.
   
-  3. Always use `tracks` instead of `fileTracks`. `fileTracks` can slow things down even if you use the `get` trick above. Using `tracks` is quick. The only difference I've found is that the `location` property is sometimes missing from `tracks` while `fileTracks` will always have it. (You need location to add a track to a playlist.) But it turns out that using `get` on the result as advised above soemhow causes `tracks` to provide a `location` property. So, if you follow the above advice, this shouldn't be a problem.
+  3. Always use `tracks` instead of `fileTracks`. `fileTracks` can slow things down even if you use the `get` trick above. Using `tracks` is quick.
 
 [sbdoc]: http://developer.apple.com/library/mac/#documentation/Cocoa/Conceptual/ScriptingBridgeConcepts/Introduction/Introduction.html
 
