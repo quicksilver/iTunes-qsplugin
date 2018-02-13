@@ -105,7 +105,7 @@ Add artists, albums, tracks, etc. to an existing playlist by selecting it in the
 
 Show the selected track or playlist in iTunes.
 
-#### Show Booklet(s) ####
+#### Open Booklet(s) ####
 
 With album(s) or artist(s) in the first pane, you can display the PDF artwork that accompanies some albums purchased from the iTunes store. Nothing will happen for albums that don't include artwork.
 
