@@ -105,6 +105,18 @@ Add artists, albums, tracks, etc. to an existing playlist by selecting it in the
 
 Show the selected track or playlist in iTunes. This is the alternate action for Play.
 
+#### Love ####
+
+Mark the selected tracks as ones you love. This is the alternate action for Dislike.
+
+#### Dislike ####
+
+Mark the selected tracks as ones you dislike. This is the alternate action for Love.
+
+#### Download Track(s) ####
+
+Download one or more tracks from Apple Music or iTunes Match to your computer for faster, more efficient access.
+
 #### Open Booklet(s) ####
 
 With album(s) or artist(s) in the first pane, you can display the PDF artwork that accompanies some albums purchased from the iTunes store. Nothing will happen for albums that don't include artwork.
