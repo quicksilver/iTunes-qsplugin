@@ -103,7 +103,7 @@ Add artists, albums, tracks, etc. to an existing playlist by selecting it in the
 
 #### Reveal in iTunes ####
 
-Show the selected track or playlist in iTunes.
+Show the selected track or playlist in iTunes. This is the alternate action for Play.
 
 #### Open Booklet(s) ####
 
