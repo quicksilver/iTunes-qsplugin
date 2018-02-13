@@ -328,9 +328,8 @@
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
-&lt;p&gt;"Random Track" will refer to the same track for 8 seconds. This is to prevent it from changing between the time you call it up, and the time you run an action on it.&lt;/p&gt;
 &lt;h2&gt;Browsing&lt;/h2&gt;
-&lt;p&gt;You can quickly locate and play anything in your iTunes library, even if it's not stored in Quicksilver's catalog. You can do this by assigning triggers to search a certain criteria (like Artist or Genre) or by selecting "Browse [Criteria]" in Quicksilver.&lt;/p&gt;
+&lt;p&gt;You can quickly locate and play anything in your iTunes library (including Apple Music and iTunes Match), even if it's not stored in Quicksilver's catalog. You can do this by assigning triggers to search a certain criteria (like Artist or Genre) or by selecting "Browse [Criteria]" in Quicksilver.&lt;/p&gt;
 &lt;h2&gt;Actions&lt;/h2&gt;
 &lt;h4&gt;Play&lt;/h4&gt;
 &lt;p&gt;You can play any of the following:&lt;/p&gt;
@@ -345,8 +344,14 @@
 &lt;h4&gt;Add to Playlist…&lt;/h4&gt;
 &lt;p&gt;Add artists, albums, tracks, etc. to an existing playlist by selecting it in the third pane.&lt;/p&gt;
 &lt;h4&gt;Reveal in iTunes&lt;/h4&gt;
-&lt;p&gt;Show the selected track or playlist in iTunes.&lt;/p&gt;
-&lt;h4&gt;Show Booklet(s)&lt;/h4&gt;
+&lt;p&gt;Show the selected track or playlist in iTunes. This is the alternate action for Play.&lt;/p&gt;
+&lt;h4&gt;Love&lt;/h4&gt;
+&lt;p&gt;Mark the selected tracks as ones you love. This is the alternate action for Dislike.&lt;/p&gt;
+&lt;h4&gt;Dislike&lt;/h4&gt;
+&lt;p&gt;Mark the selected tracks as ones you dislike. This is the alternate action for Love.&lt;/p&gt;
+&lt;h4&gt;Download Track(s)&lt;/h4&gt;
+&lt;p&gt;Download one or more tracks from Apple Music or iTunes Match to your computer for faster, more efficient access.&lt;/p&gt;
+&lt;h4&gt;Open Booklet(s)&lt;/h4&gt;
 &lt;p&gt;With album(s) or artist(s) in the first pane, you can display the PDF artwork that accompanies some albums purchased from the iTunes store. Nothing will happen for albums that don't include artwork.&lt;/p&gt;
 &lt;h4&gt;Enable/Disable Track(s)&lt;/h4&gt;
 &lt;p&gt;Toggle track(s) between "checked" and "unchecked" in iTunes. You can apply this to individual tracks, multiple tracks, albums, entire artists, or even entire genres.&lt;/p&gt;
