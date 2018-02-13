@@ -80,8 +80,6 @@ The following proxy objects will be available. Most only work when iTunes is run
   Current iTunes Selection | Yes     | No
   Random Track             | No      | No
 
-"Random Track" will refer to the same track for 8 seconds. This is to prevent it from changing between the time you call it up, and the time you run an action on it.
-
 ## Browsing ##
 
 You can quickly locate and play anything in your iTunes library, even if it's not stored in Quicksilver's catalog. You can do this by assigning triggers to search a certain criteria (like Artist or Genre) or by selecting "Browse [Criteria]" in Quicksilver.
