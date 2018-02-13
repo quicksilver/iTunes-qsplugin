@@ -82,7 +82,7 @@ The following proxy objects will be available. Most only work when iTunes is run
 
 ## Browsing ##
 
-You can quickly locate and play anything in your iTunes library, even if it's not stored in Quicksilver's catalog. You can do this by assigning triggers to search a certain criteria (like Artist or Genre) or by selecting "Browse [Criteria]" in Quicksilver.
+You can quickly locate and play anything in your iTunes library (including Apple Music and iTunes Match), even if it's not stored in Quicksilver's catalog. You can do this by assigning triggers to search a certain criteria (like Artist or Genre) or by selecting "Browse [Criteria]" in Quicksilver.
 
 ## Actions ##
 
