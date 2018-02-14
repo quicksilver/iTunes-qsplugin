@@ -4,7 +4,9 @@
 
 The Scripting Bridge code requires `iTunes.h`. To make the most recent iTunes features available, a fresh copy of this file should be created whenever a new version of iTunes is released. The file can be created by running:
 
-    sdef /Applications/iTunes.app | sdp -fh --basename iTunes
+```console
+$ sdef /Applications/iTunes.app | sdp -fh --basename iTunes
+```
 
 You should [familiarize yourself with Scripting Bridge][sbdoc] a bit before making any changes to this plug-in. Particularly the sections that discuss performance.
 
