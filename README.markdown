@@ -12,16 +12,21 @@ In the end though, you just need to test everything out and see what works. Here
 
   1. When you want to look through "all tracks", use the Music playlist, not the Library playlist.
   
-        iTunesApplication *iTunes = [SBApplication applicationWithBundleIdentifier:@"com.apple.iTunes"];
-        iTunesSource *library = [[[[iTunes sources] get] filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"kind == %i", iTunesESrcLibrary]] objectAtIndex:0];
-        iTunesLibraryPlaylist *lp = [[[[library playlists] get] filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"specialKind == %i", iTunesESpKMusic]] objectAtIndex:0];
+     ```objective-c
+     iTunesApplication *iTunes = [SBApplication applicationWithBundleIdentifier:@"com.apple.iTunes"];
+     iTunesSource *library = [[[[iTunes sources] get] filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"kind == %i", iTunesESrcLibrary]] objectAtIndex:0];
+     iTunesLibraryPlaylist *lp = [[[[library playlists] get] filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"specialKind == %i", iTunesESpKMusic]] objectAtIndex:0];
+     ```
   
      Using the Library playlist can make certain things take thousands of times longer. (That's not an exaggeration.) Specifically, filtering out tracks with predicates involving `kind`, `videoKind`, or `albumArtist` is unusably slow (though it will eventually work). 
   
   2. When filtering the Music playlist for certain criteria, always call `get` on the resulting array. This can be tricky, since `filteredArrayUsingPredicate:` returns an NSArray which doesn't have a `get`, but it can be made to work by casting it as an SBElementArray.
   
-        NSArray *tracks = [(SBElementArray *)[[musicPlaylist tracks] filteredArrayUsingPredicate:trackFilter] get];
-  
+
+     ```objective-c
+     NSArray *tracks = [(SBElementArray *)[[musicPlaylist tracks] filteredArrayUsingPredicate:trackFilter] get];
+     ```
+ 
      Depending on what you search for, everything you do with the result can be very slow. By calling `get` on it right away and using the result of that for everything else, you're essentially limiting the slowness to a single call.
   
   3. Always use `tracks` instead of `fileTracks`. `fileTracks` can slow things down even if you use the `get` trick above. Using `tracks` is quick.
